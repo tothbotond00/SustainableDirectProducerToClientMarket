@@ -12,5 +12,5 @@ Egy mobilalkalmazás/webalkalmazás, amely lehetővé teszi a gazdálkodók és 
 # Technológia 
 React Native vagy Flutter frontend, Node.js backend, MongoDB vagy Firebase adatbázis, Twilio az ügyfélkommunikációhoz, Google Maps API a térképalapú kereséshez.
 
-#Kockázatok
+# Kockázatok
 A logisztikával és a szállítással kapcsolatos kihívások, valamint a már működő élelmiszer-kiszállítási szolgáltatások által támasztott verseny.
