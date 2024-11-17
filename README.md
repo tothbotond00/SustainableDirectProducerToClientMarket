@@ -14,3 +14,5 @@ React Native vagy Flutter frontend, Node.js backend, MongoDB vagy Firebase adatb
 
 # Kockázatok
 A logisztikával és a szállítással kapcsolatos kihívások, valamint a már működő élelmiszer-kiszállítási szolgáltatások által támasztott verseny.
+
+![koponens](https://github.com/user-attachments/assets/6c9b8107-1e4b-4134-b97a-e7eb3c30f07d)
