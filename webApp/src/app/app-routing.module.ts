@@ -5,7 +5,17 @@ import { LayoutComponent } from './layout/layout.component';
 const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./page/start/start.module').then(m => m.StartModule)
+      },
+      {
+        path: 'example',
+        loadChildren: () => import('./page/example/example.module').then(m => m.ExampleModule)
+      }
+    ]
   }
 ];
 

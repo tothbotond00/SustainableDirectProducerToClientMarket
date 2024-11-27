@@ -5,7 +5,7 @@ const providers = [
   { provide: 'BASE_URL', useValue: 'https://localhost:7100/' }
 ]
 
-platformBrowserDynamic().bootstrapModule(AppModule, {
+platformBrowserDynamic(providers).bootstrapModule(AppModule, {
   ngZoneEventCoalescing: true,
 })
   .catch(err => console.error(err));

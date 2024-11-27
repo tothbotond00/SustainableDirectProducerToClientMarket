@@ -32,3 +32,15 @@ C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó sz
 C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\obj\Debug\net8.0\api.pdb
 C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\obj\Debug\net8.0\ref\api.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Scrutor.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\beres\OneDrive - Eotvos Lorand Tudomanyegyetem\Msc\1.félév\Haladó szofttech\SustainableDirectProducerToClientMarket\api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
