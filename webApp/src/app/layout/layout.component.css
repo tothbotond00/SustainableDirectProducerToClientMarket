@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+  
+div {
+    flex: 1; /* Foglalja el a rendelkezésre álló teret */
+    overflow: auto; /* Görgethető tartalom esetén */
+}
