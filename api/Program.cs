@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using api.Respository;
+using api.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
 
 
+builder.Services.AddDbContext<DataContext>(options => 
+    options.UseSqlServer(builder.Configuration
+    .GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
