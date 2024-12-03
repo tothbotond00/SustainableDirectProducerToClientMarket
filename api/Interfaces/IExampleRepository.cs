@@ -2,5 +2,5 @@ using api.Models;
 
 public interface IExampleRepository
 {
-    public ExampleData GetExampleData();
+    public ICollection<ExampleData> GetExampleData();
 }

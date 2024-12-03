@@ -10,8 +10,7 @@ namespace api.Data
             
         }
 
-        DbSet<ExampleData> ExampleDatas { get; set; }
-
+        public DbSet<ExampleData> ExampleDatas { get; set; }
 
     }
 }

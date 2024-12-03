@@ -10,12 +10,12 @@ import { ExampleData } from '../../models/exampledata';
 })
 export class ExampleComponent implements OnInit{
 
-  dataFromService: ExampleData = new ExampleData();
+  dataFromService: ExampleData[] = [];
 
   constructor(private exampleService: ExampleService) { }
 
   ngOnInit(): void {
-      this.exampleService.getOne().subscribe(data => {
+      this.exampleService.get().subscribe(data => {
           this.dataFromService = data;
           console.log(this.dataFromService);
       });

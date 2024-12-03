@@ -17,7 +17,8 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_exampleRepository.GetExampleData());
+            var datas = _exampleRepository.GetExampleData();
+            return Ok(datas);
         }
     }
 }

@@ -2,4 +2,6 @@
     Example component works!
 </p>
 
-{{dataFromService.id}}: {{ dataFromService.message }}
+<p *ngFor="let i of dataFromService">
+    {{i.id}}: {{ i.message }}
+</p>

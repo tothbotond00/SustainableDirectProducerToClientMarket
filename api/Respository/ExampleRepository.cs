@@ -1,16 +1,20 @@
+using api.Data;
 using api.Models;
 
 namespace api.Respository
 {
     public class ExampleRepository : IExampleRepository
     {
-        public ExampleData GetExampleData()
+        private DataContext _context;
+
+        public ExampleRepository(DataContext context)
         {
-            return new ExampleData
-            {
-                Id = 1,
-                Message = "Message from ExampleRepository API"
-            };
+            _context = context;
+        }
+
+        public ICollection<ExampleData> GetExampleData()
+        {
+            return _context.ExampleDatas.ToList();
         }
     }
 }
