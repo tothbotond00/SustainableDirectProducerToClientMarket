@@ -1,0 +1,43 @@
+:host ::ng-deep .p-card-content {
+    padding: 0;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 0.2em;
+  }
+  
+  .container-fluid {
+    background-image: url('/assets/background.jpg');
+    position: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+  }
+  
+  a {
+    color: black;
+  }
+  
+  .card {
+    padding: 20px;
+    box-shadow: 5px 5px 15px #888888;
+  }
+  
+  #mainTitle {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    width: 100%;
+    color: rgb(75, 85, 99);
+    margin-bottom: 15px;
+  }
+  
+  #subTitle {
+    text-align: center;
+    font-size: 16px;
+    color: rgb(75, 85, 99);
+  }

@@ -1,0 +1,51 @@
+.background {
+    /* background-color: rgb(230, 230, 230); */
+    background-color: rgb(251, 248, 248);
+    font-family: 'Inter var', sans-serif;
+    font-weight: 400;
+}
+
+.container-fluid {
+    font-family: 'Inter var', sans-serif;
+}
+
+a:hover {
+    background-color: rgb(228, 227, 227);
+}
+
+a {
+    border-radius: 5px;
+}
+
+li {
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu:hover {
+    display: block;
+}
+
+.dropdown-item.active {
+    background-color: rgb(130, 130, 130);
+    color: white;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#welcome {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: 100%;
+    text-align: center;
+    color: rgb(60, 65, 70);
+    margin-right: 6px;
+}

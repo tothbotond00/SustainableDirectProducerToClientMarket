@@ -1,7 +1,7 @@
 using api.Data;
 using api.Models;
 
-namespace api.Respository
+namespace api.Repository
 {
     public class ExampleRepository : IExampleRepository
     {

@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-2">
+      <button (click)="onCancelClick()" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div class="col-8">
+      <div>
+        <p class="fs-3 text-center" id="title">Create your account!</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div mat-dialog-content class="container d-flex justify-content-center">
+    <form [formGroup]="form">
+      <div class="row text-center">
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" type="text">
+            <mat-hint>Between 5 and 20 characters</mat-hint>
+            <mat-error>
+              <span>
+                Username must be between 5 and 20 characters long
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" name="email">
+            <mat-error>
+              <span>
+                Enter a valid email address
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-hint>At least 5 characters</mat-hint>
+            <mat-error>
+              <span>
+                Password must be at least 5 characters long
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-center mb-2">
+          <mat-radio-group formControlName="isCustomer" aria-label="Select an option">
+            <mat-radio-button value="true">Customer</mat-radio-button>
+            <mat-radio-button value="false">Producer</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div *ngIf="form.get('isCustomer')?.value == 'false'" class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Full name</mat-label>
+            <input matInput formControlName="fullName" type="text">
+            <mat-hint>Between 5 and 100 characters</mat-hint>
+            <mat-error>
+              <span>
+                Full name must be between 5 and 20 characters long
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="form.get('isCustomer')?.value == 'false'" class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Tax number</mat-label>
+            <input matInput formControlName="taxNumber" type="number">
+            <mat-hint>11 numbers</mat-hint>
+            <mat-error>
+              <span>
+                Tax number must be 11 numbers long
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="form.get('isCustomer')?.value == 'false'" class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Headquarters address</mat-label>
+            <input matInput formControlName="address" type="text">
+          </mat-form-field>
+        </div>
+
+
+        
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="text-center mb-4">
+      <button class="btn btn-dark w-100" (click)="onSignupClick()" [disabled]="!form.valid || disabledButton">
+        <div class="row">
+          <div *ngIf="disabledButton" class="col-1">
+            <span id="loginButton" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </div>
+          <div *ngIf="!disabledButton" class="col-1 d-flex align-items-center p-0 justify-content-center">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="col-10 text-center">
+            {{buttonText}}
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      {{errorMessage}}
+    </div>
+
+    <div *ngIf="success" class="alert alert-success" role="alert">
+      Successful sign up!
+    </div>

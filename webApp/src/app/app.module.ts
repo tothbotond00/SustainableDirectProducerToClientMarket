@@ -12,13 +12,13 @@ import { AuthInterceptorService } from '@shared/common_services/auth-interceptor
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { MaterialModule } from '@shared/modules/material.module';
 
-import { MainHeaderComponent } from './header/main-header.component';
+import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainHeaderComponent,
+    HeaderComponent,
     LayoutComponent
   ],
   imports: [

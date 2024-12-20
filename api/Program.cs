@@ -4,9 +4,10 @@ using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using api.Respository;
+using api.Repository;
 using api.Data;
 using Microsoft.EntityFrameworkCore;
+using api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen( options => {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
@@ -39,6 +41,7 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 builder.Services.AddDbContext<DataContext>(options => 
