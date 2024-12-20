@@ -37,10 +37,13 @@ export class StartDialogComponent {
     console.log('onIsCustomerChange');
     
     this.form.get('isCustomer')?.valueChanges.subscribe((value) => {
+      
       if (value === 'false') {
+        console.log('false');
+        
         // Validátorok beállítása, ha isCustomer false
         this.form.get('fullName')?.setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(100)]);
-        this.form.get('taxNumber')?.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11)]);
+        this.form.get('taxNumber')?.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern('^[0-9]*$')]);
         this.form.get('address')?.setValidators([Validators.required]);
       } else {
         // Validátorok törlése, ha isCustomer true
@@ -64,8 +67,14 @@ export class StartDialogComponent {
       email: this.form.controls['email'].value,
       username: this.form.controls['username'].value,
       password: this.form.controls['password'].value,
-      isCustomer: this.form.controls['isCustomer'].value === 'true' ? true : false
+      isCustomer: this.form.controls['isCustomer'].value === 'true',
+      fullName: this.form.controls['fullName'].value,
+      taxNumber: this.form.controls['taxNumber'].value,
+      address: this.form.controls['address'].value
     }
+
+    console.log(dataToSend);
+    
 
     setTimeout(() => {
       this.userService.post('Signup', dataToSend).subscribe({

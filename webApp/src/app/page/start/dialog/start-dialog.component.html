@@ -57,7 +57,7 @@
         </div>
 
         <div class="col-12 text-center mb-2">
-          <mat-radio-group formControlName="isCustomer" aria-label="Select an option">
+          <mat-radio-group (change)="onIsCustomerChange()" formControlName="isCustomer" aria-label="Select an option">
             <mat-radio-button value="true">Customer</mat-radio-button>
             <mat-radio-button value="false">Producer</mat-radio-button>
           </mat-radio-group>
@@ -79,7 +79,7 @@
         <div *ngIf="form.get('isCustomer')?.value == 'false'" class="col-12 text-center mb-3">
           <mat-form-field appearance="outline">
             <mat-label>Tax number</mat-label>
-            <input matInput formControlName="taxNumber" type="number">
+            <input matInput formControlName="taxNumber" type="text">
             <mat-hint>11 numbers</mat-hint>
             <mat-error>
               <span>

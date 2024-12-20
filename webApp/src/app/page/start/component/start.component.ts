@@ -23,7 +23,8 @@ export class StartComponent implements OnInit{
     public formBuilder: FormBuilder, public auth: AuthService) {
     this.form = formBuilder.group({
       email: [''],
-      password: ['']
+      password: [''],
+      isCustomer: ['true'],
     });
 
   }
@@ -35,14 +36,20 @@ export class StartComponent implements OnInit{
   /// Login the user
   onLoginClick() {
 
+    let dataToSend: any = {
+      email: this.form.value.email,
+      password: this.form.value.password,
+      isCustomer: this.form.get('isCustomer')?.value === 'true'
+    }
+
     this.disabledButton = true;
     this.buttonText = 'Loading...'
 
     setTimeout(() => {
 
-      this.auth.post("Login", this.form.value).subscribe({
+      this.auth.post("Login", dataToSend).subscribe({
         next: data => {
-          this.auth.get('', { email: this.form.value.email }).subscribe({
+          this.auth.get('', { email: dataToSend['email'], isCustomer: dataToSend['isCustomer'] }).subscribe({
             next: () => {
               location.href = '/example';
             }

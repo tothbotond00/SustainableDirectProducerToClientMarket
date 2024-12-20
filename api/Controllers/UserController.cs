@@ -98,7 +98,7 @@ namespace api.Controllers
         public async Task<ActionResult<string>> Login([FromBody] UserDto request)
         {
             var users = await _userRepository.GetUsers();
-            if(!users.Any(p => p.Email == request.Email && p.IsCustomer == request.IsCustomer))
+            if(!users.Any(p => p.Email == request.Email))
             {
                 return BadRequest("User not found");
             }
