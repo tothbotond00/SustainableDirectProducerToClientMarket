@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-md-10 col-lg-10 card">
+      <!-- Products Title -->
+      <h2 id="mainTitle">Products</h2>
+
+      <!-- Products Grid -->
+      <div class="row product-grid">
+        <div 
+          style="margin: auto;"
+          class="col-12 col-md-3 product-box" 
+          *ngFor="let product of paginatedProducts" 
+          (click)="redirectToProduct(product.id)">
+          <div class="product-card">
+            <img [src]="product.image" alt="Product Image" class="product-image">
+            <h4 class="product-name">{{ product.name }}</h4>
+            <p class="product-price">${{ product.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-controls mt-4">
+        <button 
+          class="btn btn-outline-secondary" 
+          [disabled]="currentPage === 1" 
+          (click)="changePage(currentPage - 1)">
+          Previous
+        </button>
+        <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button 
+          class="btn btn-outline-secondary" 
+          [disabled]="currentPage === totalPages" 
+          (click)="changePage(currentPage + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
