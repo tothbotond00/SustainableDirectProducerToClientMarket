@@ -34,6 +34,11 @@ export class HeaderComponent implements OnInit{
     return this.router.url == '/';
   }
 
+  isCustomer() {    
+    
+    return this.authService.isCustomer() == 'True';
+  }
+
   /// Check the current route to activate the link
   isLinkActive(link: string) {
     return link == this.router.url.split('/')[1];
@@ -62,8 +67,12 @@ export class HeaderComponent implements OnInit{
     this.authService.logout();
   }
 
-  onSurveyEdit() {
-    this.router.navigate(['/survey']);
+  onBasket() {
+    this.router.navigate(['/basket']);
+  }
+
+  onProfileEdit() {
+    this.router.navigate(['/user']);
   }
 
 }

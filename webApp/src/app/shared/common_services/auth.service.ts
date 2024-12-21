@@ -43,6 +43,14 @@ export class AuthService extends ServiceBase<User> {
     return role === userRole;
   }
 
+  isCustomer(): string {
+    const token = this.accessToken;
+    if (!token) return '';
+
+    const decodedToken = this.jwtHelper.decodeToken(token);    
+    return decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata"];
+  }
+
   getUserId(): number {
     const token = this.accessToken;
     if (!token) return 0;
