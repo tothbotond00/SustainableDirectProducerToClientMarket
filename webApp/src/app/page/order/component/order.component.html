@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-md-10 col-lg-8 card">
+      <!-- Orders Title -->
+      <h2 id="mainTitle">Orders</h2>
+
+      <!-- Orders List -->
+      <div *ngIf="orders.length > 0; else noOrders" class="orders-list">
+        <div class="order-card mb-4" *ngFor="let order of orders">
+          <!-- Order Header -->
+          <div class="order-header">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>User:</strong> {{ order.userName }}</p>
+            <p><strong>Email:</strong> {{ order.userEmail }}</p>
+          </div>
+
+          <!-- Items Table -->
+          <div class="order-items">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of order.items">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>${{ item.price }}</td>
+                  <td>${{ item.quantity * item.price }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="order-summary">
+            <p><strong>Total Price:</strong> ${{ order.totalPrice }}</p>
+            <p><strong>Commission:</strong> $5.00</p>
+            <p><strong>Net Total:</strong> ${{ order.totalPrice - 5 }}</p>
+          </div>
+
+          <!-- Send Order Button -->
+          <div class="text-end">
+            <button class="btn btn-success" (click)="markAsSent(order.id)">Mark as Sent</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Orders Message -->
+      <ng-template #noOrders>
+        <p class="empty-message">No orders available. Check back later.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+:host ::ng-deep .p-card-content {
+  padding: 0;
+}
+
+.card {
+  padding: 20px;
+  box-shadow: 5px 5px 15px #888888;
+}
+
+#mainTitle {
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  width: 100%;
+  color: rgb(75, 85, 99);
+  margin-bottom: 15px;
+}
+
+.orders-list {
+  margin-top: 20px;
+}
+
+.order-card {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: rgb(75, 85, 99);
+
+  strong {
+    color: rgb(50, 50, 50);
+  }
+}
+
+.order-items {
+  margin-bottom: 15px;
+
+  .table {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  th {
+    font-weight: bold;
+    color: rgb(50, 50, 50);
+  }
+
+  td {
+    color: rgb(75, 85, 99);
+  }
+}
+
+.order-summary {
+  font-size: 14px;
+  color: rgb(50, 50, 50);
+  margin-bottom: 10px;
+
+  p {
+    margin: 5px 0;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+}
+
+.empty-message {
+  text-align: center;
+  font-size: 16px;
+  color: rgb(150, 150, 150);
+  margin-top: 20px;
+}
+
+.btn-success {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
