@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./page/list/list.module').then(m => m.ListModule)
+      },
+      {
+        path: 'own-products',
+        loadChildren: () => import('./page/own-products/own-product.module').then(m => m.OwnProductModule)
       }
     ]
   }

@@ -1,0 +1,45 @@
+:host ::ng-deep .p-card-content {
+    padding: 0;
+  }
+  
+  .container-fluid {
+    background-image: linear-gradient(135deg, #ffffff, #f3f4f6); /* Subtle gradient */
+    margin-top: 20px;
+  }
+
+.card {
+    padding: 10px;
+    box-shadow: 5px 5px 15px #888888;
+  }
+
+  #mainTitle {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    width: 100%;
+    color: rgb(75, 85, 99);
+    margin-bottom: 15px;
+  }
+
+  .btn-group {
+    padding: 0;
+}
+
+.btn-outline-dark {
+    font-weight: 400;
+    border-style: none;
+    background-color: white;
+    text-align: left;
+    font-size: 15px;
+    font-stretch: 80%;
+    text-align: center;
+}
+
+.btn-outline-dark:hover {
+    background-color: rgb(70, 70, 70);
+}
+
+.btn-group {
+    box-shadow: 5px 5px 15px #888888;
+    width: 30%;
+}
