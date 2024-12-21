@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-md-10 col-lg-8 card">
+      <!-- Basket Title -->
+      <h2 id="mainTitle">Your Basket</h2>
+
+      <!-- Basket Items -->
+      <div *ngIf="basketItems.length > 0; else emptyBasket" class="basket-items">
+        <div class="row basket-item mb-4" *ngFor="let item of basketItems">
+          <!-- Product Image -->
+          <div class="col-3 text-center">
+            <img [src]="item.image" alt="Product Image" class="product-image">
+          </div>
+
+          <!-- Product Details -->
+          <div class="col-6">
+            <h4 class="product-name">{{ item.name }}</h4>
+            <p>Price: ${{ item.price }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+          </div>
+
+          <!-- Subtotal -->
+          <div class="col-3 text-center">
+            <p class="subtotal">Subtotal: ${{ item.quantity * item.price }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty Basket Message -->
+      <ng-template #emptyBasket>
+        <p class="empty-message">Your basket is empty. Start adding products to see them here.</p>
+      </ng-template>
+
+      <!-- Total Price -->
+      <div class="total mt-4">
+        <h3>Total Payment: ${{ calculateTotalPrice() }}</h3>
+      </div>
+
+      <!-- Checkout Button -->
+      <div class="text-center mt-4">
+        <button class="btn btn-primary" [disabled]="basketItems.length === 0">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
