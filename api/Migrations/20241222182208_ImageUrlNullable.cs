@@ -5,30 +5,32 @@
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class ModifyTaxNumber_2 : Migration
+    public partial class ImageUrlNullable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "TaxNumber",
-                table: "Users",
+                name: "ImageUrl",
+                table: "Products",
                 type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(byte[]),
-                oldType: "varbinary(max)");
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<byte[]>(
-                name: "TaxNumber",
-                table: "Users",
-                type: "varbinary(max)",
+            migrationBuilder.AlterColumn<string>(
+                name: "ImageUrl",
+                table: "Products",
+                type: "nvarchar(max)",
                 nullable: false,
+                defaultValue: "",
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)",
+                oldNullable: true);
         }
     }
 }

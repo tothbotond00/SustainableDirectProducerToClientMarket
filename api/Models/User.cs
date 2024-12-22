@@ -12,5 +12,9 @@ namespace api.Models
         public string TaxNumber { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];
+        public ICollection<Product>? Products { get; set; } = null!;
+        public ICollection<Review>? Reviews { get; set; } = null!;
+        public int BasketId { get; set; }
+        public Basket? Basket { get; set; }
     }
 }
