@@ -14,7 +14,6 @@ namespace api.Models
         public byte[] PasswordSalt { get; set; } = new byte[0];
         public ICollection<Product>? Products { get; set; } = null!;
         public ICollection<Review>? Reviews { get; set; } = null!;
-        public int BasketId { get; set; }
         public Basket? Basket { get; set; }
     }
 }

@@ -25,11 +25,6 @@ namespace api.Data
                 relationship.DeleteBehavior = DeleteBehavior.NoAction;
             }
 
-            modelBuilder.Entity<Basket>()
-                .HasOne(b => b.User)
-                .WithOne(u => u.Basket)
-                .HasForeignKey<User>(u => u.BasketId);
-
         }
 
     }
