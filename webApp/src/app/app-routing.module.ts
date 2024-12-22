@@ -34,6 +34,14 @@ const routes: Routes = [
       {
         path: 'own-products',
         loadChildren: () => import('./page/own-products/own-product.module').then(m => m.OwnProductModule)
+      },
+      {
+        path: 'recipe',
+        loadChildren: () => import('./page/recipe/recipe.module').then(m => m.RecipeModule)
+      },
+      {
+        path: 'recipe-list',
+        loadChildren: () => import('./page/recipe-list/recipe-list.module').then(m => m.RecipeListModule)
       }
     ]
   }

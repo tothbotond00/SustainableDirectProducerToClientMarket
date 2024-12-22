@@ -6,10 +6,10 @@ import { ExampleData } from '../../models/exampledata';
 @Injectable({
   providedIn: 'root'
 })
-export class ExampleService extends ServiceBase<ExampleData> {
+export class RecipeListService extends ServiceBase<ExampleData> {
 
   constructor(protected override http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    super(http, baseUrl, 'api/ExampleData');
+    super(http, baseUrl, 'api/RecipeListData');
   }
 
 }

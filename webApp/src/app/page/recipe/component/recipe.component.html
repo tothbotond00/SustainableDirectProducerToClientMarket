@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-md-8 col-lg-6 card">
+      <!-- Product Image -->
+      <div class="text-center">
+        <img src="/assets/honey.jpg" alt="Product Image" class="product-image mb-3">
+      </div>
+
+      <!-- Recipe Title -->
+      <h2 id="mainTitle">{{ recipe.name }}</h2>
+      <p id="subTitle">{{ recipe.description }}</p>
+
+      <!-- Ingredients List -->
+      <div class="ingredients-section mt-4">
+        <h3>Ingredients</h3>
+        <ul class="ingredients-list">
+          <li *ngFor="let ingredient of recipe.ingredients">
+            <ng-container *ngIf="ingredient.productId; else simpleIngredient">
+              <a (click)="redirectToProduct(ingredient.productId)" class="linked-ingredient">
+                {{ ingredient.name }} ({{ ingredient.supplier }}) - ${{ ingredient.price }}
+              </a>
+            </ng-container>
+            <ng-template #simpleIngredient>
+              {{ ingredient.name }}
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Price Section -->
+      <div class="price-section mt-4">
+        <h3>Total Price: ${{ calculateRecipePrice() }}</h3>
+      </div>
+
+      <!-- Add to Basket Button -->
+      <div class="text-center mt-4">
+        <button class="btn btn-primary" (click)="addRecipeToBasket()">Add All Ingredients to Basket</button>
+      </div>
+    </div>
+  </div>
+</div>
