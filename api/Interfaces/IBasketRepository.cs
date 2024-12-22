@@ -6,8 +6,8 @@ namespace api.Interfaces
     {
         public ICollection<Basket> GetBaskets();
         public Basket? GetBasketByUser(int userId);
-        public bool AddProductToBasket(int userId, Product product);
-        public bool UpdateQuantity(int userId, Product product, int quantity);
+        public bool AddProductToBasket(int userId, int productId);
+        public bool UpdateQuantity(int userId, int productId, int quantity);
         public bool RemoveProductFromBasket(int userId, int productId);
     }
 }

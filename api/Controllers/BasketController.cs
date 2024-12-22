@@ -30,20 +30,19 @@ namespace api.Controllers
             return Ok(basket);
         }
 
-        [HttpPost("{userId}")]
-        public IActionResult Post(int userId, [FromBody] Product product)
+        [HttpPost]
+        public IActionResult Post(int userId, int productId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            if(!_basketController.AddProductToBasket(userId, product)) return BadRequest();
+            if(!_basketController.AddProductToBasket(userId, productId)) return BadRequest();
             return Ok("Product added to basket successfully");
-
         }
 
-        [HttpPut("{userId}")]
-        public IActionResult Put(int userId, [FromBody] Product product, int quantity)
+        [HttpPut]
+        public IActionResult Put(int userId, int productId, int quantity)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            if(!_basketController.UpdateQuantity(userId, product, quantity)) return BadRequest();
+            if(!_basketController.UpdateQuantity(userId, productId, quantity)) return BadRequest();
             return Ok("Quantity updated successfully");
         }
 

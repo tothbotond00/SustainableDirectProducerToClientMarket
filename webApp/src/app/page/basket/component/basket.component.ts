@@ -41,7 +41,7 @@ export class BasketComponent implements OnInit{
   ngOnInit(): void {
       this.basketService.get().subscribe(data => {
           this.dataFromService = data;
-          console.log(this.dataFromService);
+          console.log(this.dataFromService);  
       });
   }
 

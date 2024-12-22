@@ -1,6 +1,7 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
 {
@@ -23,56 +24,75 @@ namespace api.Repository
             return _context.Baskets.FirstOrDefault(x => x.UserId == userId);
         }
 
-        public bool AddProductToBasket(int userId, Product product)
+        public bool AddProductToBasket(int userId, int productId)
         {
-            var basket = _context.Baskets.FirstOrDefault(x => x.UserId == userId);
+            var basket = _context.Baskets
+                .Include(b => b.ProductsInBasket)
+                .FirstOrDefault(x => x.UserId == userId);
+
             if (basket == null)
             {
-                return false;
-            }
-            if (basket.ProductsInBasket == null)
-            {
-                basket.ProductsInBasket = new List<ProductInBasket>();
+                basket = new Basket { UserId = userId };
+                _context.Baskets.Add(basket);
             }
 
-            basket.ProductsInBasket.Add(new ProductInBasket
+            var productInBasket = basket.ProductsInBasket?.FirstOrDefault(x => x.ProductId == productId);
+            if (productInBasket == null)
             {
-                Product = product,
-                Quantity = 1
-            });
+                basket.ProductsInBasket = new List<ProductInBasket>
+                {
+                    new ProductInBasket { ProductId = productId, Quantity = 1 }
+                };
+            }
+            else
+            {
+                productInBasket.Quantity++;
+            }
 
             return Save();
         }
 
-        public bool UpdateQuantity(int userId, Product product, int quantity)
+
+        public bool UpdateQuantity(int userId, int productId, int quantity)
         {
-            var basket = _context.Baskets.FirstOrDefault(x => x.UserId == userId);
+            var basket = _context.Baskets
+                .Include(b => b.ProductsInBasket)
+                .FirstOrDefault(x => x.UserId == userId);
+
             if (basket == null)
             {
                 return false;
             }
-            var productInBasket = basket.ProductsInBasket?.FirstOrDefault(x => x.ProductId == product.Id);
+
+            var productInBasket = basket.ProductsInBasket?.FirstOrDefault(x => x.ProductId == productId);
             if (productInBasket == null)
             {
                 return false;
             }
+
             productInBasket.Quantity = quantity;
             return Save();
         }
 
         public bool RemoveProductFromBasket(int userId, int productId)
         {
-            var basket = _context.Baskets.FirstOrDefault(x => x.UserId == userId);
+            var basket = _context.Baskets
+                .Include(b => b.ProductsInBasket)
+                .FirstOrDefault(x => x.UserId == userId);
+
             if (basket == null)
             {
                 return false;
             }
+
             var productInBasket = basket.ProductsInBasket?.FirstOrDefault(x => x.ProductId == productId);
             if (productInBasket == null)
             {
                 return false;
             }
+
             basket.ProductsInBasket?.Remove(productInBasket);
+            
             return Save();
         }
 
