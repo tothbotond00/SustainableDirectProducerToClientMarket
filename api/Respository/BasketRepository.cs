@@ -42,17 +42,21 @@ namespace api.Repository
                 _context.Baskets.Add(basket);
             }
 
+            if(basket.ProductsInBasket == null)
+            {
+                basket.ProductsInBasket = new List<ProductInBasket>();
+            }
+
             var productInBasket = basket.ProductsInBasket?.FirstOrDefault(x => x.ProductId == productId);
             if (productInBasket == null)
             {
-                basket.ProductsInBasket = new List<ProductInBasket>
+                productInBasket = new ProductInBasket
                 {
-                    new ProductInBasket { 
-                        ProductId = productId, 
-                        Quantity = 1,
-                        TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0
-                    }
+                    ProductId = productId,
+                    Quantity = 1,
+                    TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0
                 };
+                basket.ProductsInBasket?.Add(productInBasket);
             }
             else
             {
