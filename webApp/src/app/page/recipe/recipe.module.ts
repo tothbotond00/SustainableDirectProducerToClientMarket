@@ -2,20 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@shared/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ExampleComponent } from './component/example.component';
-import { ExampleRoutingModule } from './example-routing.module';
+import { RecipeComponent } from './component/recipe.component';
+import { RecipeRoutingModule } from './recipe-routing.module';
 
 
 @NgModule({
   declarations: [
-    ExampleComponent
+    RecipeComponent
   ],
   imports: [
     CommonModule,
-    ExampleRoutingModule,
+    RecipeRoutingModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class ExampleModule { }
+export class RecipeModule { }
