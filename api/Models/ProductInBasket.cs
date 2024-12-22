@@ -8,5 +8,6 @@ namespace api.Models
         public int BasketId { get; set; }
         public Basket? Basket { get; set; }
         public int Quantity { get; set; }
+        public float TotalPrice { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../service/basket.service';
 import { ExampleData } from '../../models/exampledata';
+import { AuthService } from '@shared/common_services/auth.service';
 
 @Component({
   selector: 'app-basket',
@@ -36,10 +37,12 @@ export class BasketComponent implements OnInit{
 
   dataFromService: ExampleData[] = [];
 
-  constructor(private basketService: BasketService) { }
+  constructor(private basketService: BasketService, private authService: AuthService) { }
 
   ngOnInit(): void {
-      this.basketService.get().subscribe(data => {
+    let userId: number = this.authService.getUserId();
+
+      this.basketService.get(userId.toString()).subscribe(data => {
           this.dataFromService = data;
           console.log(this.dataFromService);  
       });

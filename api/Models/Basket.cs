@@ -6,5 +6,6 @@ namespace api.Models
         public int UserId { get; set; }
         public User? User { get; set; }
         public ICollection<ProductInBasket>? ProductsInBasket { get; set; } = null!;
+        public float TotalPrice { get; set; } = 0;
     }
 }

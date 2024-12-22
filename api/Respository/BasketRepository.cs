@@ -16,12 +16,18 @@ namespace api.Repository
 
         public ICollection<Basket> GetBaskets()
         {
-            return _context.Baskets.ToList();
+            return _context.Baskets
+                .Include(b => b.ProductsInBasket)
+                .ToList();
         }
 
         public Basket? GetBasketByUser(int userId)
         {
-            return _context.Baskets.FirstOrDefault(x => x.UserId == userId);
+            var basket = _context.Baskets
+                .Include(b => b.ProductsInBasket)
+                .FirstOrDefault(x => x.UserId == userId);
+
+            return basket;
         }
 
         public bool AddProductToBasket(int userId, int productId)
@@ -41,13 +47,20 @@ namespace api.Repository
             {
                 basket.ProductsInBasket = new List<ProductInBasket>
                 {
-                    new ProductInBasket { ProductId = productId, Quantity = 1 }
+                    new ProductInBasket { 
+                        ProductId = productId, 
+                        Quantity = 1,
+                        TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0
+                    }
                 };
             }
             else
             {
                 productInBasket.Quantity++;
+                productInBasket.TotalPrice = productInBasket.Quantity * (_context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0);
             }
+
+            basket.TotalPrice = basket.ProductsInBasket?.Sum(x => x.TotalPrice) ?? 0;
 
             return Save();
         }
@@ -71,6 +84,9 @@ namespace api.Repository
             }
 
             productInBasket.Quantity = quantity;
+            productInBasket.TotalPrice = productInBasket.Quantity * (_context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0);
+
+            basket.TotalPrice = basket.ProductsInBasket?.Sum(x => x.TotalPrice) ?? 0;
             return Save();
         }
 
@@ -91,7 +107,15 @@ namespace api.Repository
                 return false;
             }
 
-            basket.ProductsInBasket?.Remove(productInBasket);
+            _context.ProductInBaskets.Remove(productInBasket);
+
+            if(basket.ProductsInBasket?.Count == 0)
+            {
+                _context.Baskets.Remove(basket);
+            }
+
+            productInBasket.TotalPrice = 0;
+            basket.TotalPrice = basket.ProductsInBasket?.Sum(x => x.TotalPrice) ?? 0;
             
             return Save();
         }
