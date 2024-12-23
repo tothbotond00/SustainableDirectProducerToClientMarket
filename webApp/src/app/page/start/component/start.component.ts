@@ -54,7 +54,7 @@ export class StartComponent implements OnInit{
               if(this.auth.isCustomer() === 'True') {
                 this.router.navigate(['/list']);
               } else {
-                this.router.navigate(['/product']);
+                this.router.navigate(['/own-products']);
               }
             }
           })

@@ -4,13 +4,13 @@ import { MaterialModule } from '@shared/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OwnProductComponent } from './component/own-product.component';
 import { OwnProductRoutingModule } from './own-product-routing.module';
-import { NewProductDialogComponent } from './new-product-dialog/new-product-dialog.component';
+import { ProductDialogComponent } from './product-dialog/product-dialog.component';
 
 
 @NgModule({
   declarations: [
     OwnProductComponent,
-    NewProductDialogComponent
+    ProductDialogComponent
   ],
   imports: [
     CommonModule,

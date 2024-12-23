@@ -1,20 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../product/service/product.service';
 import {AuthService} from '@shared/common_services/auth.service';
 import {CategoryService} from '@shared/common_services/category.service';
 import {Category} from '../../../models/category';
+import {Product} from '../../../models/product';
 
 @Component({
-  selector: 'app-new-product-dialog',
+  selector: 'app-product-dialog',
   standalone: false,
 
-  templateUrl: './new-product-dialog.component.html',
-  styleUrl: './new-product-dialog.component.scss'
+  templateUrl: './product-dialog.component.html',
+  styleUrl: './product-dialog.component.scss'
 })
-export class NewProductDialogComponent implements OnInit{
+export class ProductDialogComponent implements OnInit{
 
+  product?: Product = undefined
   form!: FormGroup;
   buttonText: string = 'Add product';
   disabledButton: boolean = false;
@@ -22,21 +24,24 @@ export class NewProductDialogComponent implements OnInit{
   success: boolean = false;
   categories: Category[] = [];
 
-  constructor(private dialogRef: MatDialogRef<NewProductDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<ProductDialogComponent>,
               private formBuilder: FormBuilder,
               private productService: ProductService,
               private authService: AuthService,
-              private categoryService: CategoryService) {
+              private categoryService: CategoryService,
+              @Inject(MAT_DIALOG_DATA) public data: { product?: Product }) {
 
+    this.product = data.product;
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
-      categoryId: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
-      stock: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      name: [this.product?.name ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      description: [this.product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+      categoryId: [this.product?.categoryId ?? '', [Validators.required]],
+      price: [this.product?.price ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      stock: [this.product?.stock ?? '', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
     }) //TODO image?
   }
 
+  //TODO different endpoint if it already exists - update wording too!
   onAddProductClick() {
     this.buttonText = 'Loading...';
     this.disabledButton = true;
@@ -57,7 +62,7 @@ export class NewProductDialogComponent implements OnInit{
         next: data => {
           this.success = true;
           setTimeout(() => {
-            this.dialogRef.close();
+            this.dialogRef.close(true);
           }, 3000);
         },
         error: error => {
@@ -75,7 +80,7 @@ export class NewProductDialogComponent implements OnInit{
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   ngOnInit(): void {

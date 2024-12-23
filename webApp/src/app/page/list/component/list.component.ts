@@ -61,6 +61,6 @@ export class ListComponent implements OnInit{
 
   // Redirect to the product page with the corresponding ID
   redirectToProduct(productId: number): void {
-      //redirect  
+      //TODO redirect to /product/:id
   }
 }

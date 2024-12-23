@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product.service';
-import { ExampleData } from '../../models/exampledata';
+import {Product} from '../../../models/product';
 
 @Component({
   selector: 'app-product',
@@ -29,7 +29,7 @@ export class ProductComponent implements OnInit{
   quantity: number = 1;
   basket: any[] = []; // Placeholder for basket items
 
-  dataFromService: ExampleData[] = [];
+  dataFromService: Product[] = [];
 
   constructor(private productService: ProductService) { }
 
