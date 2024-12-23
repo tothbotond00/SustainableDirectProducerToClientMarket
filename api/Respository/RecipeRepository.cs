@@ -17,14 +17,16 @@ namespace api.Repository
         public ICollection<Recipe> GetRecipes()
         {
             return _context.Recipes
-                .Include(r => r.ProductsInRecipes)
+                .Include(r => r.ProductsInRecipes!)
+                .ThenInclude(p => p.Product)
                 .ToList();
         }
 
         public Recipe? GetRecipeByUser(int userId)
         {
             return _context.Recipes
-                .Include(r => r.ProductsInRecipes)
+                .Include(r => r.ProductsInRecipes!)
+                .ThenInclude(p => p.Product)
                 .FirstOrDefault(x => x.UserId == userId);
         }
 
@@ -111,7 +113,7 @@ namespace api.Repository
                 return false;
             }
 
-            recipe.ProductsInRecipes?.Remove(productInRecipe);
+            _context.ProductInRecipes.Remove(productInRecipe);
             return Save();
         }
 

@@ -40,10 +40,10 @@ namespace api.Controllers
 
         [HttpPost]
         [Route("addProduct")]
-        public IActionResult AddProductToRecipe([FromBody] int recipeId, int productId)
+        public IActionResult AddProductToRecipe([FromBody] ProductInRecipe productInRecipe)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.AddProductToRecipe(recipeId, productId)) return BadRequest();
+            if (!_recipeRepository.AddProductToRecipe(productInRecipe.RecipeId, productInRecipe.ProductId)) return BadRequest();
             return Ok("Product added to recipe successfully");
         }
 
@@ -73,7 +73,7 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("deleteProduct")]
-        public IActionResult DeleteProductInRecipe([FromBody] int recipeId, int productId)
+        public IActionResult DeleteProductInRecipe(int recipeId, int productId)
         {
             if (!_recipeRepository.DeleteProductInRecipe(recipeId, productId)) return BadRequest();
             return Ok("Product deleted from recipe successfully");
