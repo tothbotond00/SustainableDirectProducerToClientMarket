@@ -13,5 +13,6 @@ namespace api.Models
         public int UserId { get; set; } = 0;
         public User? User { get; set; }
         public ICollection<ProductInRecipe>? ProductsInRecipes { get; set; } = null!;
+        public ICollection<RecipeReview>? Reviews { get; set; } = null!;
     }
 }

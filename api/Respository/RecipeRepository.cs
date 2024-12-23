@@ -19,6 +19,7 @@ namespace api.Repository
             return _context.Recipes
                 .Include(r => r.ProductsInRecipes!)
                 .ThenInclude(p => p.Product)
+                .Include(r => r.Reviews)
                 .ToList();
         }
 

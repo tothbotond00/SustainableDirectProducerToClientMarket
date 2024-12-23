@@ -1,6 +1,7 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
 {
@@ -34,12 +35,17 @@ namespace api.Repository
 
         public ICollection<Product> GetProducts()
         {
-            return _context.Products.ToList();
+            return _context.Products
+                .Include(p => p.Reviews)
+                .ToList();
         }
 
         public ICollection<Product> GetProductsByUser(int UserId)
         {
-            return _context.Products.Where(p => p.UserId == UserId).ToList();
+            return _context.Products
+                .Where(p => p.UserId == UserId)
+                .Include(p => p.Reviews)
+                .ToList();
         }
 
         public bool UpdateProduct(Product product)
