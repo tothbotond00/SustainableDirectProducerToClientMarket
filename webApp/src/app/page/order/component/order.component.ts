@@ -10,7 +10,7 @@ import { ExampleData } from '../../models/exampledata';
 })
 export class OrderComponent implements OnInit{
 
-  // Mock orders data
+  // Mock orders data //TODO from api
   orders = [
     {
       id: 1,

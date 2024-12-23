@@ -1,4 +1,5 @@
 
+using api.Dto;
 using api.Interfaces;
 using api.Models;
 using api.Repository;
@@ -40,9 +41,19 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Product product)
+        public IActionResult Post([FromBody] ProductDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            Product product = new()
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                UserId = request.UserId,
+                CategoryId = request.CategoryId,
+                Stock = request.Stock,
+                ImageUrl = request.ImageUrl
+            };
             if (!_productRepository.CreateProduct(product)) return BadRequest();
             return Ok("Product created successfully");
         }

@@ -9,7 +9,7 @@ import { ExampleData } from '../../models/exampledata';
 export class ProductService extends ServiceBase<ExampleData> {
 
   constructor(protected override http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    super(http, baseUrl, 'api/ProductData');
+    super(http, baseUrl, 'api/Product');
   }
 
 }
