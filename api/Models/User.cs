@@ -15,5 +15,6 @@ namespace api.Models
         public ICollection<Product>? Products { get; set; } = null!;
         public ICollection<Review>? Reviews { get; set; } = null!;
         public Basket? Basket { get; set; }
+        public ICollection<Recipe>? Recipes { get; set; } = null!;
     }
 }

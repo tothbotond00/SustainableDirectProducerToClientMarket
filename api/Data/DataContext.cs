@@ -17,6 +17,9 @@ namespace api.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<ProductInBasket> ProductInBaskets { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<ProductInRecipe> ProductInRecipes { get; set; }
+        public DbSet<RecipeCategory> RecipeCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
