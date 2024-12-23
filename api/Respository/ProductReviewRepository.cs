@@ -1,6 +1,7 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
 {
@@ -15,12 +16,17 @@ namespace api.Repository
 
         public ICollection<ProductReview> GetReviews()
         {
-            return _context.ProductReviews.ToList();
+            return _context.ProductReviews
+                .Include(x => x.Product)
+                .ToList();
         }
 
         public ICollection<ProductReview> GetReviewsByProduct(int ProductId)
         {
-            return _context.ProductReviews.Where(x => x.ProductId == ProductId).ToList();
+            return _context.ProductReviews
+                .Include(x => x.Product)
+                .Where(x => x.ProductId == ProductId)
+                .ToList();
         }
 
         public bool CreateReview(ProductReview review)
