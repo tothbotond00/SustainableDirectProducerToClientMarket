@@ -31,5 +31,10 @@ namespace api.Data
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source=sqldatabase-sdptcm.database.windows.net;Initial Catalog=SDPTCM_DB;User ID=sqladmin;Password=u%_$g=3pvQet{Ed(4BXfw#;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
+
     }
 }
