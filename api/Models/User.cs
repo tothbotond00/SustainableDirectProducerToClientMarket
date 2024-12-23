@@ -13,7 +13,7 @@ namespace api.Models
         public byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];
         public ICollection<Product>? Products { get; set; } = null!;
-        public ICollection<Review>? Reviews { get; set; } = null!;
+        public ICollection<ProductReview>? Reviews { get; set; } = null!;
         public Basket? Basket { get; set; }
         public ICollection<Recipe>? Recipes { get; set; } = null!;
     }

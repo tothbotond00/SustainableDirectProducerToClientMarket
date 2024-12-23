@@ -14,12 +14,13 @@ namespace api.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Review> Reviews { get; set; }
+        public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<ProductInBasket> ProductInBaskets { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<ProductInRecipe> ProductInRecipes { get; set; }
         public DbSet<RecipeCategory> RecipeCategories { get; set; }
+        public DbSet<RecipeReview> RecipeReviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

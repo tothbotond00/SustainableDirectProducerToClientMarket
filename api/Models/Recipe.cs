@@ -12,7 +12,6 @@ namespace api.Models
         public bool IsPublished { get; set; } = false;
         public int UserId { get; set; } = 0;
         public User? User { get; set; }
-        public ICollection<Review>? Reviews { get; set; } = null!;
         public ICollection<ProductInRecipe>? ProductsInRecipes { get; set; } = null!;
     }
 }

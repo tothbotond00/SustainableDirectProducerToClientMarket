@@ -12,7 +12,7 @@ namespace api.Models
         public Category? Category { get; set; }
         public int UserId { get; set; } = 0;
         public User? User { get; set; }
-        public ICollection<Review>? Reviews { get; set; } = null!;
+        public ICollection<ProductReview>? Reviews { get; set; } = null!;
         public ICollection<ProductInBasket>? ProductsInBaskets { get; set; } = null!;
         public ICollection<ProductInRecipe>? ProductsInRecipes { get; set; } = null!;
     }

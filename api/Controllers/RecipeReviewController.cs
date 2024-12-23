@@ -7,11 +7,11 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewController : Controller
+    public class RecipeReviewController : Controller
     {
-        private IReviewRepository _reviewRepository;
+        private IRecipeReviewRepository _reviewRepository;
 
-        public ReviewController(IReviewRepository reviewRepository)
+        public RecipeReviewController(IRecipeReviewRepository reviewRepository)
         {
             _reviewRepository = reviewRepository;
         }
@@ -23,15 +23,15 @@ namespace api.Controllers
             return Ok(reviews);
         }
 
-        [HttpGet("{productId}")]
-        public IActionResult Get(int productId)
+        [HttpGet("{recipeId}")]
+        public IActionResult Get(int recipeId)
         {
-            var reviews = _reviewRepository.GetReviewsByProduct(productId);
+            var reviews = _reviewRepository.GetReviewsByProduct(recipeId);
             return Ok(reviews);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Review review)
+        public IActionResult Post([FromBody] RecipeReview review)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (!_reviewRepository.CreateReview(review)) return BadRequest();
@@ -39,7 +39,7 @@ namespace api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Review review)
+        public IActionResult Put([FromBody] RecipeReview review)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             if (!_reviewRepository.UpdateReview(review)) return BadRequest();
