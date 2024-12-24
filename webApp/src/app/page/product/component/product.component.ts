@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product.service';
 import {Product} from '../../../models/product';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -9,14 +10,6 @@ import {Product} from '../../../models/product';
   standalone: false
 })
 export class ProductComponent implements OnInit{
-
-  product = {
-    id: 1,
-    name: 'Organic Honey',
-    price: 15.99,
-    image: '/assets/sample-product.jpg',
-    description: 'High-quality organic honey from sustainable sources.'
-  };
 
   // Mock Reviews Data
   reviews = [
@@ -29,20 +22,28 @@ export class ProductComponent implements OnInit{
   quantity: number = 1;
   basket: any[] = []; // Placeholder for basket items
 
-  dataFromService: Product[] = [];
+  productId?: number;
+  product?: Product;
 
-  constructor(private productService: ProductService) { }
+  //TODO authservice, for reviews
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-      this.productService.get().subscribe(data => {
-          this.dataFromService = data;
-          console.log(this.dataFromService);
-      });
+    this.route.paramMap.subscribe(params => {
+      if (params.has('id')) {
+        this.productId = +(params.get('id')!);
+
+        this.productService.getOne(this.productId.toString()).subscribe(data => {
+          this.product = data;
+        });
+      }
+    });
   }
 
   // Handle "Add to Basket" action
   addToBasket(): void {
-    const basketItem = {
+    /*const basketItem = { //TODO
       productId: this.product.id,
       productName: this.product.name,
       price: this.product.price,
@@ -55,7 +56,7 @@ export class ProductComponent implements OnInit{
     console.log('Basket updated:', this.basket);
 
     // Show feedback to the user
-    alert(`Added ${this.quantity} of "${this.product.name}" to the basket.`);
+    alert(`Added ${this.quantity} of "${this.product.name}" to the basket.`);*/
   }
 
   // Placeholder for future review-related functionality

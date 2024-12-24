@@ -32,6 +32,7 @@ export class ProductDialogComponent implements OnInit{
               @Inject(MAT_DIALOG_DATA) public data: { product?: Product }) {
 
     this.product = data.product;
+    if (this.product) this.buttonText = 'Update product';
     this.form = this.formBuilder.group({
       name: [this.product?.name ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
@@ -41,7 +42,6 @@ export class ProductDialogComponent implements OnInit{
     }) //TODO image?
   }
 
-  //TODO different endpoint if it already exists - update wording too!
   onAddProductClick() {
     this.buttonText = 'Loading...';
     this.disabledButton = true;
@@ -58,24 +58,46 @@ export class ProductDialogComponent implements OnInit{
     console.log(newProduct);
 
     setTimeout(() => {
-      this.productService.post('', newProduct).subscribe({
-        next: data => {
-          this.success = true;
-          setTimeout(() => {
-            this.dialogRef.close(true);
-          }, 3000);
-        },
-        error: error => {
-          console.log(error);
-          this.errorMessage = error.error;
-          this.disabledButton = false;
-          this.buttonText = 'Add product';
+      if (!this.product) {
+        this.productService.post('', newProduct).subscribe({
+          next: data => {
+            this.success = true;
+            setTimeout(() => {
+              this.dialogRef.close(true);
+            }, 3000);
+          },
+          error: error => {
+            console.log(error);
+            this.errorMessage = error.error;
+            this.disabledButton = false;
+            this.buttonText = 'Add product';
 
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 3000);
-        }
-      });
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 1500);
+          }
+        });
+      }
+      else {
+        this.productService.put(this.product.id.toString(), newProduct).subscribe({
+          next: data => {
+            this.success = true;
+            setTimeout(() => {
+              this.dialogRef.close(true);
+            }, 1500);
+          },
+          error: error => {
+            console.log(error);
+            this.errorMessage = error.error;
+            this.disabledButton = false;
+            this.buttonText = 'Update product';
+
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 3000);
+          }
+        });
+      }
     }, 3000);
   }
 

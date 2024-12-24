@@ -1,40 +1,46 @@
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-8 col-lg-6 card">
-      <!-- Product Image -->
-      <div class="text-center">
-        <img src="/assets/honey.jpg" alt="Product Image" class="product-image mb-3">
-      </div>
-
-      <!-- Product Details -->
-      <div class="product-details">
-        <h2 id="mainTitle">Organic Honey</h2>
-        <p id="subTitle">Price: $15.99</p>
-      </div>
-
-      <!-- Add to Basket -->
-      <div class="add-to-basket mt-4">
-        <label for="quantity" class="form-label">Quantity:</label>
-        <input id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" value="1">
-        <button class="btn btn-primary ms-2">Add to Basket</button>
-      </div>
-
-      <!-- User Reviews -->
-      <div class="reviews mt-5">
-        <h3>Reviews</h3>
-        <div class="review mt-3">
-          <strong>Jane Doe</strong>
-          <p>"Amazing product! The quality is excellent, and the taste is fantastic."</p>
+      <div *ngIf="product !== undefined; else undefinedProduct">
+        <!-- Product Image TODO from product -->
+        <div class="text-center">
+          <img src="/assets/honey.jpg" alt="Product Image" class="product-image mb-3">
         </div>
-        <div class="review mt-3">
-          <strong>John Smith</strong>
-          <p>"Great value for money. Definitely will buy again."</p>
+
+        <!-- Product Details -->
+        <div class="product-details">
+          <h2 id="mainTitle">{{ product.name }}</h2>
+          <p id="subTitle">Price: ${{ product.price }}</p>
         </div>
-        <div class="review mt-3">
-          <strong>Anna Taylor</strong>
-          <p>"Arrived on time and in perfect condition. Highly recommend this seller!"</p>
+
+        <!-- Add to Basket -->
+        <div class="add-to-basket mt-4">
+          <label for="quantity" class="form-label">Quantity:</label>
+          <input id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" value="1">
+          <button class="btn btn-primary ms-2">Add to Basket</button>
+        </div>
+
+        <!-- User Reviews TODO real reviews -->
+        <div class="reviews mt-5">
+          <h3>Reviews</h3>
+          <div class="review mt-3">
+            <strong>Jane Doe</strong>
+            <p>"Amazing product! The quality is excellent, and the taste is fantastic."</p>
+          </div>
+          <div class="review mt-3">
+            <strong>John Smith</strong>
+            <p>"Great value for money. Definitely will buy again."</p>
+          </div>
+          <div class="review mt-3">
+            <strong>Anna Taylor</strong>
+            <p>"Arrived on time and in perfect condition. Highly recommend this seller!"</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #undefinedProduct>
+  <p>The product you were looking for does not exist.</p>
+</ng-template>
