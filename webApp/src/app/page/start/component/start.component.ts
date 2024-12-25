@@ -52,9 +52,9 @@ export class StartComponent implements OnInit{
           this.auth.get('', { email: dataToSend['email'], isCustomer: dataToSend['isCustomer'] }).subscribe({
             next: () => {
               if(this.auth.isCustomer() === 'True') {
-                this.router.navigate(['/list']);
+                location.href = '/list';
               } else {
-                this.router.navigate(['/own-products']);
+                location.href = '/own-products';
               }
             }
           })
