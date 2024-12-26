@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../service/basket.service';
-import { ExampleData } from '../../models/exampledata';
+import { ExampleData } from '../../../shared/models/exampledata';
 import { AuthService } from '@shared/common_services/auth.service';
 
 @Component({
