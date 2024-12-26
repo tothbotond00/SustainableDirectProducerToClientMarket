@@ -1,4 +1,5 @@
 
+using api.Dto;
 using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -40,18 +41,18 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(int userId, int productId)
+        public IActionResult Post([FromBody] BasketDto basketDto)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            if(!_basketController.AddProductToBasket(userId, productId)) return BadRequest();
+            if(!_basketController.AddProductToBasket(basketDto.UserId, basketDto.ProductId, basketDto.Quantity)) return BadRequest();
             return Ok("Product added to basket successfully");
         }
 
         [HttpPut]
-        public IActionResult Put(int userId, int productId, int quantity)
+        public IActionResult Put([FromBody] BasketDto basketDto)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            if(!_basketController.UpdateQuantity(userId, productId, quantity)) return BadRequest();
+            if(!_basketController.UpdateQuantity(basketDto.UserId, basketDto.ProductId, basketDto.Quantity)) return BadRequest();
             return Ok("Quantity updated successfully");
         }
 

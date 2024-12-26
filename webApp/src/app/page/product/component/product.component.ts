@@ -4,6 +4,8 @@ import {Product} from '../../../models/product';
 import {ActivatedRoute} from '@angular/router';
 import { ProductReviewService } from '../service/product-review.service';
 import { ProductReview } from '@shared/models/productreview';
+import { BasketService } from '../../basket/service/basket.service';
+import { AuthService } from '@shared/common_services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -31,6 +33,7 @@ export class ProductComponent implements OnInit{
 
   //TODO authservice, for reviews
   constructor(private productService: ProductService, private reviewService: ProductReviewService,
+              private basketService: BasketService, private authService: AuthService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -67,7 +70,11 @@ export class ProductComponent implements OnInit{
     console.log('Basket updated:', this.basket);
 
     // Show feedback to the user
-    alert(`Added ${this.quantity} of "${this.product.name}" to the basket.`);*/
+    alert(`Added ${this.quantity} of "${this.product.name}" to the basket.`);*/    
+
+    this.basketService.post('', {userId: this.authService.getUserId(), productId: this.product?.id}).subscribe(data => {
+      console.log(data);
+    });
   }
 
   // Placeholder for future review-related functionality

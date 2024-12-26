@@ -17,7 +17,7 @@
         <div class="add-to-basket mt-4">
           <label for="quantity" class="form-label">Quantity:</label>
           <input id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" value="1">
-          <button class="btn btn-primary ms-2">Add to Basket</button>
+          <button (click)="addToBasket()" class="btn btn-primary ms-2">Add to Basket</button>
         </div>
 
         <!-- User Reviews TODO real reviews -->

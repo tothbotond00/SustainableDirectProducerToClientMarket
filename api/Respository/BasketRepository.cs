@@ -92,7 +92,7 @@ namespace api.Repository
             return basket;
         }
 
-        public bool AddProductToBasket(int userId, int productId)
+        public bool AddProductToBasket(int userId, int productId, int quantity)
         {
             var basket = _context.Baskets
                 .Include(b => b.ProductsInBasket)
@@ -115,7 +115,7 @@ namespace api.Repository
                 productInBasket = new ProductInBasket
                 {
                     ProductId = productId,
-                    Quantity = 1,
+                    Quantity = quantity,
                     TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0
                 };
                 basket.ProductsInBasket?.Add(productInBasket);
