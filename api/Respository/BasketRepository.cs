@@ -17,7 +17,8 @@ namespace api.Repository
         public ICollection<Basket> GetBaskets()
         {
             return _context.Baskets
-                .Include(b => b.ProductsInBasket)
+                .Include(b => b.ProductsInBasket!)
+                .ThenInclude(p => p.Product)
                 .ToList();
         }
 
@@ -86,7 +87,8 @@ namespace api.Repository
         public Basket? GetBasketByUser(int userId)
         {
             var basket = _context.Baskets
-                .Include(b => b.ProductsInBasket)
+                .Include(b => b.ProductsInBasket!)
+                .ThenInclude(p => p.Product)
                 .FirstOrDefault(x => x.UserId == userId);
 
             return basket;
@@ -122,7 +124,7 @@ namespace api.Repository
             }
             else
             {
-                productInBasket.Quantity++;
+                productInBasket.Quantity += quantity;
                 productInBasket.TotalPrice = productInBasket.Quantity * (_context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0);
             }
 

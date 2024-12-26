@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product.service';
-import {Product} from '../../../models/product';
 import {ActivatedRoute} from '@angular/router';
 import { ProductReviewService } from '../service/product-review.service';
 import { ProductReview } from '@shared/models/productreview';
 import { BasketService } from '../../basket/service/basket.service';
 import { AuthService } from '@shared/common_services/auth.service';
+import { Product } from '@shared/models/product';
 
 @Component({
   selector: 'app-product',

@@ -64,6 +64,12 @@
   }
 }
 
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .reviews {
   margin-top: 30px;
 
@@ -82,7 +88,7 @@
 
     strong {
       display: block;
-      font-size: 14px;
+      font-size: 16px;
       color: rgb(50, 50, 50);
       margin-bottom: 5px;
     }

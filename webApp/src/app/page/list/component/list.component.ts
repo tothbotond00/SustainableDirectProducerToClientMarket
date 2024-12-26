@@ -27,7 +27,7 @@ export class ListComponent implements OnInit{
   // ];
 
   // Pagination properties
-  paginatedProducts: any[] = []; // Products to display on the current page
+  paginatedProducts: Product[] = []; // Products to display on the current page
   currentPage: number = 1;
   itemsPerPage: number = 9;
   totalPages: number = 0;
@@ -65,6 +65,12 @@ export class ListComponent implements OnInit{
       this.currentPage = page;
       this.updatePagination();
     }
+  }
+
+  getImage(): void {
+    this.listService.getImage().subscribe(data => {
+      console.log(data);
+    });
   }
 
   // Redirect to the product page with the corresponding ID

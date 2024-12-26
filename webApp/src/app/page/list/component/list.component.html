@@ -12,7 +12,7 @@
           *ngFor="let product of paginatedProducts" 
           (click)="redirectToProduct(product.id)">
           <div class="product-card">
-            <img [src]="product.image" alt="Product Image" class="product-image">
+            <img [src]="product.imageUrl" alt="Product Image" class="product-image">
             <h4 class="product-name">{{ product.name }}</h4>
             <p class="product-price">${{ product.price }}</p>
           </div>

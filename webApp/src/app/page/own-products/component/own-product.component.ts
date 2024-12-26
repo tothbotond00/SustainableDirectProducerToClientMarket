@@ -3,7 +3,7 @@ import {ProductService} from '../../product/service/product.service';
 import {AuthService} from '@shared/common_services/auth.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductDialogComponent} from '../product-dialog/product-dialog.component';
-import {Product} from '../../../models/product';
+import {Product} from '@shared/models/product';
 import {ConfirmDeletionDialogComponent} from '../../../confirm-deletion-dialog/confirm-deletion-dialog.component';
 import {Router} from '@angular/router';
 
@@ -58,7 +58,7 @@ export class OwnProductComponent implements OnInit{
   }
 
   addNewProduct(): void {
-    this.dialog.open(
+    const dialogRef = this.dialog.open(
       ProductDialogComponent,
       {
         width: '550px',
@@ -66,6 +66,10 @@ export class OwnProductComponent implements OnInit{
         data: { product: undefined }
       }
     );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshProducts();
+    });
   }
 
   editProduct(): void {

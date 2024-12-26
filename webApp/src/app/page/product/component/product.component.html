@@ -4,7 +4,7 @@
       <div *ngIf="product !== undefined; else undefinedProduct">
         <!-- Product Image TODO from product -->
         <div class="text-center">
-          <img src="/assets/honey.jpg" alt="Product Image" class="product-image mb-3">
+          <img [src]="product.imageUrl" alt="Product Image" class="product-image mb-3">
         </div>
 
         <!-- Product Details -->
@@ -14,37 +14,32 @@
         </div>
 
         <!-- Add to Basket -->
-        <div class="add-to-basket mt-4">
+        <div class="add-to-basket mt-4 d-flex align-items-center justify-content-center">
           <label for="quantity" class="form-label">Quantity:</label>
           <input id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" value="1">
           <button (click)="addToBasket()" class="btn btn-primary ms-2">Add to Basket</button>
         </div>
 
-        <!-- User Reviews TODO real reviews -->
-        <!-- <div class="reviews mt-5">
-          <h3>Reviews</h3>
-          <div class="review mt-3">
-            <strong>Jane Doe</strong>
-            <p>"Amazing product! The quality is excellent, and the taste is fantastic."</p>
-          </div>
-          <div class="review mt-3">
-            <strong>John Smith</strong>
-            <p>"Great value for money. Definitely will buy again."</p>
-          </div>
-          <div class="review mt-3">
-            <strong>Anna Taylor</strong>
-            <p>"Arrived on time and in perfect condition. Highly recommend this seller!"</p>
-          </div>
-        </div> -->
-
         <div class="reviews mt-5">
           <h3>Reviews</h3>
-          <div class="review mt-3" *ngFor="let review of reviews">
-            <strong>{{ review.user.username }}</strong>
-            <p>"{{ review.description }}"</p>
-            <p>{{review.rating}} / 5</p>
+          <div *ngIf="reviews.length > 0; else noReviews">
+            <div class="review mt-3" *ngFor="let review of reviews">
+              <strong>{{ review.user.username }}</strong>
+              <p>"{{ review.description }}"</p>
+              <p>{{review.rating}} / 5 ★</p>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4"></div>
+              <button type="button" class="btn btn-secondary col-4">
+                <mat-icon>add_box</mat-icon>
+              </button>
+              <div class="col-4"></div>
+            </div>
           </div>
-      </div>
+          <ng-template #noReviews>
+            <p class="review mt-3">No reviews yet.</p>
+          </ng-template>
+        </div>
     </div>
   </div>
 </div>

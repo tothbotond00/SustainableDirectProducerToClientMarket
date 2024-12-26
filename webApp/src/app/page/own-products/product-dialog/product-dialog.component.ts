@@ -5,7 +5,8 @@ import {ProductService} from '../../product/service/product.service';
 import {AuthService} from '@shared/common_services/auth.service';
 import {CategoryService} from '@shared/common_services/category.service';
 import {Category} from '../../../models/category';
-import {Product} from '../../../models/product';
+import { Product } from '@shared/models/product';
+
 
 @Component({
   selector: 'app-product-dialog',
@@ -64,7 +65,7 @@ export class ProductDialogComponent implements OnInit{
             this.success = true;
             setTimeout(() => {
               this.dialogRef.close(true);
-            }, 3000);
+            }, 1500);
           },
           error: error => {
             console.log(error);
