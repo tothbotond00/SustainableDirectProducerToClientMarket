@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241226130930_AddOrderAgain")]
+    partial class AddOrderAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("ConsumerId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsSent")
@@ -109,7 +112,7 @@ namespace api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ConsumerId");
 
                     b.ToTable("Orders");
                 });
@@ -423,13 +426,13 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Order", b =>
                 {
-                    b.HasOne("api.Models.User", "Customer")
+                    b.HasOne("api.Models.User", "Consumer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("ConsumerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("Consumer");
                 });
 
             modelBuilder.Entity("api.Models.Product", b =>

@@ -31,6 +31,15 @@ namespace api.Controllers
         }
 
         [HttpPost]
+        [Route("send")]
+        public IActionResult SendBasket(int userId)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            if(!_basketController.SendBasket(userId)) return BadRequest();
+            return Ok("Basket sent successfully");
+        }
+
+        [HttpPost]
         public IActionResult Post(int userId, int productId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);

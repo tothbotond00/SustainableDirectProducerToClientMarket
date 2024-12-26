@@ -21,6 +21,68 @@ namespace api.Repository
                 .ToList();
         }
 
+        public bool SendBasket(int customerId)
+        {
+            var basket = _context.Baskets
+                .Include(b => b.ProductsInBasket!)
+                .ThenInclude(p => p.Product)
+                .FirstOrDefault(x => x.UserId == customerId);
+
+            if (basket == null)
+            {
+                return false;
+            }
+            basket.IsSent = true;
+
+            var grouppedProducts = basket.ProductsInBasket?.GroupBy(x => x.Product?.UserId);
+            if (grouppedProducts == null)
+            {
+                return false;
+            }
+
+            foreach (var group in grouppedProducts)
+            {
+                var producerId = group.Key;
+                if (producerId == null)
+                {
+                    continue;
+                }
+
+                var order = new Order
+                {
+                    ProducerId = producerId.Value,
+                    CustomerId = customerId,
+                    ReceivedAt = System.DateTime.Now,
+                    IsSent = false,
+                    TotalPrice = group.Sum(x => x.TotalPrice)
+                };
+
+                _context.Orders.Add(order);
+
+                foreach (var product in group)
+                {
+                    var productInOrder = new ProductInOrder
+                    {
+                        ProductId = product.ProductId,
+                        OrderId = order.Id,
+                        Quantity = product.Quantity,
+                        TotalPrice = product.TotalPrice
+                    };
+
+                    if (order.Products == null)
+                    {
+                        order.Products = new List<ProductInOrder>();
+                    }
+
+                    order.Products?.Add(productInOrder);
+
+                    RemoveProductFromBasket(customerId, product.ProductId);
+                }
+            }
+
+            return Save();
+        }
+
         public Basket? GetBasketByUser(int userId)
         {
             var basket = _context.Baskets

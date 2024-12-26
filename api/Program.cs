@@ -49,6 +49,7 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IRecipeCategoryRepository, RecipeCategoryRepository>();
 builder.Services.AddScoped<IRecipeReviewRepository, RecipeReviewRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 builder.Services.AddDbContext<DataContext>(options => 

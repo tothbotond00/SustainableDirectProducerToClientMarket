@@ -9,5 +9,7 @@ namespace api.Interfaces
         public bool AddProductToBasket(int userId, int productId);
         public bool UpdateQuantity(int userId, int productId, int quantity);
         public bool RemoveProductFromBasket(int userId, int productId);
+        public bool SendBasket(int customerId);
+        public bool Save();
     }
 }
