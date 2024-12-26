@@ -21,7 +21,7 @@
         </div>
 
         <!-- User Reviews TODO real reviews -->
-        <div class="reviews mt-5">
+        <!-- <div class="reviews mt-5">
           <h3>Reviews</h3>
           <div class="review mt-3">
             <strong>Jane Doe</strong>
@@ -35,7 +35,15 @@
             <strong>Anna Taylor</strong>
             <p>"Arrived on time and in perfect condition. Highly recommend this seller!"</p>
           </div>
-        </div>
+        </div> -->
+
+        <div class="reviews mt-5">
+          <h3>Reviews</h3>
+          <div class="review mt-3" *ngFor="let review of reviews">
+            <strong>{{ review.user.username }}</strong>
+            <p>"{{ review.description }}"</p>
+            <p>{{review.rating}} / 5</p>
+          </div>
       </div>
     </div>
   </div>

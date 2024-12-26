@@ -25,6 +25,7 @@ namespace api.Repository
         {
             return _context.ProductReviews
                 .Include(x => x.Product)
+                .Include(x => x.User)
                 .Where(x => x.ProductId == ProductId)
                 .ToList();
         }

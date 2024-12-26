@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product.service';
 import {Product} from '../../../models/product';
 import {ActivatedRoute} from '@angular/router';
+import { ProductReviewService } from '../service/product-review.service';
+import { ProductReview } from '@shared/models/productreview';
 
 @Component({
   selector: 'app-product',
@@ -12,11 +14,13 @@ import {ActivatedRoute} from '@angular/router';
 export class ProductComponent implements OnInit{
 
   // Mock Reviews Data
-  reviews = [
-    { user: 'Jane Doe', comment: 'Amazing product! The quality is excellent, and the taste is fantastic.' },
-    { user: 'John Smith', comment: 'Great value for money. Definitely will buy again.' },
-    { user: 'Anna Taylor', comment: 'Arrived on time and in perfect condition. Highly recommend this seller!' }
-  ];
+  // reviews = [
+  //   { user: 'Jane Doe', comment: 'Amazing product! The quality is excellent, and the taste is fantastic.' },
+  //   { user: 'John Smith', comment: 'Great value for money. Definitely will buy again.' },
+  //   { user: 'Anna Taylor', comment: 'Arrived on time and in perfect condition. Highly recommend this seller!' }
+  // ];
+
+  reviews: ProductReview[] = [];
 
   // State for quantity and basket
   quantity: number = 1;
@@ -26,7 +30,7 @@ export class ProductComponent implements OnInit{
   product?: Product;
 
   //TODO authservice, for reviews
-  constructor(private productService: ProductService,
+  constructor(private productService: ProductService, private reviewService: ProductReviewService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -36,6 +40,13 @@ export class ProductComponent implements OnInit{
 
         this.productService.getOne(this.productId.toString()).subscribe(data => {
           this.product = data;
+          console.log(data);
+          
+        });
+
+        this.reviewService.get(this.productId.toString()).subscribe(data => {
+          console.log(data);
+          this.reviews = data;
         });
       }
     });
