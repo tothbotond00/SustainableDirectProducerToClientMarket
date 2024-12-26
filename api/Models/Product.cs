@@ -8,6 +8,7 @@ namespace api.Models
         public float Price { get; set; } = 0;
         public string? ImageUrl { get; set; } = string.Empty;
         public int Stock { get; set; } = 0;
+        public string Unit { get; set; } = string.Empty;
         public int CategoryId { get; set; } = 0;
         public Category? Category { get; set; }
         public int UserId { get; set; } = 0;

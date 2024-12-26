@@ -21,9 +21,9 @@
             *ngFor="let product of paginatedProducts">
             <div class="product-card" [ngClass]="{'selected': product.id === selectedProductID}" (click)="selectedProductID = product.id">
               <!-- TODO product images -->
-              <img src='/assets/honey.jpg' alt="Product Image" class="product-image">
+              <img [src]="product.imageUrl" alt="Product Image" class="product-image">
               <h4 class="product-name">{{ product.name }}</h4>
-              <p class="product-price">${{ product.price }}</p>
+              <p class="product-price">{{ product.price }}Ft / {{product.unit}}</p>
             </div>
           </div>
         </div>

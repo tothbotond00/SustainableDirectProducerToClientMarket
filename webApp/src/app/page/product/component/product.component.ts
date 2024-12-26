@@ -56,25 +56,16 @@ export class ProductComponent implements OnInit{
   }
 
   // Handle "Add to Basket" action
-  addToBasket(): void {
-    /*const basketItem = { //TODO
-      productId: this.product.id,
-      productName: this.product.name,
-      price: this.product.price,
-      quantity: this.quantity,
-      total: this.quantity * this.product.price
-    };
-
-    // Add the item to the basket
-    this.basket.push(basketItem);
-    console.log('Basket updated:', this.basket);
-
-    // Show feedback to the user
-    alert(`Added ${this.quantity} of "${this.product.name}" to the basket.`);*/    
-
-    this.basketService.post('', {userId: this.authService.getUserId(), productId: this.product?.id}).subscribe(data => {
+  addToBasket(): void {  
+    this.basketService.post('', {userId: this.authService.getUserId(), productId: this.product?.id, quantity: this.quantity}).subscribe(data => {
       console.log(data);
     });
+  }
+
+  onQuantityChange($event: any): void {
+    console.log('Quantity changed:', $event.target.value);
+    
+    this.quantity = $event.target.value;
   }
 
   // Placeholder for future review-related functionality

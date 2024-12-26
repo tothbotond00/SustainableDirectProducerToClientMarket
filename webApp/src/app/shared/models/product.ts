@@ -6,6 +6,7 @@ export class Product {
   imageUrl: string = '';
   stock: number = 0;
   categoryId: number = 0;
+  unit: string = '';
   category: string = '';
   userId: number = 0;
 }

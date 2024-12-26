@@ -118,7 +118,7 @@ namespace api.Repository
                 {
                     ProductId = productId,
                     Quantity = quantity,
-                    TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price ?? 0
+                    TotalPrice = _context.Products.FirstOrDefault(x => x.Id == productId)?.Price * quantity ?? 0
                 };
                 basket.ProductsInBasket?.Add(productInBasket);
             }

@@ -17,7 +17,7 @@
             <h4 class="product-name">{{ item.product.name }}</h4>
             <p>Price: ${{ item.product.price }}</p>
             <label for="quantity" class="form-label">Quantity: </label>
-            <input (change)="onQuantityChange($event, item.product.id)" id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" [value]="item.quantity">  
+            <input (change)="onQuantityChange($event, item.product.id)" id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" [(value)]="item.quantity">  
           </div>
 
           <!-- Subtotal -->
