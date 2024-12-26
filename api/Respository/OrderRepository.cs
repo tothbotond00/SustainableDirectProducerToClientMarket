@@ -22,12 +22,21 @@ namespace api.Repository
                 .ToList();
         }
 
-        public Order? GetOrderByUser(int userId)
+        public ICollection<Order>? GetOrderByUser(int userId)
         {
+            // return _context.Orders
+            //     .Include(o => o.Products!)
+            //     .ThenInclude(p => p.Product)
+            //     .FirstOrDefault(x => x.ProducerId == userId)
+            //     .Products;
+
             return _context.Orders
                 .Include(o => o.Products!)
                 .ThenInclude(p => p.Product)
-                .FirstOrDefault(x => x.ProducerId == userId);
+                .Include(o => o.Customer)
+                .Where(x => x.ProducerId == userId)
+                .ToList();
+            
         }
 
         public bool SendOrder(int orderId)
@@ -44,7 +53,9 @@ namespace api.Repository
             order.IsSent = true;
             order.SentAt = System.DateTime.Now;
 
-            return true;
+            _context.Orders.Update(order);
+
+            return Save();
         }
 
         public bool Save()

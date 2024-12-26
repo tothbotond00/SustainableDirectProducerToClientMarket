@@ -58,7 +58,7 @@ export class ProductComponent implements OnInit{
   // Handle "Add to Basket" action
   addToBasket(): void {  
     this.basketService.post('', {userId: this.authService.getUserId(), productId: this.product?.id, quantity: this.quantity}).subscribe(data => {
-      console.log(data);
+      alert(data);
     });
   }
 

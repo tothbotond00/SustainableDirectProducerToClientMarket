@@ -42,7 +42,7 @@
 
       <!-- Checkout Button -->
       <div class="text-center mt-4">
-        <button class="btn btn-primary" [disabled]="dataFromService.productsInBasket.length === 0">Proceed to Checkout</button>
+        <button (click)="proceedToCheckout()" class="btn btn-primary" [disabled]="dataFromService.productsInBasket.length === 0">Proceed to Checkout</button>
       </div>
     </div>
   </div>

@@ -5,13 +5,15 @@
       <h2 id="mainTitle">Orders</h2>
 
       <!-- Orders List -->
-      <div *ngIf="orders.length > 0; else noOrders" class="orders-list">
-        <div class="order-card mb-4" *ngFor="let order of orders">
+      <div *ngIf="dataFromService.length > 0; else noOrders" class="orders-list">
+        <div class="order-card mb-4" *ngFor="let order of dataFromService">
           <!-- Order Header -->
           <div class="order-header">
             <p><strong>Order ID:</strong> {{ order.id }}</p>
-            <p><strong>User:</strong> {{ order.userName }}</p>
-            <p><strong>Email:</strong> {{ order.userEmail }}</p>
+            <p><strong>Date:</strong> {{ order.receivedAt | date: 'yyyy.MM.dd. hh:mm' }}</p>
+            <p><strong>Send:</strong> {{ (order.sentAt | date: 'yyyy.MM.dd. hh:mm') || 'NaN'}} </p>
+            <p><strong>User:</strong> {{ order.customer.username }}</p>
+            <p><strong>Email:</strong> {{ order.customer.email }}</p>
           </div>
 
           <!-- Items Table -->
@@ -26,11 +28,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of order.items">
-                  <td>{{ item.name }}</td>
+                <tr *ngFor="let item of order.products">
+                  <td>{{ item.product.name }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>${{ item.price }}</td>
-                  <td>${{ item.quantity * item.price }}</td>
+                  <td>${{ item.product.price }}</td>
+                  <td>${{ item.totalPrice }}</td>
                 </tr>
               </tbody>
             </table>
@@ -45,7 +47,7 @@
 
           <!-- Send Order Button -->
           <div class="text-end">
-            <button class="btn btn-success" (click)="markAsSent(order.id)">Mark as Sent</button>
+            <button [disabled]="order.isSent" class="btn btn-success" (click)="markAsSent(order.id)">Mark as Sent</button>
           </div>
         </div>
       </div>

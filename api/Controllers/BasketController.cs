@@ -33,7 +33,7 @@ namespace api.Controllers
 
         [HttpPost]
         [Route("send")]
-        public IActionResult SendBasket(int userId)
+        public IActionResult SendBasket([FromBody] int userId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
             if(!_basketController.SendBasket(userId)) return BadRequest();

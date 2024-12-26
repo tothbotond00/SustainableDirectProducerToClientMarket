@@ -75,5 +75,13 @@ export class BasketComponent implements OnInit{
   proceedToCheckout(): void {
     // console.log('Proceeding to checkout with items:', this.basketItems);
     // alert('Checkout functionality will be implemented here.');
+
+    let userId = this.authService.getUserId();
+    this.basketService.post('send', Number(userId)).subscribe(data => {
+      this.basketService.getOne(userId.toString()).subscribe(data => {
+        this.dataFromService = data;
+      });
+      alert(data);
+    });
   }
 }

@@ -30,7 +30,7 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendOrder(int orderId)
+        public IActionResult SendOrder([FromBody] int orderId)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
             if(!_orderRepository.SendOrder(orderId)) return BadRequest();
