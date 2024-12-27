@@ -55,14 +55,14 @@
             class="btn btn-outline-secondary"
             [disabled]="currentPage === 1"
             (click)="changePage(currentPage - 1)">
-            Previous
+            Előző
           </button>
           <span class="page-indicator">Oldal {{ currentPage }} / {{ totalPages }}</span>
           <button
             class="btn btn-outline-secondary"
             [disabled]="currentPage === totalPages"
             (click)="changePage(currentPage + 1)">
-            Next
+            Következő
           </button>
         </div>
       </div>

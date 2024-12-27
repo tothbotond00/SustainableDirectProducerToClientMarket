@@ -5,7 +5,7 @@
        <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
-          <h2 class="pt-2" id="mainTitle">Products</h2>
+          <h2 class="pt-2" id="mainTitle">Termékek</h2>
         </div>
         <div class="col-1"></div>
         <div class="col-1 text-end">
@@ -17,7 +17,7 @@
           <div>
             <form [formGroup]="form" style="height: 100%;">
               <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Search</mat-label>
+                  <mat-label>Keresés</mat-label>
                   <input (input)="onSearchChange($event)" formControlName="product" matInput>
                 </mat-form-field>
             </form>
@@ -37,7 +37,7 @@
             <img [src]="product.imageUrl" alt="Product Image" class="product-image">
             <h4 class="product-name">{{ product.name }}</h4>
             <p class="product-price">{{ product.price }}Ft / {{product.unit}}</p>
-            <p class="product-owner">Owner: <b>{{ product.user.fullName }}</b></p>
+            <p class="product-owner">Termelő: <b>{{ product.user.fullName }}</b></p>
           </div>
         </div>
       </div>
@@ -48,14 +48,14 @@
           class="btn btn-outline-secondary" 
           [disabled]="currentPage === 1" 
           (click)="changePage(currentPage - 1)">
-          Previous
+          Előző
         </button>
-        <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+        <span class="page-indicator">Oldal {{ currentPage }} / {{ totalPages }}</span>
         <button 
           class="btn btn-outline-secondary" 
           [disabled]="currentPage === totalPages" 
           (click)="changePage(currentPage + 1)">
-          Next
+          Következő
         </button>
       </div>
     </div>

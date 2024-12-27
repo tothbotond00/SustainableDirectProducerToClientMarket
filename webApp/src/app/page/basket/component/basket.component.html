@@ -2,7 +2,7 @@
   <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-10 col-lg-8 card">
       <!-- Basket Title -->
-      <h2 id="mainTitle">Your Basket</h2>
+      <h2 id="mainTitle">Kosár</h2>
 
       <!-- Basket Items -->
       <div *ngIf="dataFromService.productsInBasket.length > 0; else emptyBasket" class="basket-items">
@@ -15,14 +15,14 @@
           <!-- Product Details -->
           <div class="col-6">
             <h4 class="product-name">{{ item.product.name }}</h4>
-            <p>Price: ${{ item.product.price }}</p>
-            <label for="quantity" class="form-label">Quantity: </label>
+            <p>Ár: {{ item.product.price }}Ft / {{item.product.unit}}</p>
+            <label for="quantity" class="form-label">Quantity ({{item.product.unit}}):</label>
             <input (change)="onQuantityChange($event, item.product.id)" id="quantity" type="number" class="form-control d-inline-block" style="width: 80px;" min="1" [(value)]="item.quantity">  
           </div>
 
           <!-- Subtotal -->
           <div class="col-3 text-center d-flex align-items-center flex-column">
-            <p class="subtotal">Subtotal: ${{ item.totalPrice }}</p>
+            <p class="subtotal">Részösszeg: {{ item.totalPrice }}Ft</p>
             <button (click)="removeFromBasket(item.product.id)" type="button" class="btn btn-danger">
               <mat-icon>delete</mat-icon>
             </button>
@@ -32,17 +32,17 @@
 
       <!-- Empty Basket Message -->
       <ng-template #emptyBasket>
-        <p class="empty-message">Your basket is empty. Start adding products to see them here.</p>
+        <p class="empty-message">A kosarad üres. Adj hozzá termékeket.</p>
       </ng-template>
 
       <!-- Total Price -->
       <div class="total mt-4">
-        <h3>Total Payment: ${{ calculateTotalPrice() }}</h3>
+        <h3>Teljes végösszeg: {{ calculateTotalPrice() }}Ft</h3>
       </div>
 
       <!-- Checkout Button -->
       <div class="text-center mt-4">
-        <button (click)="proceedToCheckout()" class="btn btn-primary" [disabled]="dataFromService.productsInBasket.length === 0">Proceed to Checkout</button>
+        <button (click)="proceedToCheckout()" class="btn btn-primary" [disabled]="dataFromService.productsInBasket.length === 0">Tovább a fizetéshez</button>
       </div>
     </div>
   </div>

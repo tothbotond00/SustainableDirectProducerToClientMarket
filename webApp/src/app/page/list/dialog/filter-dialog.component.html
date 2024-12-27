@@ -5,7 +5,7 @@
       </div>
       <div class="col-8">
         <div>
-          <p class="fs-3 text-center" id="title">Filter the products!</p>
+          <p class="fs-3 text-center" id="title">Termékek szűrése</p>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
   
           <div class="col-12 text-center mb-3">
             <mat-form-field appearance="outline">
-              <mat-label>Category</mat-label>
+              <mat-label>Kategória</mat-label>
               <mat-select formControlName="category">
                 <mat-option *ngFor="let category of categories" [value]="category.id">
                   {{category.name}}
@@ -25,7 +25,7 @@
               </mat-select>
               <mat-error>
                 <span>
-                  Select a category
+                  Válassz egy kategóriát!
                 </span>
               </mat-error>
             </mat-form-field>
@@ -33,7 +33,7 @@
 
           <div class="col-12 text-center mb-3">
             <mat-form-field  appearance="outline">
-              <mat-label>Producer Name</mat-label>
+              <mat-label>Termelő neve</mat-label>
               <input matInput formControlName="prodName" type="text">
             </mat-form-field>
           </div>
@@ -65,12 +65,12 @@
       <div class="col-1"></div>
       <div class="col-5">
         <div class="d-flex justify-content-center">
-          <button (click)="onClear()" class="w-100 btn btn-secondary">Clear</button>
+          <button (click)="onClear()" class="w-100 btn btn-secondary">Reset</button>
         </div>
       </div>
       <div class="col-5">
         <div class="d-flex justify-content-center">
-          <button (click)="onSave()" class="w-100 btn btn-primary">Save</button>
+          <button (click)="onSave()" class="w-100 btn btn-primary">Mentés</button>
         </div>
       </div>
     </div>
