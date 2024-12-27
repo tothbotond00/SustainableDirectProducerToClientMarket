@@ -4,7 +4,7 @@
         <div class="row">
           <div class="col-4"></div>
           <div class="col-4">
-            <h2 id="mainTitle">Own Products</h2>
+            <h2 id="mainTitle">Saját termékek</h2>
           </div>
           <div class="col-1"></div>
           <div class="col-1 text-end">
@@ -16,7 +16,7 @@
             <div>
               <form [formGroup]="form" style="height: 100%;">
                 <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Search</mat-label>
+                    <mat-label>Keresés</mat-label>
                     <input (input)="onSearchChange($event)" formControlName="product" matInput>
                   </mat-form-field>
               </form>
@@ -27,9 +27,9 @@
 
         <div class="row justify-content-center">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-outline-dark" (click)="addNewProduct()" >New</button>
-                <button type="button" class="btn btn-outline-dark" (click)="editProduct()" [disabled]="selectedProductID === undefined">Edit</button>
-                <button type="button" class="btn btn-outline-dark" (click)="deleteProduct()" [disabled]="selectedProductID === undefined">Delete</button>
+                <button type="button" class="btn btn-outline-dark" (click)="addNewProduct()" >Új</button>
+                <button type="button" class="btn btn-outline-dark" (click)="editProduct()" [disabled]="selectedProductID === undefined">Szerkesztés</button>
+                <button type="button" class="btn btn-outline-dark" (click)="deleteProduct()" [disabled]="selectedProductID === undefined">Törlés</button>
                 <button type="button" class="btn btn-outline-dark" (click)="productInfo()" [disabled]="selectedProductID === undefined">Info</button>
             </div>
         </div>
@@ -57,7 +57,7 @@
             (click)="changePage(currentPage - 1)">
             Previous
           </button>
-          <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+          <span class="page-indicator">Oldal {{ currentPage }} / {{ totalPages }}</span>
           <button
             class="btn btn-outline-secondary"
             [disabled]="currentPage === totalPages"
