@@ -38,7 +38,7 @@ export class OwnProductComponent implements OnInit{
               private authService: AuthService,
               private dialog: MatDialog,
               private router: Router,
-              private formBuilder: FormBuilder) { 
+              private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       product: ['']
     });
@@ -49,7 +49,7 @@ export class OwnProductComponent implements OnInit{
   }
 
   refreshProducts(): void {
-    this.productService.get('user/' + this.authService.getUserId()).subscribe(data => {
+    this.productService.getProductsOfUser(this.authService.getUserId()).subscribe(data => {
       this.dataFromService = data;
       this.dataToShown = this.dataFromService;
       this.updatePagination();
@@ -130,7 +130,7 @@ export class OwnProductComponent implements OnInit{
     }
   }
 
-  openFilter() {    
+  openFilter() {
 
     const dialogRef = this.dialog.open(FilterDialogComponent, {
       width: '400px',
@@ -150,88 +150,88 @@ export class OwnProductComponent implements OnInit{
       });
     });
   }
-  
+
   applyFilter() {
-    
+
     if(this.searchValue == '') {
       if(this.filterData.priceAsc) {
         this.filteredByFilter = this.dataFromService.sort((a, b) => a.price - b.price);
       }
-  
+
       this.filteredByFilter = this.dataFromService.filter((product) => {
-  
+
         if(this.filterData.minPrice != '') {
           if(product.price < this.filterData.minPrice) {
             return false;
           }
         }
-  
+
         if(this.filterData.maxPrice != '') {
           if(product.price > this.filterData.maxPrice) {
             return false;
           }
         }
-  
+
         if(this.filterData.prodName != '') {
           if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
             return false;
           }
         }
-  
+
         if(this.filterData.category != '') {
           if(product.categoryId != this.filterData.category) {
             return false;
           }
         }
-  
+
         return true;
       });
     }
-    else {      
+    else {
       if(this.filterData.priceAsc) {
         this.filteredByFilter = this.filteredBySearch.sort((a, b) => a.price - b.price);
       }
-  
+
       this.filteredByFilter = this.filteredBySearch.filter((product) => {
-  
+
         if(this.filterData.minPrice != '') {
           if(product.price < this.filterData.minPrice) {
             return false;
           }
         }
-  
+
         if(this.filterData.maxPrice != '') {
           if(product.price > this.filterData.maxPrice) {
             return false;
           }
         }
-  
+
         if(this.filterData.prodName != '') {
           if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
             return false;
           }
         }
-  
+
         if(this.filterData.category != '') {
           if(product.categoryId != this.filterData.category) {
             return false;
           }
         }
-  
+
         return true;
       });
     }
-    
-    this.dataToShown = this.filteredByFilter;    
+
+    this.dataToShown = this.filteredByFilter;
   }
 
-  onSearchChange($event: any): void {                        
+  onSearchChange($event: any): void {
     if(this.filteredByFilter.length == 0) {
       if($event.target.value == '') {
         this.filteredBySearch = this.dataFromService;
         this.searchValue = '';
       }
-      else {                
+      else {
         this.searchValue = $event.target.value;
         if(this.searchValue == '') {
           this.filteredBySearch = this.dataFromService;
@@ -239,11 +239,11 @@ export class OwnProductComponent implements OnInit{
         } else {
           this.filteredBySearch = this.dataFromService.filter((product) => {
             return product.name.toLowerCase().includes(this.searchValue.toLowerCase());
-          });        
+          });
         }
       }
     }
-    else {      
+    else {
       if($event.target.value == '') {
         this.filteredBySearch = this.filteredByFilter;
         this.searchValue = '';
@@ -259,7 +259,7 @@ export class OwnProductComponent implements OnInit{
       }
     }
 
-    this.dataToShown = this.filteredBySearch;    
+    this.dataToShown = this.filteredBySearch;
     this.updatePagination();
   }
 

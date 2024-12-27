@@ -20,7 +20,6 @@ export class ProductComponent implements OnInit{
 
   reviews: ProductReview[] = [];
   userHasReview: boolean = false;
-  customer: boolean = false;
 
   // State for quantity and basket
   quantity: number = 1;
@@ -28,11 +27,11 @@ export class ProductComponent implements OnInit{
 
   productId?: number;
   product?: Product;
+  image?: string = undefined;
 
   userId!: number;
 
   //TODO no rating if not logged in, or producer
-  //TODO authservice, for reviews
   constructor(private productService: ProductService,
               private reviewService: ProductReviewService,
               private basketService: BasketService,
@@ -45,10 +44,9 @@ export class ProductComponent implements OnInit{
       if (params.has('id')) {
         this.productId = +(params.get('id')!);
 
-        this.productService.getOne(this.productId.toString()).subscribe(data => {
+        this.productService.getProductById(this.productId).subscribe(data => {
           this.product = data;
           console.log(data);
-
         });
 
         this.reviewService.get(this.productId.toString()).subscribe(data => {
