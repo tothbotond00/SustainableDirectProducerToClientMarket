@@ -26,6 +26,7 @@ export class ListComponent implements OnInit{
   filteredBySearch: Product[] = [];
   filteredByFilter: Product[] = [];
   dataToShown: Product[] = [];
+  searchValue: string = '';
   form: FormGroup;
   productControl: any;
 
@@ -67,15 +68,16 @@ export class ListComponent implements OnInit{
     if(this.filteredByFilter.length == 0) {
       if($event.target.value == '') {
         this.filteredBySearch = this.dataFromService;
+        this.searchValue = '';
       }
       else {                
-        const searchValue = $event.target.value;
-        if(searchValue == '') {
+        this.searchValue = $event.target.value;
+        if(this.searchValue == '') {
           this.filteredBySearch = this.dataFromService;
           return;
         } else {
           this.filteredBySearch = this.dataFromService.filter((product) => {
-            return product.name.toLowerCase().includes(searchValue.toLowerCase());
+            return product.name.toLowerCase().includes(this.searchValue.toLowerCase());
           });        
         }
       }
@@ -83,13 +85,14 @@ export class ListComponent implements OnInit{
     else {      
       if($event.target.value == '') {
         this.filteredBySearch = this.filteredByFilter;
+        this.searchValue = '';
       } else {
-        const searchValue = $event.target.value;
-        if(searchValue == '') {
+        this.searchValue = $event.target.value;
+        if(this.searchValue == '') {
           this.filteredBySearch = this.filteredByFilter;
         } else {
           this.filteredBySearch = this.filteredByFilter.filter((product) => {
-            return product.name.toLowerCase().includes(searchValue.toLowerCase());
+            return product.name.toLowerCase().includes(this.searchValue.toLowerCase());
           });
         }
       }
@@ -134,7 +137,9 @@ export class ListComponent implements OnInit{
 
   applyFilter() {
 
-    if(this.filteredBySearch.length == 0) {
+    console.log(this.searchValue);
+    
+    if(this.searchValue == '') {
       if(this.filterData.priceAsc) {
         this.filteredByFilter = this.dataFromService.sort((a, b) => a.price - b.price);
       }
@@ -169,7 +174,7 @@ export class ListComponent implements OnInit{
       });
     }
     else {
-      console.log('lefut');
+      console.log(this.filteredBySearch.length);
       
       if(this.filterData.priceAsc) {
         this.filteredByFilter = this.filteredBySearch.sort((a, b) => a.price - b.price);
@@ -204,8 +209,10 @@ export class ListComponent implements OnInit{
         return true;
       });
     }
-
+    
     this.dataToShown = this.filteredByFilter;
+    console.log(this.dataToShown);
+    
   }
 
 }
