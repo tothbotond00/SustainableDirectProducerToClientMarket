@@ -20,13 +20,13 @@
           <p *ngIf="subtitle; else NoSubtitle" id="subTitle">{{subtitle}}</p>
           <ng-template #NoSubtitle>
             <div class="alert alert-warning" role="alert">
-              No subtitle available.
+              Nincs elérhető alcím.
             </div>
           </ng-template>
   
           <!-- Introduction Section -->
           <div class="introduction mt-4">
-            <h3>About Me</h3>
+            <h3>Rólam</h3>
             <div *ngIf="description !== '';else NoDescription">
               <p>
                 {{description}}
@@ -34,14 +34,14 @@
             </div>
             <ng-template #NoDescription>
               <div class="alert alert-warning" role="alert">
-                No description available.
+                Nincs elérhető leírás.
               </div>
             </ng-template>
           </div>
   
           <!-- Additional Images Section -->
           <div class="additional-pictures mt-4">
-            <h3>Gallery</h3>
+            <h3>Galéria</h3>
             <div class="row">
               <div class="col-4">
                 <img src="/assets/farm1.jpg" alt="Product Image 1" class="img-thumbnail">
