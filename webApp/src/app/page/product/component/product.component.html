@@ -10,7 +10,7 @@
         <!-- Product Details -->
         <div class="product-details">
           <h2 id="mainTitle">{{ product.name }}</h2>
-          <p id="subTitle">Price: ${{ product.price }}</p>
+          <p id="subTitle">Ár: ${{ product.price }}</p>
         </div>
 
         <!-- Add to Basket -->
@@ -21,25 +21,31 @@
         </div>
 
         <div class="reviews mt-5">
-          <h3>Reviews</h3>
+          <h3>Értékelések</h3>
           <div *ngIf="reviews.length > 0; else noReviews">
             <div class="review mt-3" *ngFor="let review of reviews">
               <strong>{{ review.user.username }}</strong>
               <p>"{{ review.description }}"</p>
-              <p>{{review.rating}} / 5 ★</p>
-            </div>
-            <div class="row mt-3">
-              <div class="col-4"></div>
-              <button type="button" class="btn btn-secondary col-4">
-                <mat-icon>add_box</mat-icon>
+              <mat-icon *ngFor="let i of [1,2,3,4,5]" class="star">
+                {{ i <= review.rating ? 'star' : 'star_border' }}
+              </mat-icon>
+              <button *ngIf="userId == review.userId" (click)="deleteReview(review.id)" type="button" class="btn btn-danger">
+                <mat-icon>delete</mat-icon>
               </button>
-              <div class="col-4"></div>
             </div>
           </div>
           <ng-template #noReviews>
-            <p class="review mt-3">No reviews yet.</p>
+            <p class="review mt-3">Ehhez a termékhez még nem érkezett értékelés. Adj hozzá egyet!</p>
           </ng-template>
+          <div *ngIf="!userHasReview" class="row mt-3">
+            <div class="col-4"></div>
+            <button type="button" class="btn btn-secondary col-4" (click)="onAddReview()">
+              <mat-icon>add_box</mat-icon>
+            </button>
+            <div class="col-4"></div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

@@ -58,10 +58,21 @@ namespace api.Controllers
             return Ok("Product created successfully");
         }
 
-        [HttpPut]
-        public IActionResult Put([FromBody] Product product)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] ProductDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            Product product = new()
+            {
+                Id = id,
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                UserId = request.UserId,
+                CategoryId = request.CategoryId,
+                Stock = request.Stock,
+                ImageUrl = request.ImageUrl
+            };
             if (!_productRepository.UpdateProduct(product)) return BadRequest();
             return Ok("Product updated successfully");
         }

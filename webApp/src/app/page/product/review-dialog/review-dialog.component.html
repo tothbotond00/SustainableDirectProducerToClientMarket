@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-2">
+      <button (click)="close()" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div class="col-8">
+      <div>
+        <p class="fs-3 text-center" id="title">Adjon hozzá új értékelést a(z) {{product.name}} termékhez!</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div mat-dialog-content class="container d-flex justify-content-center">
+    <form [formGroup]="form">
+      <div class="row text-center">
+
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Leírás</mat-label>
+            <textarea matInput formControlName="description" type="text" rows="3" style="width: 100%"></textarea>
+            <mat-hint>5 és 100 karakter között</mat-hint>
+            <mat-error>
+              <span>
+                A leírásnak 5 és 100 karakter között kell lennie!
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="rating" type="number" min="1" max="5" hidden="hidden">
+            <div class="star-rating">
+              <mat-icon *ngFor="let i of [1,2,3,4,5]" (click)="setRating(i)" class="star">
+                {{ i <= form.get('rating')?.value ? 'star' : 'star_border' }}
+              </mat-icon>
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="text-center mb-4">
+      <button class="btn btn-dark w-100" (click)="onAddReviewClick()" [disabled]="!form.valid || disabledButton">
+        <div class="row">
+          <div *ngIf="disabledButton" class="col-1">
+            <span id="loginButton" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </div>
+          <div *ngIf="!disabledButton" class="col-1 d-flex align-items-center p-0 justify-content-center">
+            <mat-icon>add_box</mat-icon>
+          </div>
+          <div class="col-10 text-center">
+            {{buttonText}}
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      {{errorMessage}}
+    </div>
+
+    <div *ngIf="success" class="alert alert-success" role="alert">
+      Értékelés sikeresen hozzáadva!
+    </div>
+  </div>
+</div>

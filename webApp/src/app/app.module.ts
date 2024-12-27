@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AuthInterceptorService } from '@shared/common_services/auth-interceptor.service';
 
@@ -27,7 +27,6 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule
@@ -43,6 +42,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   },
   JwtHelperService,
   provideAnimationsAsync(),
+  provideHttpClient(withInterceptorsFromDi()),
   DatePipe
   ],
   bootstrap: [AppComponent]
