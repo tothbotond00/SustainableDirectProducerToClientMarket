@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../service/list.service';
-import { ExampleData } from '../../../shared/models/exampledata';
 import { Product } from '@shared/models/product';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from '../dialog/filter-dialog.component';
+import { map, Observable, startWith } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
@@ -36,18 +37,45 @@ export class ListComponent implements OnInit{
 
 
   filterData: any = {};
+  filteredProducts!: Observable<Product[]>;
+  form: FormGroup;
+  productControl: any;
 
 
   dataFromService: Product[] = [];
 
-  constructor(private listService: ListService, private router: Router, private dialog: MatDialog) {  }
+  constructor(private listService: ListService, private router: Router, private dialog: MatDialog,
+    public formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      product: ['']
+    });
+  }
 
   ngOnInit(): void {
+      // this.listService.get().subscribe(data => {
+      //     this.dataFromService = data;
+      //     this.updatePagination();
+      //     console.log(this.dataFromService);
+      // });
+
       this.listService.get().subscribe(data => {
-          this.dataFromService = data;
-          this.updatePagination();
-          console.log(this.dataFromService);
+        this.dataFromService = data;
+        this.productControl = this.form.get('product');
+        if(this.productControl) {
+          this.filteredProducts = this.productControl.valueChanges.pipe(
+            startWith(''),
+            map((value:string) => this._filter(value))
+          );
+        }
       });
+  }
+
+  private _filter(value: string): Product[] {
+    const filterValue = value.toLowerCase();
+    let results = this.dataFromService.filter((option: Product) => option.name.toLowerCase().includes(filterValue));
+
+    return results;
   }
 
   // Update the products displayed on the current page
@@ -98,6 +126,7 @@ export class ListComponent implements OnInit{
       this.listService.get().subscribe(data => {
         this.dataFromService = data;
         this.applyFilter();
+        this.form.get('product')?.setValue(this.form.get('product')?.value);
         this.updatePagination();
       });
     });

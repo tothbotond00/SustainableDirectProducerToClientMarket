@@ -9,9 +9,19 @@
         </div>
         <div class="col-1"></div>
         <div class="col-1 text-end">
-          <button (click)="openFilter()" type="button" class="btn btn-secondary w-100">
+          <button (click)="openFilter()" type="button" class="btn btn-secondary w-100 h-75">
             <mat-icon>filter_list</mat-icon>
           </button>
+        </div>
+        <div class="col-2">
+          <div>
+            <form [formGroup]="form" style="height: 100%;">
+              <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Search</mat-label>
+                  <input formControlName="product" matInput>
+                </mat-form-field>
+            </form>
+          </div>
         </div>
        </div>
 
@@ -21,7 +31,7 @@
         <div 
           style="margin: auto;"
           class="col-12 col-md-3 product-box" 
-          *ngFor="let product of paginatedProducts" 
+          *ngFor="let product of filteredProducts | async" 
           (click)="redirectToProduct(product.id)">
           <div class="product-card">
             <img [src]="product.imageUrl" alt="Product Image" class="product-image">
