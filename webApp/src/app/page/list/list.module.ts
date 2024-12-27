@@ -4,11 +4,13 @@ import { MaterialModule } from '@shared/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './component/list.component';
 import { ListRoutingModule } from './list-routing.module';
+import { FilterDialogComponent } from './dialog/filter-dialog.component';
 
 
 @NgModule({
   declarations: [
-    ListComponent
+    ListComponent,
+    FilterDialogComponent
   ],
   imports: [
     CommonModule,

@@ -66,6 +66,13 @@
   margin: 0;
 }
 
+.product-owner {
+  font-size: 14px;
+  color: rgb(50, 50, 50);
+  margin: 0;
+}
+
+
 .pagination-controls {
   display: flex;
   justify-content: center;
@@ -85,4 +92,10 @@
     color: rgb(75, 85, 99);
     margin: 0 10px;
   }
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

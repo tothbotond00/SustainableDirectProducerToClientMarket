@@ -2,10 +2,22 @@
   <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-10 col-lg-10 card">
       <!-- Products Title -->
-      <h2 id="mainTitle">Products</h2>
+       <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <h2 class="pt-2" id="mainTitle">Products</h2>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1 text-end">
+          <button (click)="openFilter()" type="button" class="btn btn-secondary w-100">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </div>
+       </div>
 
       <!-- Products Grid -->
       <div class="row product-grid">
+
         <div 
           style="margin: auto;"
           class="col-12 col-md-3 product-box" 
@@ -15,6 +27,7 @@
             <img [src]="product.imageUrl" alt="Product Image" class="product-image">
             <h4 class="product-name">{{ product.name }}</h4>
             <p class="product-price">{{ product.price }}Ft / {{product.unit}}</p>
+            <p class="product-owner">Owner: <b>{{ product.user.fullName }}</b></p>
           </div>
         </div>
       </div>

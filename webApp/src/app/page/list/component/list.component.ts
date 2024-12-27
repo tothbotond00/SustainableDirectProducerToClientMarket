@@ -3,6 +3,8 @@ import { ListService } from '../service/list.service';
 import { ExampleData } from '../../../shared/models/exampledata';
 import { Product } from '@shared/models/product';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { FilterDialogComponent } from '../dialog/filter-dialog.component';
 
 @Component({
   selector: 'app-list',
@@ -33,9 +35,12 @@ export class ListComponent implements OnInit{
   totalPages: number = 0;
 
 
+  filterData: any = {};
+
+
   dataFromService: Product[] = [];
 
-  constructor(private listService: ListService, private router: Router) {  }
+  constructor(private listService: ListService, private router: Router, private dialog: MatDialog) {  }
 
   ngOnInit(): void {
       this.listService.get().subscribe(data => {
@@ -80,4 +85,58 @@ export class ListComponent implements OnInit{
       this.router.navigate(['/product', productId]);
 
   }
+
+  openFilter() {    
+
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '400px',
+      data: this.filterData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.filterData = result;
+      this.listService.get().subscribe(data => {
+        this.dataFromService = data;
+        this.applyFilter();
+        this.updatePagination();
+      });
+    });
+  }
+
+  applyFilter() {
+
+    if(this.filterData.priceAsc) {
+      this.dataFromService = this.dataFromService.sort((a, b) => a.price - b.price);
+    }
+
+    this.dataFromService = this.dataFromService.filter((product) => {
+
+      if(this.filterData.minPrice != '') {
+        if(product.price < this.filterData.minPrice) {
+          return false;
+        }
+      }
+
+      if(this.filterData.maxPrice != '') {
+        if(product.price > this.filterData.maxPrice) {
+          return false;
+        }
+      }
+
+      if(this.filterData.prodName != '') {
+        if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
+          return false;
+        }
+      }
+
+      if(this.filterData.category != '') {
+        if(product.categoryId != this.filterData.category) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
 }

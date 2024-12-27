@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row mt-3">
+      <div class="col-2">
+        <button (click)="onCancelClick()" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+      <div class="col-8">
+        <div>
+          <p class="fs-3 text-center" id="title">Filter the products!</p>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div mat-dialog-content class="container d-flex justify-content-center">
+      <form [formGroup]="form">
+        <div class="row text-center">
+  
+          <div class="col-12 text-center mb-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category">
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <span>
+                  Select a category
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 text-center mb-3">
+            <mat-form-field  appearance="outline">
+              <mat-label>Producer Name</mat-label>
+              <input matInput formControlName="prodName" type="text">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 text-center mb-3">
+              <mat-form-field appearance="outline">
+              <mat-label>Legkisebb ár (Ft)</mat-label>
+              <input matInput formControlName="minPrice" type="number">
+              </mat-form-field>
+          </div>
+
+          <div class="col-12 text-center mb-3">
+              <mat-form-field appearance="outline">
+              <mat-label>Legnagyobb ár (Ft)</mat-label>
+              <input matInput formControlName="maxPrice" type="number">
+              </mat-form-field>
+          </div>
+
+          <div class="col-12 text-center">
+            <mat-label>Ár szerint növekvő</mat-label>
+            <mat-checkbox matInput formControlName="priceAsc"></mat-checkbox>
+          </div>    
+
+        </div>
+      </form>
+    </div>
+
+    <div class="row pb-3">
+      <div class="col-1"></div>
+      <div class="col-5">
+        <div class="d-flex justify-content-center">
+          <button (click)="onClear()" class="w-100 btn btn-secondary">Clear</button>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="d-flex justify-content-center">
+          <button (click)="onSave()" class="w-100 btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  

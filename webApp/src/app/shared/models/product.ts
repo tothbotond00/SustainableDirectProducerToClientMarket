@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Product {
   id: number = 0;
   name: string = '';
@@ -9,4 +11,5 @@ export class Product {
   unit: string = '';
   category: string = '';
   userId: number = 0;
+  user: User = new User();
 }
