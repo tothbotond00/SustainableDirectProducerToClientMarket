@@ -9,6 +9,7 @@ namespace api.Models
         public RecipeCategory? RecipeCategory { get; set; }
         public string Steps { get; set; } = string.Empty;
         public string? ImageUrl { get; set; } = string.Empty;
+        public byte[]? Image { get; set; } = null!;
         public bool IsPublished { get; set; } = false;
         public int UserId { get; set; } = 0;
         public User? User { get; set; }

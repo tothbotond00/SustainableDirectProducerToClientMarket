@@ -7,6 +7,7 @@ namespace api.Models
         public string Description { get; set; } = string.Empty;
         public float Price { get; set; } = 0;
         public string? ImageUrl { get; set; } = string.Empty;
+        public byte[]? Image { get; set; } = null!;
         public int Stock { get; set; } = 0;
         public string Unit { get; set; } = string.Empty;
         public int CategoryId { get; set; } = 0;
