@@ -3,21 +3,40 @@
       <div class="col-md-8 col-lg-6 card">
         <div class="profile-section">
           <!-- Profile Picture -->
-          <div class="text-center">
-            <img src="/assets/profile.jpg" alt="Profile Picture" class="profile-picture mb-3">
-          </div>
+           <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 text-center">
+              <img src="/assets/profile.jpg" alt="Profile Picture" class="profile-picture mb-3">
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-start">
+              <button *ngIf="isProducer" (click)="editProfile()" class="btn btn-primary">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+           </div>
   
           <!-- Producer Name -->
-          <h2 id="mainTitle">John Doe</h2>
-          <p id="subTitle">Passionate Producer | Organic Goods Supplier</p>
+          <h2 id="mainTitle">{{producerName}}</h2>
+          <p *ngIf="subtitle; else NoSubtitle" id="subTitle">{{subtitle}}</p>
+          <ng-template #NoSubtitle>
+            <div class="alert alert-warning" role="alert">
+              No subtitle available.
+            </div>
+          </ng-template>
   
           <!-- Introduction Section -->
           <div class="introduction mt-4">
             <h3>About Me</h3>
-            <p>
-              Hello! I am John Doe, a producer of high-quality organic products, dedicated to sustainable and eco-friendly farming practices.
-              My goal is to bring fresh, healthy, and delicious goods to your table while caring for the environment.
-            </p>
+            <div *ngIf="description !== '';else NoDescription">
+              <p>
+                {{description}}
+              </p>
+            </div>
+            <ng-template #NoDescription>
+              <div class="alert alert-warning" role="alert">
+                No description available.
+              </div>
+            </ng-template>
           </div>
   
           <!-- Additional Images Section -->

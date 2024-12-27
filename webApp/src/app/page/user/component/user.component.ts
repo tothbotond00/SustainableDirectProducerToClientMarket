@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../service/user.service';
-import { ExampleData } from '../../../shared/models/exampledata';
+import { ProducerData } from '@shared/models/producerData';
+import { AuthService } from '@shared/common_services/auth.service';
+import { UserDialogComponent } from '../dialog/user-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user',
@@ -14,24 +17,49 @@ export class UserComponent implements OnInit{
   producerName: string = 'John Doe';
   subtitle: string = 'Passionate Producer | Organic Goods Supplier';
   profilePicture: string = '/assets/default-profile.jpg';
-  introduction: string = `
-    Hello! I am John Doe, a producer of high-quality organic products, dedicated to sustainable and eco-friendly farming practices.
-    My goal is to bring fresh, healthy, and delicious goods to your table while caring for the environment.
-  `;
+  description: string = '';
   galleryImages: string[] = [
     '/assets/sample-product1.jpg',
     '/assets/sample-product2.jpg',
     '/assets/sample-product3.jpg'
   ];
+  isProducer: boolean = false;
 
-  dataFromService: ExampleData[] = [];
+  dataFromService: ProducerData = new ProducerData();
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private authService: AuthService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-      this.userService.get().subscribe(data => {
-          this.dataFromService = data;
-          console.log(this.dataFromService);
-      });
+    this.refreshData();
+  }
+
+  refreshData() {
+    this.userService.getOne(this.authService.getUserId().toString()).subscribe(data => {
+      console.log(data);
+      
+        this.isProducer = !data.user.isCustomer;
+        this.dataFromService = data;
+        this.producerName = data.name;
+        this.subtitle = data.profession;
+        this.description = data.description;
+    });
+  }
+
+  editProfile() {
+    const dialog = this.dialog.open(UserDialogComponent, {
+      width: '500px',
+      data: this.dataFromService
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if(result) {
+        console.log(result);
+        
+        this.userService.put('', result).subscribe(data => {
+          console.log(data);
+          this.refreshData();
+        });
+      }
+    });
   }
 }

@@ -23,6 +23,7 @@ namespace api.Data
         public DbSet<RecipeReview> RecipeReviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductInOrder> ProductInOrders { get; set; }
+        public DbSet<ProducerData> ProducerDatas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

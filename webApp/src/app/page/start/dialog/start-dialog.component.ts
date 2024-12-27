@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../shared/common_services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { UserService } from '../../user/service/user.service';
 
 @Component({
   selector: 'app-start-dialog',
@@ -18,8 +19,8 @@ export class StartDialogComponent {
   buttonText: string = 'Create account';
   disabledButton: boolean = false;
 
-  constructor(private userService: AuthService, private formBuilder: FormBuilder, public dialog: MatDialog,
-    public dialogRef: MatDialogRef<StartDialogComponent>) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, public dialog: MatDialog,
+    public dialogRef: MatDialogRef<StartDialogComponent>, private producerService: UserService) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
@@ -77,9 +78,10 @@ export class StartDialogComponent {
     
 
     setTimeout(() => {
-      this.userService.post('Signup', dataToSend).subscribe({
+      this.authService.post('Signup', dataToSend).subscribe({
         next: data => {
           this.success = true;
+
           setTimeout(() => {
             this.dialogRef.close();
           }, 3000);
