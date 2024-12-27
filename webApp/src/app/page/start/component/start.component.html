@@ -5,9 +5,9 @@
         <form [formGroup]="form">
           <div class="d-flex justify-content-center text-center card w-75">
             <div class="pb-5 mt-0">
-              <div id="mainTitle">Welcome back, please log in</div>
-              <span id="subTitle">Don't have an account? 
-              <a [routerLink]="['']" (click)="redirectToSignup()">Create now!</a>
+              <div id="mainTitle">Üdv újra, kérjük jelentkezz be!</div>
+              <span id="subTitle">Még nincsen fiókod?
+              <a [routerLink]="['']" (click)="redirectToSignup()">Készítsd el most!</a>
             </span>
             </div>
             <div class="row">
@@ -16,7 +16,7 @@
                 <input autocomplete="email"  matInput formControlName="email" type="email">
               </mat-form-field>
               <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
+                <mat-label>Jelszó</mat-label>
                 <input autocomplete="current-password" matInput formControlName="password" [type]="hide ? 'password' : 'text'">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                   [attr.aria-pressed]="hide">
@@ -24,8 +24,8 @@
                 </button>
                 </mat-form-field>
                 <mat-radio-group class="pb-3" formControlName="isCustomer" aria-label="Select an option">
-                  <mat-radio-button value="true">Customer</mat-radio-button>
-                  <mat-radio-button value="false">Producer</mat-radio-button>
+                  <mat-radio-button value="true">Fogyasztó</mat-radio-button>
+                  <mat-radio-button value="false">Termelő</mat-radio-button>
                 </mat-radio-group>
             </div>
   

@@ -16,7 +16,7 @@ export class StartComponent implements OnInit{
   form!: FormGroup;
   errorMessage: string = '';
   disabledButton: boolean = false;
-  buttonText: string = 'Sign in';
+  buttonText: string = 'Bejelentkezés';
   hide: boolean = true;
 
   constructor(public router: Router, private dialog: MatDialog,
