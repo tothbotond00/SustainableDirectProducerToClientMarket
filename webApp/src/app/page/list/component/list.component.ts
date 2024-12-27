@@ -104,7 +104,6 @@ export class ListComponent implements OnInit{
 
   getImage(): void {
     this.listService.getImage().subscribe(data => {
-      console.log(data);
     });
   }
 
@@ -125,7 +124,6 @@ export class ListComponent implements OnInit{
         return;
       }
       this.filterData = result;
-      console.log(this.filterData);
       this.listService.get().subscribe(data => {
         this.dataFromService = data;
         this.applyFilter();
@@ -136,8 +134,6 @@ export class ListComponent implements OnInit{
   }
 
   applyFilter() {
-
-    console.log(this.searchValue);
     
     if(this.searchValue == '') {
       if(this.filterData.priceAsc) {
@@ -173,9 +169,7 @@ export class ListComponent implements OnInit{
         return true;
       });
     }
-    else {
-      console.log(this.filteredBySearch.length);
-      
+    else {      
       if(this.filterData.priceAsc) {
         this.filteredByFilter = this.filteredBySearch.sort((a, b) => a.price - b.price);
       }
@@ -210,9 +204,7 @@ export class ListComponent implements OnInit{
       });
     }
     
-    this.dataToShown = this.filteredByFilter;
-    console.log(this.dataToShown);
-    
+    this.dataToShown = this.filteredByFilter;    
   }
 
 }

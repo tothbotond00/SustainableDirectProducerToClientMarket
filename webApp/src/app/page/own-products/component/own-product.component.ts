@@ -6,6 +6,8 @@ import {ProductDialogComponent} from '../product-dialog/product-dialog.component
 import {Product} from '@shared/models/product';
 import {ConfirmDeletionDialogComponent} from '../../../confirm-deletion-dialog/confirm-deletion-dialog.component';
 import {Router} from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FilterDialogComponent } from '../../list/dialog/filter-dialog.component';
 
 @Component({
   selector: 'app-own-product',
@@ -16,7 +18,7 @@ import {Router} from '@angular/router';
 export class OwnProductComponent implements OnInit{
 
   selectedProductID?: number = undefined;
-  products: Product[] = [];
+  dataFromService: Product[] = [];
 
   // Pagination properties
   paginatedProducts: Product[] = [];
@@ -24,11 +26,23 @@ export class OwnProductComponent implements OnInit{
   itemsPerPage: number = 9;
   totalPages: number = 0;
 
+  filterData: any = {};
+  filteredBySearch: Product[] = [];
+  filteredByFilter: Product[] = [];
+  dataToShown: Product[] = [];
+  searchValue: string = '';
+  form: FormGroup;
+
 
   constructor(private productService: ProductService,
               private authService: AuthService,
               private dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,
+              private formBuilder: FormBuilder) { 
+    this.form = this.formBuilder.group({
+      product: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.refreshProducts();
@@ -36,17 +50,18 @@ export class OwnProductComponent implements OnInit{
 
   refreshProducts(): void {
     this.productService.get('user/' + this.authService.getUserId()).subscribe(data => {
-      this.products = data;
+      this.dataFromService = data;
+      this.dataToShown = this.dataFromService;
       this.updatePagination();
     });
   }
 
   // Update the products displayed on the current page
   updatePagination(): void {
-    this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.dataToShown.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProducts = this.products.slice(startIndex, endIndex);
+    this.paginatedProducts = this.dataToShown.slice(startIndex, endIndex);
   }
 
   // Navigate to a specific page
@@ -79,7 +94,7 @@ export class OwnProductComponent implements OnInit{
         {
           width: '550px',
           disableClose: true,
-          data: { product: this.products.find(p => p.id === this.selectedProductID) }
+          data: { product: this.dataFromService.find(p => p.id === this.selectedProductID) }
         });
 
       //TODO fix: doesn't include the new product in the list
@@ -101,7 +116,7 @@ export class OwnProductComponent implements OnInit{
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.productService.delete('', this.selectedProductID!).subscribe(() => {
-            this.products = this.products.filter(p => p.id !== this.selectedProductID);
+            this.dataFromService = this.dataFromService.filter(p => p.id !== this.selectedProductID);
             this.updatePagination();
           });
         }
@@ -115,5 +130,137 @@ export class OwnProductComponent implements OnInit{
     }
   }
 
+  openFilter() {    
+
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '400px',
+      data: this.filterData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) {
+        return;
+      }
+      this.filterData = result;
+      this.productService.get().subscribe(data => {
+        this.dataFromService = data;
+        this.applyFilter();
+        this.form.get('product')?.setValue(this.form.get('product')?.value);
+        this.updatePagination();
+      });
+    });
+  }
+  
+  applyFilter() {
+    
+    if(this.searchValue == '') {
+      if(this.filterData.priceAsc) {
+        this.filteredByFilter = this.dataFromService.sort((a, b) => a.price - b.price);
+      }
+  
+      this.filteredByFilter = this.dataFromService.filter((product) => {
+  
+        if(this.filterData.minPrice != '') {
+          if(product.price < this.filterData.minPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.maxPrice != '') {
+          if(product.price > this.filterData.maxPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.prodName != '') {
+          if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.category != '') {
+          if(product.categoryId != this.filterData.category) {
+            return false;
+          }
+        }
+  
+        return true;
+      });
+    }
+    else {      
+      if(this.filterData.priceAsc) {
+        this.filteredByFilter = this.filteredBySearch.sort((a, b) => a.price - b.price);
+      }
+  
+      this.filteredByFilter = this.filteredBySearch.filter((product) => {
+  
+        if(this.filterData.minPrice != '') {
+          if(product.price < this.filterData.minPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.maxPrice != '') {
+          if(product.price > this.filterData.maxPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.prodName != '') {
+          if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.category != '') {
+          if(product.categoryId != this.filterData.category) {
+            return false;
+          }
+        }
+  
+        return true;
+      });
+    }
+    
+    this.dataToShown = this.filteredByFilter;    
+  }
+
+  onSearchChange($event: any): void {                        
+    if(this.filteredByFilter.length == 0) {
+      if($event.target.value == '') {
+        this.filteredBySearch = this.dataFromService;
+        this.searchValue = '';
+      }
+      else {                
+        this.searchValue = $event.target.value;
+        if(this.searchValue == '') {
+          this.filteredBySearch = this.dataFromService;
+          return;
+        } else {
+          this.filteredBySearch = this.dataFromService.filter((product) => {
+            return product.name.toLowerCase().includes(this.searchValue.toLowerCase());
+          });        
+        }
+      }
+    }
+    else {      
+      if($event.target.value == '') {
+        this.filteredBySearch = this.filteredByFilter;
+        this.searchValue = '';
+      } else {
+        this.searchValue = $event.target.value;
+        if(this.searchValue == '') {
+          this.filteredBySearch = this.filteredByFilter;
+        } else {
+          this.filteredBySearch = this.filteredByFilter.filter((product) => {
+            return product.name.toLowerCase().includes(this.searchValue.toLowerCase());
+          });
+        }
+      }
+    }
+
+    this.dataToShown = this.filteredBySearch;    
+    this.updatePagination();
+  }
 
 }
