@@ -27,6 +27,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule
@@ -42,7 +43,6 @@ import {ReactiveFormsModule} from '@angular/forms';
   },
   JwtHelperService,
   provideAnimationsAsync(),
-  provideHttpClient(),
   DatePipe
   ],
   bootstrap: [AppComponent]
