@@ -23,7 +23,9 @@ export class ListComponent implements OnInit{
 
 
   filterData: any = {};
-  filteredProducts: Product[] = [];
+  filteredBySearch: Product[] = [];
+  filteredByFilter: Product[] = [];
+  dataToShown: Product[] = [];
   form: FormGroup;
   productControl: any;
 
@@ -39,18 +41,18 @@ export class ListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.listService.get().subscribe(data => {
-          this.dataFromService = data;
-          this.filteredProducts = this.dataFromService;
-          this.updatePagination();
-      });
+    this.listService.get().subscribe(data => {
+        this.dataFromService = data;
+        this.dataToShown = this.dataFromService;
+        this.updatePagination();
+    });
   }
 
   updatePagination(): void {
-    this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.dataToShown.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
+    this.paginatedProducts = this.dataToShown.slice(startIndex, endIndex);
   }
 
   // Navigate to a specific page
@@ -61,19 +63,40 @@ export class ListComponent implements OnInit{
     }
   }
 
-  onSearchChange($event: any): void {
-    if($event.target.value == '') {
-      this.filteredProducts = this.dataFromService;
-      this.updatePagination();
-      return;
+  onSearchChange($event: any): void {                        
+    if(this.filteredByFilter.length == 0) {
+      if($event.target.value == '') {
+        this.filteredBySearch = this.dataFromService;
+      }
+      else {                
+        const searchValue = $event.target.value;
+        if(searchValue == '') {
+          this.filteredBySearch = this.dataFromService;
+          return;
+        } else {
+          this.filteredBySearch = this.dataFromService.filter((product) => {
+            return product.name.toLowerCase().includes(searchValue.toLowerCase());
+          });        
+        }
+      }
     }
-    else {
-      const searchValue = $event.target.value;
-      this.filteredProducts = this.dataFromService.filter((product) => {
-        return product.name.toLowerCase().includes(searchValue.toLowerCase());
-      });
-      this.updatePagination();
+    else {      
+      if($event.target.value == '') {
+        this.filteredBySearch = this.filteredByFilter;
+      } else {
+        const searchValue = $event.target.value;
+        if(searchValue == '') {
+          this.filteredBySearch = this.filteredByFilter;
+        } else {
+          this.filteredBySearch = this.filteredByFilter.filter((product) => {
+            return product.name.toLowerCase().includes(searchValue.toLowerCase());
+          });
+        }
+      }
     }
+
+    this.dataToShown = this.filteredBySearch;    
+    this.updatePagination();
   }
 
   getImage(): void {
@@ -95,7 +118,11 @@ export class ListComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if(!result) {
+        return;
+      }
       this.filterData = result;
+      console.log(this.filterData);
       this.listService.get().subscribe(data => {
         this.dataFromService = data;
         this.applyFilter();
@@ -107,38 +134,78 @@ export class ListComponent implements OnInit{
 
   applyFilter() {
 
-    if(this.filterData.priceAsc) {
-      this.filteredProducts = this.filteredProducts.sort((a, b) => a.price - b.price);
+    if(this.filteredBySearch.length == 0) {
+      if(this.filterData.priceAsc) {
+        this.filteredByFilter = this.dataFromService.sort((a, b) => a.price - b.price);
+      }
+  
+      this.filteredByFilter = this.dataFromService.filter((product) => {
+  
+        if(this.filterData.minPrice != '') {
+          if(product.price < this.filterData.minPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.maxPrice != '') {
+          if(product.price > this.filterData.maxPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.prodName != '') {
+          if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.category != '') {
+          if(product.categoryId != this.filterData.category) {
+            return false;
+          }
+        }
+  
+        return true;
+      });
+    }
+    else {
+      console.log('lefut');
+      
+      if(this.filterData.priceAsc) {
+        this.filteredByFilter = this.filteredBySearch.sort((a, b) => a.price - b.price);
+      }
+  
+      this.filteredByFilter = this.filteredBySearch.filter((product) => {
+  
+        if(this.filterData.minPrice != '') {
+          if(product.price < this.filterData.minPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.maxPrice != '') {
+          if(product.price > this.filterData.maxPrice) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.prodName != '') {
+          if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
+            return false;
+          }
+        }
+  
+        if(this.filterData.category != '') {
+          if(product.categoryId != this.filterData.category) {
+            return false;
+          }
+        }
+  
+        return true;
+      });
     }
 
-    this.filteredProducts = this.filteredProducts.filter((product) => {
-
-      if(this.filterData.minPrice != '') {
-        if(product.price < this.filterData.minPrice) {
-          return false;
-        }
-      }
-
-      if(this.filterData.maxPrice != '') {
-        if(product.price > this.filterData.maxPrice) {
-          return false;
-        }
-      }
-
-      if(this.filterData.prodName != '') {
-        if(!product.user.fullName.toLowerCase().includes(this.filterData.prodName.toLowerCase())) {
-          return false;
-        }
-      }
-
-      if(this.filterData.category != '') {
-        if(product.categoryId != this.filterData.category) {
-          return false;
-        }
-      }
-
-      return true;
-    });
+    this.dataToShown = this.filteredByFilter;
   }
 
 }
