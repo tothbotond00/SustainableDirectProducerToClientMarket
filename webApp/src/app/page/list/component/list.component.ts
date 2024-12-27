@@ -15,20 +15,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ListComponent implements OnInit{
 
-  // Mock product data
-  // products = [
-  //   { id: 1, name: 'Organic Honey', price: 15.99, image: '/assets/honey.jpg' },
-  //   { id: 2, name: 'Fresh Almonds', price: 12.49, image: '/assets/honey.jpg' },
-  //   { id: 3, name: 'Artisan Bread', price: 5.99, image: '/assets/honey.jpg' },
-  //   { id: 4, name: 'Organic Milk', price: 4.99, image: '/assets/honey.jpg' },
-  //   { id: 5, name: 'Homemade Jam', price: 8.99, image: '/assets/honey.jpg' },
-  //   { id: 6, name: 'Farm Fresh Eggs', price: 6.49, image: '/assets/honey.jpg' },
-  //   { id: 7, name: 'Cheddar Cheese', price: 14.99, image: '/assets/honey.jpg' },
-  //   { id: 8, name: 'Herbal Tea', price: 9.99, image: '/assets/honey.jpg' },
-  //   { id: 9, name: 'Baked Cookies', price: 10.99, image: '/assets/honey.jpg' },
-  //   { id: 10, name: 'Natural Yogurt', price: 5.49, image: '/assets/honey.jpg' }
-  // ];
-
   // Pagination properties
   paginatedProducts: Product[] = []; // Products to display on the current page
   currentPage: number = 1;
@@ -37,7 +23,7 @@ export class ListComponent implements OnInit{
 
 
   filterData: any = {};
-  filteredProducts!: Observable<Product[]>;
+  filteredProducts: Product[] = [];
   form: FormGroup;
   productControl: any;
 
@@ -53,49 +39,39 @@ export class ListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      // this.listService.get().subscribe(data => {
-      //     this.dataFromService = data;
-      //     this.updatePagination();
-      //     console.log(this.dataFromService);
-      // });
-
       this.listService.get().subscribe(data => {
-        this.dataFromService = data;
-        this.productControl = this.form.get('product');
-        if(this.productControl) {
-          this.filteredProducts = this.productControl.valueChanges.pipe(
-            startWith(''),
-            map((value:string) => this._filter(value))
-          );
-        }
+          this.dataFromService = data;
+          this.filteredProducts = this.dataFromService;
+          this.updatePagination();
       });
   }
 
-  private _filter(value: string): Product[] {
-    const filterValue = value.toLowerCase();
-    let results = this.dataFromService.filter((option: Product) => option.name.toLowerCase().includes(filterValue));
-
-    return results;
-  }
-
-  // Update the products displayed on the current page
-  // updatePagination(): void {
-  //   this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-  //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  //   const endIndex = startIndex + this.itemsPerPage;
-  //   this.paginatedProducts = this.products.slice(startIndex, endIndex);
-  // }
   updatePagination(): void {
-    this.totalPages = Math.ceil(this.dataFromService.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProducts = this.dataFromService.slice(startIndex, endIndex);    
+    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
   }
 
   // Navigate to a specific page
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  onSearchChange($event: any): void {
+    if($event.target.value == '') {
+      this.filteredProducts = this.dataFromService;
+      this.updatePagination();
+      return;
+    }
+    else {
+      const searchValue = $event.target.value;
+      this.filteredProducts = this.dataFromService.filter((product) => {
+        return product.name.toLowerCase().includes(searchValue.toLowerCase());
+      });
       this.updatePagination();
     }
   }
@@ -108,10 +84,7 @@ export class ListComponent implements OnInit{
 
   // Redirect to the product page with the corresponding ID
   redirectToProduct(productId: number): void {
-      //TODO redirect to /product/:id
-
       this.router.navigate(['/product', productId]);
-
   }
 
   openFilter() {    
@@ -135,10 +108,10 @@ export class ListComponent implements OnInit{
   applyFilter() {
 
     if(this.filterData.priceAsc) {
-      this.dataFromService = this.dataFromService.sort((a, b) => a.price - b.price);
+      this.filteredProducts = this.filteredProducts.sort((a, b) => a.price - b.price);
     }
 
-    this.dataFromService = this.dataFromService.filter((product) => {
+    this.filteredProducts = this.filteredProducts.filter((product) => {
 
       if(this.filterData.minPrice != '') {
         if(product.price < this.filterData.minPrice) {

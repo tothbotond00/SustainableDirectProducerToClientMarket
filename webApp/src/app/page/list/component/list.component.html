@@ -18,7 +18,7 @@
             <form [formGroup]="form" style="height: 100%;">
               <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Search</mat-label>
-                  <input formControlName="product" matInput>
+                  <input (input)="onSearchChange($event)" formControlName="product" matInput>
                 </mat-form-field>
             </form>
           </div>
@@ -31,7 +31,7 @@
         <div 
           style="margin: auto;"
           class="col-12 col-md-3 product-box" 
-          *ngFor="let product of filteredProducts | async" 
+          *ngFor="let product of paginatedProducts"
           (click)="redirectToProduct(product.id)">
           <div class="product-card">
             <img [src]="product.imageUrl" alt="Product Image" class="product-image">
