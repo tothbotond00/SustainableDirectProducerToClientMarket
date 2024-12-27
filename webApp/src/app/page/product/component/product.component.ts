@@ -6,6 +6,9 @@ import { ProductReview } from '@shared/models/productreview';
 import { BasketService } from '../../basket/service/basket.service';
 import { AuthService } from '@shared/common_services/auth.service';
 import { Product } from '@shared/models/product';
+import {MatDialog} from '@angular/material/dialog';
+import {ReviewDialogComponent} from '../review-dialog/review-dialog.component';
+import {ConfirmDeletionDialogComponent} from '../../../confirm-deletion-dialog/confirm-deletion-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -15,14 +18,9 @@ import { Product } from '@shared/models/product';
 })
 export class ProductComponent implements OnInit{
 
-  // Mock Reviews Data
-  // reviews = [
-  //   { user: 'Jane Doe', comment: 'Amazing product! The quality is excellent, and the taste is fantastic.' },
-  //   { user: 'John Smith', comment: 'Great value for money. Definitely will buy again.' },
-  //   { user: 'Anna Taylor', comment: 'Arrived on time and in perfect condition. Highly recommend this seller!' }
-  // ];
-
   reviews: ProductReview[] = [];
+  userHasReview: boolean = false;
+  customer: boolean = false;
 
   // State for quantity and basket
   quantity: number = 1;
@@ -31,10 +29,16 @@ export class ProductComponent implements OnInit{
   productId?: number;
   product?: Product;
 
+  userId!: number;
+
+  //TODO no rating if not logged in, or producer
   //TODO authservice, for reviews
-  constructor(private productService: ProductService, private reviewService: ProductReviewService,
-              private basketService: BasketService, private authService: AuthService,
-              private route: ActivatedRoute) { }
+  constructor(private productService: ProductService,
+              private reviewService: ProductReviewService,
+              private basketService: BasketService,
+              private authService: AuthService,
+              private route: ActivatedRoute,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -44,19 +48,23 @@ export class ProductComponent implements OnInit{
         this.productService.getOne(this.productId.toString()).subscribe(data => {
           this.product = data;
           console.log(data);
-          
+
         });
 
         this.reviewService.get(this.productId.toString()).subscribe(data => {
           console.log(data);
           this.reviews = data;
+
+          this.userId = this.authService.getUserId();
+          if (this.reviews.find(r => r.userId == this.userId))
+            this.userHasReview = true;
         });
       }
     });
   }
 
   // Handle "Add to Basket" action
-  addToBasket(): void {  
+  addToBasket(): void {
     this.basketService.post('', {userId: this.authService.getUserId(), productId: this.product?.id, quantity: this.quantity}).subscribe(data => {
       alert(data);
     });
@@ -64,12 +72,45 @@ export class ProductComponent implements OnInit{
 
   onQuantityChange($event: any): void {
     console.log('Quantity changed:', $event.target.value);
-    
+
     this.quantity = $event.target.value;
   }
 
-  // Placeholder for future review-related functionality
-  onReviewSubmit(review: string): void {
-    console.log('New review submitted:', review);
+  onAddReview(): void {
+    const dialogRef = this.dialog.open(
+      ReviewDialogComponent,
+      {
+        width: '550px',
+        disableClose: true,
+        data: { product: this.product }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.productId) {
+        this.reviewService.get(this.productId.toString()).subscribe(data => {
+          this.reviews = data;
+          this.userHasReview = true;
+        });
+      }
+    });
+  }
+
+  deleteReview(reviewId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent,
+      {
+        width: '500px',
+        disableClose: true,
+        data: { subject: 'értékelés' }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.reviewService.delete('', reviewId).subscribe(() => {
+          this.reviews = this.reviews.filter(p => p.id != reviewId);
+          this.userHasReview = false;
+        });
+      }
+    });
   }
 }

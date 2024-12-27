@@ -36,5 +36,10 @@ namespace api.Repository
             var saved = _context.SaveChanges();
             return saved >= 0 ? true : false;
         }
+
+        public async Task<User?> GetUserByUsername(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+        }
     }
 }
