@@ -4,8 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../product/service/product.service';
 import {AuthService} from '@shared/common_services/auth.service';
 import {CategoryService} from '@shared/common_services/category.service';
-import {Category} from '../../../models/category';
 import { Product } from '@shared/models/product';
+import { Category } from '@shared/models/category';
 
 
 @Component({
