@@ -16,12 +16,12 @@
       <div class="row text-center">
         <div class="col-12 text-center mb-3">
           <mat-form-field appearance="outline">
-            <mat-label>Termék neve</mat-label>
-            <input matInput formControlName="name" type="text">
+            <mat-label>Recept neve</mat-label>
+            <input matInput formControlName="title" type="text">
             <mat-hint>5 és 30 karakter között</mat-hint>
             <mat-error>
               <span>
-                A terméknévnek 5 és 30 karakter közti hosszúnak kell lennie
+                A receptnévnek 5 és 30 karakter közti hosszúnak kell lennie
               </span>
             </mat-error>
           </mat-form-field>
@@ -40,8 +40,8 @@
           </mat-form-field>
         </div>
 
-        <div *ngIf="product" class="col-12 text-center mb-3">
-          <img [src]="product.imageUrl" alt="Product Image" class="product-image">
+        <div *ngIf="recipe" class="col-12 text-center mb-3">
+          <img [src]="recipe.imageUrl" alt="Recipe Image" class="recipe-image">
         </div>
 
         <div class="col-12 text-center mb-3">
@@ -67,23 +67,12 @@
 
         <div class="col-12 text-center mb-3">
           <mat-form-field appearance="outline">
-            <mat-label>Ár (Ft)</mat-label>
-            <input matInput formControlName="price" type="number" step="0.01">
+            <mat-label>Lépések</mat-label>
+            <textarea matInput formControlName="steps" type="text"></textarea>
+            <mat-hint>10 és 1000 karakter között</mat-hint>
             <mat-error>
               <span>
-                Adj meg egy valós árat
-              </span>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-12 text-center mb-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Készlet</mat-label>
-            <input matInput formControlName="stock" type="number" step="1">
-            <mat-error>
-              <span>
-                Adj meg egy valós készletmennyiséget
+                A lépéseknek 10 és 1000 karakter közti hosszúnak kell lennie
               </span>
             </mat-error>
           </mat-form-field>
@@ -94,7 +83,7 @@
 
   <div class="container">
     <div class="text-center mb-4">
-      <button class="btn btn-dark w-100" (click)="onAddProductClick()" [disabled]="!form.valid || disabledButton">
+      <button class="btn btn-dark w-100" (click)="onAddRecipeClick()" [disabled]="!form.valid || disabledButton">
         <div class="row">
           <div *ngIf="disabledButton" class="col-1">
             <span id="loginButton" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -114,7 +103,7 @@
     </div>
 
     <div *ngIf="success" class="alert alert-success" role="alert">
-      Sikeresen {{product ? "frissített" : "hozzáadott" }} termék!
+      Sikeresen {{recipe ? "frissített" : "hozzáadott" }} termék!
     </div>
   </div>
 </div>

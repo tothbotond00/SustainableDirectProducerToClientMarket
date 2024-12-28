@@ -46,6 +46,10 @@ const routes: Routes = [
       {
         path: 'recipe-list',
         loadChildren: () => import('./page/recipe-list/recipe-list.module').then(m => m.RecipeListModule)
+      },
+      {
+        path: 'own-recipe',
+        loadChildren: () => import('./page/own-recipe/own-recipe.module').then(m => m.OwnRecipeModule)
       }
     ]
   }
