@@ -17,7 +17,7 @@ import { Category } from '@shared/models/category';
 })
 export class ProductDialogComponent implements OnInit{
 
-  product?: Product = undefined
+  product?: Product = undefined;
   form!: FormGroup;
   buttonText: string = 'Add product';
   disabledButton: boolean = false;
@@ -38,14 +38,19 @@ export class ProductDialogComponent implements OnInit{
     this.form = this.formBuilder.group({
       name: [this.product?.name ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
-      image: ['', [Validators.required]], //TODO default if modifying?
+      image: [''],
       categoryId: [this.product?.categoryId ?? '', [Validators.required]],
       price: [this.product?.price ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       stock: [this.product?.stock ?? '', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-    }) //TODO image?
+    })
   }
 
   onAddProductClick() {
+    if (!this.product && !this.selectedFile) {
+      this.form.controls['image'].setErrors({ 'incorrect': true });
+      this.errorMessage = 'Új termék esetén meg kell adni egy képet!';
+      return;
+    }
     this.buttonText = 'Betöltés...';
     this.disabledButton = true;
 
@@ -56,7 +61,7 @@ export class ProductDialogComponent implements OnInit{
     formData.append('stock', this.form.controls['stock'].value);
     formData.append('userId', this.authService.getUserId().toString());
     formData.append('categoryId', this.form.controls['categoryId'].value);
-    formData.append('image', this.selectedFile as Blob);
+    if (this.selectedFile) formData.append('image', this.selectedFile as Blob);
 
     setTimeout(() => {
       if (!this.product) {

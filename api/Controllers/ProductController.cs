@@ -44,6 +44,7 @@ namespace api.Controllers
         public async Task<IActionResult> Post([FromForm] ProductDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (request.Image == null) return BadRequest("Image is required for new product");
 
             byte[] imageData;
             using (var memoryStream = new MemoryStream())
@@ -67,21 +68,35 @@ namespace api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductDto request)
+        public async Task<IActionResult> Put(int id, [FromForm] ProductDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            Product product = new()
+
+            var existingProduct = _productRepository.GetProductById(id);
+            if (existingProduct == null) return NotFound();
+
+            byte[] imageData;
+            if (request.Image != null)
             {
-                Id = id,
-                Name = request.Name,
-                Description = request.Description,
-                Price = request.Price,
-                UserId = request.UserId,
-                CategoryId = request.CategoryId,
-                Stock = request.Stock,
-                // ImageUrl = request.ImageUrl //TODO
-            };
-            if (!_productRepository.UpdateProduct(product)) return BadRequest();
+                using var memoryStream = new MemoryStream();
+                await request.Image.CopyToAsync(memoryStream);
+                imageData = memoryStream.ToArray();
+            }
+            else
+            {
+                if (existingProduct.Image == null) return BadRequest("Product doesn't have an image, the update should contain one.");
+                imageData = existingProduct.Image;
+            }
+
+            existingProduct.Name = request.Name;
+            existingProduct.Description = request.Description;
+            existingProduct.Price = request.Price;
+            existingProduct.UserId = request.UserId;
+            existingProduct.CategoryId = request.CategoryId;
+            existingProduct.Stock = request.Stock;
+            existingProduct.Image = imageData;
+
+            if (!_productRepository.UpdateProduct(existingProduct)) return BadRequest();
             return Ok("Product updated successfully");
         }
 

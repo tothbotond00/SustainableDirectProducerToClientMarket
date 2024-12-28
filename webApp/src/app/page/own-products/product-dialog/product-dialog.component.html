@@ -40,6 +40,10 @@
           </mat-form-field>
         </div>
 
+        <div *ngIf="product" class="col-12 text-center mb-3">
+          <img [src]="product?.imageUrl" alt="Product Image" class="product-image">
+        </div>
+
         <div class="col-12 text-center mb-3">
           <label for="fileInput">Kép</label>
           <input id="fileInput" type="file" (change)="onFileSelected($event)">
