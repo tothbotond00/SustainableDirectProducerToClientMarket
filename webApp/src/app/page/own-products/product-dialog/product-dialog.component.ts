@@ -42,7 +42,7 @@ export class ProductDialogComponent implements OnInit{
       categoryId: [this.product?.categoryId ?? '', [Validators.required]],
       price: [this.product?.price ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       stock: [this.product?.stock ?? '', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-    }) //TODO image?
+    })
   }
 
   onAddProductClick() {
@@ -51,7 +51,7 @@ export class ProductDialogComponent implements OnInit{
       this.errorMessage = 'Új termék esetén meg kell adni egy képet!';
       return;
     }
-    this.buttonText = 'Várakozás...';
+    this.buttonText = 'Betöltés...';
     this.disabledButton = true;
 
     const formData = new FormData();

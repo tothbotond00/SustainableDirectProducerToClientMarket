@@ -43,7 +43,7 @@ export class StartComponent implements OnInit{
     }
 
     this.disabledButton = true;
-    this.buttonText = 'Loading...'
+    this.buttonText = 'Betöltés...'
 
     setTimeout(() => {
 
