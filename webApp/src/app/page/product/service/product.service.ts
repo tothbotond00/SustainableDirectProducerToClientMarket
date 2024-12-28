@@ -28,7 +28,8 @@ export class ProductService extends ServiceBase<Product> {
     return this.get('user/' + userId).pipe(
       map(products => {
         products.forEach(product => {
-          product.imageUrl = this.createImageFromBase64(product.image);
+          if (product.image)
+            product.imageUrl = this.createImageFromBase64(product.image);
         });
         return products;
       })
