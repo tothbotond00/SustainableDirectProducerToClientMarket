@@ -1,13 +1,10 @@
-namespace api.Models
+namespace api.Dto
 {
-    public class ProductInRecipe
+    public class ProductInRecipeDto
     {
-        public int Id { get; set; }
         public int? ProductId { get; set; }
-        public Product? Product { get; set; }
         public string? ProductName { get; set; }
         public int RecipeId { get; set; }
-        public Recipe? Recipe { get; set; }
         public int Quantity { get; set; }
     }
 }

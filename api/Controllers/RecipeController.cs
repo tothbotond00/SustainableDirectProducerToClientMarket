@@ -1,4 +1,5 @@
 
+using api.Dto;
 using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,45 +24,58 @@ namespace api.Controllers
             return Ok(recipes);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{userId}")]
+        public IActionResult Get(int userId)
         {
-            var recipe = _recipeRepository.GetRecipeByUser(id);
+            var recipe = _recipeRepository.GetRecipeByUser(userId);
             return Ok(recipe);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Recipe recipe)
+        public IActionResult Post([FromBody] RecipeDto recipe)
         {
+            Recipe newRecipe = new Recipe
+            {
+                Title = recipe.Title,
+                Description = recipe.Description,
+                RecipeCategoryId = recipe.RecipeCategoryId,
+                Steps = recipe.Steps,
+                ImageUrl = recipe.ImageUrl,
+                Image = recipe.Image,
+                IsPublished = recipe.IsPublished,
+                UserId = recipe.UserId
+            };
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.CreateRecipe(recipe)) return BadRequest();
+            if (!_recipeRepository.CreateRecipe(newRecipe)) return BadRequest();
             return Ok("Recipe created successfully");
         }
 
         [HttpPost]
         [Route("addProduct")]
-        public IActionResult AddProductToRecipe([FromBody] ProductInRecipe productInRecipe)
+        public IActionResult AddProductToRecipe([FromBody] ProductInRecipeDto productInRecipe)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.AddProductToRecipe(productInRecipe.RecipeId, productInRecipe.ProductId)) return BadRequest();
+            if (!_recipeRepository.AddProductToRecipe(productInRecipe.RecipeId, productInRecipe.ProductId, productInRecipe.ProductName, productInRecipe.Quantity)) return BadRequest();
             return Ok("Product added to recipe successfully");
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Recipe recipe)
+        public IActionResult Put([FromBody] RecipeDto recipe)
         {
+            var recipeData = new Recipe
+            {
+                Title = recipe.Title,
+                Description = recipe.Description,
+                RecipeCategoryId = recipe.RecipeCategoryId,
+                Steps = recipe.Steps,
+                ImageUrl = recipe.ImageUrl,
+                Image = recipe.Image,
+                IsPublished = recipe.IsPublished,
+                UserId = recipe.UserId
+            };
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.UpdateRecipe(recipe)) return BadRequest();
+            if (!_recipeRepository.UpdateRecipe(recipeData)) return BadRequest();
             return Ok("Recipe updated successfully");
-        }
-
-        [HttpPut]
-        [Route("updateProduct")]
-        public IActionResult UpdateProductInRecipe([FromBody] ProductInRecipe productInRecipe)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.UpdateProductInRecipe(productInRecipe)) return BadRequest();
-            return Ok("Product in recipe updated successfully");
         }
 
         [HttpDelete("{id}")]
@@ -73,9 +87,9 @@ namespace api.Controllers
 
         [HttpDelete]
         [Route("deleteProduct")]
-        public IActionResult DeleteProductInRecipe(int recipeId, int productId)
+        public IActionResult DeleteProductInRecipe(int recipeId, int? productId, string? productName)
         {
-            if (!_recipeRepository.DeleteProductInRecipe(recipeId, productId)) return BadRequest();
+            if (!_recipeRepository.DeleteProductInRecipe(recipeId, productId, productName)) return BadRequest();
             return Ok("Product deleted from recipe successfully");
         }
     }

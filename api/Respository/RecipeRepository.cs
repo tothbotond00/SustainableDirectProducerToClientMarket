@@ -37,7 +37,7 @@ namespace api.Repository
             return Save();
         }
 
-        public bool AddProductToRecipe(int recipeId, int productId)
+        public bool AddProductToRecipe(int recipeId, int? productId, string? productName, int quantity)
         {
             var recipe = _context.Recipes
                 .Include(r => r.ProductsInRecipes)
@@ -53,32 +53,59 @@ namespace api.Repository
                 recipe.ProductsInRecipes = new List<ProductInRecipe>();
             }
 
-            var productInRecipe = recipe.ProductsInRecipes?.FirstOrDefault(x => x.ProductId == productId);
-            if (productInRecipe == null)
+            if(productId == null && productName != null)
             {
-                productInRecipe = new ProductInRecipe
+                if(recipe.ProductsInRecipes == null)
                 {
-                    ProductId = productId,
-                    Quantity = 1
-                };
-                recipe.ProductsInRecipes?.Add(productInRecipe);
+                    recipe.ProductsInRecipes = new List<ProductInRecipe>();
+                }
+                var productInRecipe = recipe.ProductsInRecipes.FirstOrDefault(x => x.ProductName == productName);
+                if (productInRecipe != null)
+                {
+                    productInRecipe.Quantity += quantity;
+                    return Save();
+                }
+                else
+                {
+                    recipe.ProductsInRecipes.Add(new ProductInRecipe
+                    {
+                        ProductName = productName,
+                        Quantity = quantity
+                    });
+                }
             }
             else
             {
-                productInRecipe.Quantity++;
+                var productInRecipe = recipe.ProductsInRecipes.FirstOrDefault(x => x.ProductId == productId);
+                if (productInRecipe != null)
+                {
+                    productInRecipe.Quantity += quantity;
+                    return Save();
+                }
+                else
+                {
+                    recipe.ProductsInRecipes.Add(new ProductInRecipe
+                    {
+                        ProductId = productId,
+                        Quantity = quantity
+                    });
+                }
             }
             return Save();
         }
 
         public bool UpdateRecipe(Recipe recipe)
         {
-            _context.Recipes.Update(recipe);
-            return Save();
-        }
-
-        public bool UpdateProductInRecipe(ProductInRecipe productInRecipe)
-        {
-            _context.ProductInRecipes.Update(productInRecipe);
+            var recipeToUpdate = _context.Recipes.FirstOrDefault(x => x.Id == recipe.Id);
+            if (recipeToUpdate == null)
+            {
+                return false;
+            }
+            recipeToUpdate.Title = recipe.Title;
+            recipeToUpdate.Description = recipe.Description;
+            recipeToUpdate.RecipeCategoryId = recipe.RecipeCategoryId;
+            recipeToUpdate.Steps = recipe.Steps;
+            recipeToUpdate.IsPublished = recipe.IsPublished;
             return Save();
         }
 
@@ -97,7 +124,7 @@ namespace api.Repository
             return Save();
         }
 
-        public bool DeleteProductInRecipe(int recipeId, int productId)
+        public bool DeleteProductInRecipe(int recipeId, int? productId, string? productName)
         {
             var recipe = _context.Recipes
                 .Include(r => r.ProductsInRecipes)
@@ -108,13 +135,30 @@ namespace api.Repository
                 return false;
             }
 
-            var productInRecipe = recipe.ProductsInRecipes?.FirstOrDefault(x => x.ProductId == productId);
-            if (productInRecipe == null)
+            if(productId == null && productName != null)
             {
-                return false;
+                var productInRecipe = recipe.ProductsInRecipes?.FirstOrDefault(x => x.ProductName == productName);
+                if (productInRecipe == null)
+                {
+                    return false;
+                }
+                _context.ProductInRecipes.Remove(productInRecipe);
+            }
+            else
+            {
+                var productInRecipe = recipe.ProductsInRecipes?.FirstOrDefault(x => x.ProductId == productId);
+                if (productInRecipe == null)
+                {
+                    return false;
+                }
+                _context.ProductInRecipes.Remove(productInRecipe);
             }
 
-            _context.ProductInRecipes.Remove(productInRecipe);
+            if(recipe.ProductsInRecipes?.Count == 0)
+            {
+                recipe.ProductsInRecipes = null;
+            }
+
             return Save();
         }
 
