@@ -9,21 +9,21 @@ export abstract class ServiceBase<T> {
         this.baseUrl = apiUrl + controller;
     }
 
-    public get(endpoint: string = "", 
+    public get(endpoint: string = "",
     params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> })
     : Observable<T[]> {
 
         return this.http.get<T[]>(`${this.baseUrl}/${endpoint}`, {params});
     }
 
-    public getOne(endpoint: string = "", 
+    public getOne(endpoint: string = "",
     params?: HttpParams | { [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean> })
     : Observable<T> {
 
         return this.http.get<T>(`${this.baseUrl}/${endpoint}`, {
             headers: {
                 'Content-Type': 'application/json'
-            }, params 
+            }, params
         });
     }
 
@@ -34,7 +34,7 @@ export abstract class ServiceBase<T> {
                 'Content-Type': 'application/json'
             },
             responseType: 'blob' as 'json',
-            params, 
+            params,
         });
     }
 
@@ -60,5 +60,18 @@ export abstract class ServiceBase<T> {
             observe: 'body',
             responseType: 'text',
         });
+    }
+
+    // Converts the base64 image to a URL.
+    protected createImageFromBase64(base64Image: string): string {
+      if (!base64Image) return '/assets/no-image.jpg';
+      const byteCharacters = atob(base64Image);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+      return URL.createObjectURL(blob);
     }
 }

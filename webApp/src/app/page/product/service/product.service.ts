@@ -28,24 +28,11 @@ export class ProductService extends ServiceBase<Product> {
     return this.get('user/' + userId).pipe(
       map(products => {
         products.forEach(product => {
-          if (product.image)
-            product.imageUrl = this.createImageFromBase64(product.image);
+          product.imageUrl = this.createImageFromBase64(product.image);
         });
         return products;
       })
     );
-  }
-
-  // Converts the base64 image to a URL.
-  private createImageFromBase64(base64Image: string): string {
-    const byteCharacters = atob(base64Image);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/jpeg' });
-    return URL.createObjectURL(blob);
   }
 
 }

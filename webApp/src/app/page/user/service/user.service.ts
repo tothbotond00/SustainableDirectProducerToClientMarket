@@ -25,17 +25,4 @@ export class UserService extends ServiceBase<ProducerData> {
     );
   }
 
-  // Converts the base64 image to a URL.
-  private createImageFromBase64(base64Image: string): string {
-    if (!base64Image) return '';
-    const byteCharacters = atob(base64Image);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/jpeg' });
-    return URL.createObjectURL(blob);
-  }
-
 }

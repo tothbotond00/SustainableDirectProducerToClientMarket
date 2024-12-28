@@ -6,7 +6,7 @@
            <div class="row">
             <div class="col-4"></div>
             <div class="col-4 text-center position-relative" (click)="editPicture(0)">
-              <img [src]="producer.image_Profile_Url === '' ? '/assets/profile.jpg' : producer.image_Profile_Url" alt="Profile Picture" class="profile-picture mb-3">
+              <img [src]="producer.image_Profile_Url" alt="Profile Picture" class="profile-picture mb-3">
               <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-start">
@@ -45,15 +45,15 @@
             <h3>Galéria</h3>
             <div class="row">
               <div class="col-4 position-relative" (click)="editPicture(1)">
-                <img [src]="producer.image_One_Url === '' ? '/assets/no-image.jpg' : producer.image_One_Url" alt="Product Image 1" class="img-thumbnail">
+                <img [src]="producer.image_One_Url" alt="Product Image 1" class="img-thumbnail">
                 <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
               <div class="col-4 position-relative" (click)="editPicture(2)">
-                <img [src]="producer.image_Two_Url === '' ? '/assets/no-image.jpg' : producer.image_Two_Url" alt="Product Image 2" class="img-thumbnail">
+                <img [src]="producer.image_Two_Url" alt="Product Image 2" class="img-thumbnail">
                 <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
               <div class="col-4 position-relative" (click)="editPicture(3)">
-                <img [src]="producer.image_Three_Url === '' ? '/assets/no-image.jpg' : producer.image_Three_Url" alt="Product Image 3" class="img-thumbnail">
+                <img [src]="producer.image_Three_Url" alt="Product Image 3" class="img-thumbnail">
                 <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
             </div>

@@ -23,30 +23,17 @@ export class OwnRecipeService extends ServiceBase<Recipe> {
         })
       );
     }
-  
+
     // Gets the products of the user, with the imageUrl property filled.
     getRecipesOfUser(userId: number): Observable<Recipe[]> {
       return this.get('user/' + userId).pipe(
         map(recipes => {
           recipes.forEach(recipe => {
-            if (recipe.image)
-              recipe.imageUrl = this.createImageFromBase64(recipe.image);
+            recipe.imageUrl = this.createImageFromBase64(recipe.image);
           });
           return recipes;
         })
       );
-    }
-  
-    // Converts the base64 image to a URL.
-    private createImageFromBase64(base64Image: string): string {
-      const byteCharacters = atob(base64Image);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: 'image/jpeg' });
-      return URL.createObjectURL(blob);
     }
 
 }
