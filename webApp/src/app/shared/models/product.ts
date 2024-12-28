@@ -6,6 +6,7 @@ export class Product {
   description: string = '';
   price: number = 0;
   imageUrl: string = '';
+  image: string = '';
   stock: number = 0;
   categoryId: number = 0;
   unit: string = '';

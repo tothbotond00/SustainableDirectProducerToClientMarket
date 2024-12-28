@@ -41,9 +41,17 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] ProductDto request)
+        public async Task<IActionResult> Post([FromForm] ProductDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            byte[] imageData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await request.Image.CopyToAsync(memoryStream);
+                imageData = memoryStream.ToArray();
+            }
+
             Product product = new()
             {
                 Name = request.Name,
@@ -52,7 +60,7 @@ namespace api.Controllers
                 UserId = request.UserId,
                 CategoryId = request.CategoryId,
                 Stock = request.Stock,
-                ImageUrl = request.ImageUrl
+                Image = imageData
             };
             if (!_productRepository.CreateProduct(product)) return BadRequest();
             return Ok("Product created successfully");
@@ -71,7 +79,7 @@ namespace api.Controllers
                 UserId = request.UserId,
                 CategoryId = request.CategoryId,
                 Stock = request.Stock,
-                ImageUrl = request.ImageUrl
+                // ImageUrl = request.ImageUrl //TODO
             };
             if (!_productRepository.UpdateProduct(product)) return BadRequest();
             return Ok("Product updated successfully");

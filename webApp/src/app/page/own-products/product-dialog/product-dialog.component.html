@@ -41,6 +41,11 @@
         </div>
 
         <div class="col-12 text-center mb-3">
+          <label for="fileInput">Kép</label>
+          <input id="fileInput" type="file" (change)="onFileSelected($event)">
+        </div>
+
+        <div class="col-12 text-center mb-3">
           <mat-form-field appearance="outline">
             <mat-label>Kategória</mat-label>
             <mat-select formControlName="categoryId">

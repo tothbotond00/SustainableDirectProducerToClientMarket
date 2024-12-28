@@ -24,6 +24,7 @@ export class ProductDialogComponent implements OnInit{
   errorMessage: string = '';
   success: boolean = false;
   categories: Category[] = [];
+  selectedFile?: File;
 
   constructor(private dialogRef: MatDialogRef<ProductDialogComponent>,
               private formBuilder: FormBuilder,
@@ -37,6 +38,7 @@ export class ProductDialogComponent implements OnInit{
     this.form = this.formBuilder.group({
       name: [this.product?.name ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
+      image: ['', [Validators.required]], //TODO default if modifying?
       categoryId: [this.product?.categoryId ?? '', [Validators.required]],
       price: [this.product?.price ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       stock: [this.product?.stock ?? '', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
@@ -47,20 +49,18 @@ export class ProductDialogComponent implements OnInit{
     this.buttonText = 'Loading...';
     this.disabledButton = true;
 
-    const newProduct: any = {
-      name: this.form.controls['name'].value,
-      description: this.form.controls['description'].value,
-      price: this.form.controls['price'].value,
-      stock: this.form.controls['stock'].value,
-      userId: this.authService.getUserId(),
-      categoryId: this.form.controls['categoryId'].value
-    }
-
-    console.log(newProduct);
+    const formData = new FormData();
+    formData.append('name', this.form.controls['name'].value);
+    formData.append('description', this.form.controls['description'].value);
+    formData.append('price', this.form.controls['price'].value);
+    formData.append('stock', this.form.controls['stock'].value);
+    formData.append('userId', this.authService.getUserId().toString());
+    formData.append('categoryId', this.form.controls['categoryId'].value);
+    formData.append('image', this.selectedFile as Blob);
 
     setTimeout(() => {
       if (!this.product) {
-        this.productService.post('', newProduct).subscribe({
+        this.productService.post('', formData).subscribe({
           next: data => {
             this.success = true;
             setTimeout(() => {
@@ -80,7 +80,7 @@ export class ProductDialogComponent implements OnInit{
         });
       }
       else {
-        this.productService.put(this.product.id.toString(), newProduct).subscribe({
+        this.productService.put(this.product.id.toString(), formData).subscribe({
           next: data => {
             this.success = true;
             setTimeout(() => {
@@ -110,6 +110,19 @@ export class ProductDialogComponent implements OnInit{
     this.categoryService.get('').subscribe(data => {
       this.categories = data;
     });
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/webp', 'image/jpg'];
+      if (!validImageTypes.includes(file.type)) {
+        this.form.controls['image'].setErrors({ 'incorrect': true });
+        return;
+      }
+      this.form.controls['image'].setErrors(null);
+      this.selectedFile = file;
+    }
   }
 
 }
