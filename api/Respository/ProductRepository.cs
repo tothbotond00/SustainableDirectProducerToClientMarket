@@ -30,7 +30,10 @@ namespace api.Repository
 
         public Product? GetProductById(int ProductId)
         {
-            return _context.Products.FirstOrDefault(p => p.Id == ProductId);
+            return _context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.User)
+                .FirstOrDefault(p => p.Id == ProductId);
         }
 
         public ICollection<Product> GetProducts()
@@ -46,6 +49,7 @@ namespace api.Repository
             return _context.Products
                 .Where(p => p.UserId == UserId)
                 .Include(p => p.Reviews)
+                .Include(p => p.User)
                 .ToList();
         }
 

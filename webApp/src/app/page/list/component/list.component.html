@@ -37,7 +37,11 @@
             <img [src]="product.imageUrl" alt="Product Image" class="product-image">
             <h4 class="product-name">{{ product.name }}</h4>
             <p class="product-price">{{ product.price }}Ft / {{product.unit}}</p>
-            <p class="product-owner">Termelő: <b>{{ product.user.fullName }}</b></p>
+            <p class="product-owner">
+              <a (click)="redirectToProducer(product.user.id)">
+                Termelő: <b>{{ product.user.fullName }}</b>
+              </a>
+            </p>
           </div>
         </div>
       </div>

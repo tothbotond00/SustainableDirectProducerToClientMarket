@@ -112,6 +112,10 @@ export class ListComponent implements OnInit{
       this.router.navigate(['/product', productId]);
   }
 
+  redirectToProducer(producerId: number): void {
+    this.router.navigate(['/user', producerId]);
+  }
+
   openFilter() {    
 
     const dialogRef = this.dialog.open(FilterDialogComponent, {

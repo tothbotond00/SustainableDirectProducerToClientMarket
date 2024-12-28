@@ -62,7 +62,7 @@ export class StartComponent implements OnInit{
         error: error => {
           this.errorMessage = error.error;
           this.disabledButton = false;
-          this.buttonText = 'Sign in';
+          this.buttonText = 'Bejelentkezés';
           setTimeout(() => {
             this.errorMessage = '';
           }, 5000);
