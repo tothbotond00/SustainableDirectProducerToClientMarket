@@ -46,7 +46,7 @@ export class ProductDialogComponent implements OnInit{
   }
 
   onAddProductClick() {
-    this.buttonText = 'Loading...';
+    this.buttonText = 'Betöltés...';
     this.disabledButton = true;
 
     const formData = new FormData();

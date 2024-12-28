@@ -11,7 +11,11 @@
         <div class="product-details">
           <h2 id="mainTitle">{{ product.name }}</h2>
           <p id="subTitle">Ár: ${{ product.price }}</p>
-          <p id="producer">Termelő: <b>{{product.user.fullName}}</b></p>
+          <p id="producer">
+            <a (click)="redirectToProducer(product.user.id)" class="linked-producer">
+              Termelő: <b>{{product.user.fullName}}</b>
+            </a>
+          </p>
         </div>
 
         <!-- Add to Basket -->

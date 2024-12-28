@@ -4,6 +4,7 @@ import { ProducerData } from '@shared/models/producerData';
 import { AuthService } from '@shared/common_services/auth.service';
 import { UserDialogComponent } from '../dialog/user-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -27,17 +28,43 @@ export class UserComponent implements OnInit{
 
   dataFromService: ProducerData = new ProducerData();
 
-  constructor(private userService: UserService, private authService: AuthService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private authService: AuthService, private dialog: MatDialog, 
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.refreshData();
+
+    this.route.paramMap.subscribe(params => {
+      if (params.has('id')) {
+        this.userService.getOne(params.get('id')!).subscribe(data => {
+          if(!data.user.isCustomer) {
+
+            console.log(data);
+            this.isProducer = !this.authService.isCustomer();
+            this.dataFromService = data;
+            this.producerName = data.name;
+            this.subtitle = data.profession;
+            this.description = data.description;
+          }
+          else {
+            location.href = '/list';
+          }
+        });
+      } else {
+        this.refreshData();
+      }
+    });
+
+
+
+    //this.refreshData();
   }
 
   refreshData() {
     this.userService.getOne(this.authService.getUserId().toString()).subscribe(data => {
       console.log(data);
       
-        this.isProducer = !data.user.isCustomer;
+        this.isProducer = !this.authService.isCustomer();
         this.dataFromService = data;
         this.producerName = data.name;
         this.subtitle = data.profession;

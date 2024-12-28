@@ -61,7 +61,7 @@ export class StartDialogComponent {
 
   /// Signup the user
   onSignupClick() {
-    this.buttonText = 'Loading...';
+    this.buttonText = 'Betöltés...';
     this.disabledButton = true;
     
     let dataToSend : any = {

@@ -117,6 +117,7 @@ export class OwnProductComponent implements OnInit{
         if (result) {
           this.productService.delete('', this.selectedProductID!).subscribe(() => {
             this.dataFromService = this.dataFromService.filter(p => p.id !== this.selectedProductID);
+            this.refreshProducts();
             this.updatePagination();
           });
         }

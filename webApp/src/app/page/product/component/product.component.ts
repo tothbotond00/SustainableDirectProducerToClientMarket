@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../service/product.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ProductReviewService } from '../service/product-review.service';
 import { ProductReview } from '@shared/models/productreview';
 import { BasketService } from '../../basket/service/basket.service';
@@ -37,7 +37,8 @@ export class ProductComponent implements OnInit{
               private basketService: BasketService,
               private authService: AuthService,
               private route: ActivatedRoute,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -110,5 +111,9 @@ export class ProductComponent implements OnInit{
         });
       }
     });
+  }
+
+  redirectToProducer(producerId: number): void {
+    this.router.navigate(['/user', producerId]);
   }
 }
