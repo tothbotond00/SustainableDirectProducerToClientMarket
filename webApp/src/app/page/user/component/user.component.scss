@@ -11,11 +11,11 @@
     padding: 20px;
     box-shadow: 5px 5px 15px #888888;
   }
-  
+
   .profile-section {
     text-align: center;
   }
-  
+
   .profile-picture {
     width: 150px;
     height: 150px;
@@ -23,7 +23,7 @@
     object-fit: cover;
     border: 3px solid #ddd;
   }
-  
+
   #mainTitle {
     text-align: center;
     font-weight: 700;
@@ -32,37 +32,37 @@
     color: rgb(75, 85, 99);
     margin-bottom: 15px;
   }
-  
+
   #subTitle {
     text-align: center;
     font-size: 16px;
     color: rgb(75, 85, 99);
     margin-bottom: 20px;
   }
-  
+
   .introduction h3 {
     font-size: 20px;
     color: rgb(75, 85, 99);
     margin-bottom: 10px;
   }
-  
+
   .introduction p {
     font-size: 14px;
     color: rgb(85, 85, 85);
     line-height: 1.6;
     margin-bottom: 20px;
   }
-  
+
   .additional-pictures h3 {
     font-size: 20px;
     color: rgb(75, 85, 99);
     margin-bottom: 15px;
   }
-  
+
   .additional-pictures .row {
     justify-content: center;
   }
-  
+
   .additional-pictures img {
     width: 100%;
     height: auto;
@@ -70,9 +70,29 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
   }
-  
+
   button {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.edit-icon {
+  width: 20px;
+  height: 20px;
+  color: white;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+}
+
+.position-relative:hover .edit-icon {
+  display: block;
 }

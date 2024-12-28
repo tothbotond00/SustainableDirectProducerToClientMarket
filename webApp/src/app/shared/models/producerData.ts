@@ -6,10 +6,13 @@ export class ProducerData {
     name: string = '';
     profession: string = '';
     image_One: string = '';
+    image_One_Url: string = '';
     image_Two: string = '';
+    image_Two_Url: string = '';
     image_Three: string = '';
+    image_Three_Url: string = '';
     image_Profile: string = '';
-    imageUrl: string = '';
+    image_Profile_Url: string = '';
     userId: number = 0;
     user: User = new User();
 }

@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-2">
+      <button (click)="onCancelClick()" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div class="col-8">
+      <div>
+        <p class="fs-3 text-center" id="title">Tölts fel egy új képet!</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div mat-dialog-content class="container d-flex justify-content-center">
+    <form [formGroup]="form">
+      <div class="row text-center">
+
+        <div *ngIf="url !== ''" class="col-12 text-center mb-3">
+          <img src="{{url}}">
+        </div>
+
+        <div class="col-12 text-center mb-3">
+          <label for="fileInput">Kép</label>
+          <input id="fileInput" type="file" (change)="onFileSelected($event)">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <div class="d-flex justify-content-center">
+        <button (click)="onSave()" class="w-100 btn btn-primary">Mentés</button>
+      </div>
+      <div class="col-4"></div>
+    </div>
+
+  </div>
+</div>

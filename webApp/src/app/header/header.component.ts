@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit{
 
   constructor(public authService: AuthService, private router: Router, private dialog: MatDialog) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     if(this.authService.isAuthenticated()) {
       this.hidden = false;
     }
@@ -34,9 +34,8 @@ export class HeaderComponent implements OnInit{
     return this.router.url == '/';
   }
 
-  isCustomer() {    
-    
-    return this.authService.isCustomer() == 'True';
+  isCustomer() {
+    return this.authService.isCustomer();
   }
 
   /// Check the current route to activate the link

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { AuthService } from '../../../shared/common_services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { Category } from '@shared/models/category';
   styleUrl: './user-dialog.component.scss',
   standalone: false
 })
-export class UserDialogComponent {
+export class UserDialogComponent implements OnInit {
 
   form!: FormGroup;
   errorMessage: string = '';
@@ -21,8 +21,8 @@ export class UserDialogComponent {
     public dialogRef: MatDialogRef<UserDialogComponent>, private categoryService: CategoryService, @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService) {
     console.log(data);
-    
-        this.form = this.formBuilder.group({        
+
+        this.form = this.formBuilder.group({
         name: [data.name ?? ''],
         description: [data.description ?? ''],
         profession: [data.profession ?? ''],
@@ -40,7 +40,7 @@ export class UserDialogComponent {
     if (this.form.valid) {
       let dataToSend = {userId: this.authService.getUserId().toString(), ...this.form.value};
       console.log(dataToSend);
-      
+
       this.dialogRef.close(dataToSend);
     }
   }

@@ -1,35 +1,36 @@
 <div class="container-fluid">
     <div class="row justify-content-center align-items-center h-100">
       <div class="col-md-8 col-lg-6 card">
-        <div class="profile-section">
+        <div *ngIf="producer !== undefined; else undefinedProducer" class="profile-section">
           <!-- Profile Picture -->
            <div class="row">
             <div class="col-4"></div>
-            <div class="col-4 text-center">
-              <img src="/assets/profile.jpg" alt="Profile Picture" class="profile-picture mb-3">
+            <div class="col-4 text-center position-relative" (click)="editPicture(0)">
+              <img [src]="producer.image_Profile_Url === '' ? '/assets/profile.jpg' : producer.image_Profile_Url" alt="Profile Picture" class="profile-picture mb-3">
+              <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-start">
-              <button *ngIf="isProducer" (click)="editProfile()" class="btn btn-primary">
+              <button *ngIf="isOwn" (click)="editProfile()" class="btn btn-primary">
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
            </div>
-  
+
           <!-- Producer Name -->
-          <h2 id="mainTitle">{{producerName}}</h2>
-          <p *ngIf="subtitle; else NoSubtitle" id="subTitle">{{subtitle}}</p>
+          <h2 id="mainTitle">{{producer.name}}</h2>
+          <p *ngIf="producer.profession; else NoSubtitle" id="subTitle">{{producer.profession}}</p>
           <ng-template #NoSubtitle>
             <div class="alert alert-warning" role="alert">
-              Nincs elérhető alcím.
+              Nincs elérhető foglalkozás.
             </div>
           </ng-template>
-  
+
           <!-- Introduction Section -->
           <div class="introduction mt-4">
             <h3>Rólam</h3>
-            <div *ngIf="description !== '';else NoDescription">
+            <div *ngIf="producer.description !== '';else NoDescription">
               <p>
-                {{description}}
+                {{producer.description}}
               </p>
             </div>
             <ng-template #NoDescription>
@@ -38,19 +39,22 @@
               </div>
             </ng-template>
           </div>
-  
+
           <!-- Additional Images Section -->
           <div class="additional-pictures mt-4">
             <h3>Galéria</h3>
             <div class="row">
-              <div class="col-4">
-                <img src="/assets/farm1.jpg" alt="Product Image 1" class="img-thumbnail">
+              <div class="col-4 position-relative" (click)="editPicture(1)">
+                <img [src]="producer.image_One_Url === '' ? '/assets/no-image.jpg' : producer.image_One_Url" alt="Product Image 1" class="img-thumbnail">
+                <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
-              <div class="col-4">
-                <img src="/assets/farm2.jpg" alt="Product Image 2" class="img-thumbnail">
+              <div class="col-4 position-relative" (click)="editPicture(2)">
+                <img [src]="producer.image_Two_Url === '' ? '/assets/no-image.jpg' : producer.image_Two_Url" alt="Product Image 2" class="img-thumbnail">
+                <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
-              <div class="col-4">
-                <img src="/assets/farm3.jpg" alt="Product Image 3" class="img-thumbnail">
+              <div class="col-4 position-relative" (click)="editPicture(3)">
+                <img [src]="producer.image_Three_Url === '' ? '/assets/no-image.jpg' : producer.image_Three_Url" alt="Product Image 3" class="img-thumbnail">
+                <mat-icon class="edit-icon" *ngIf="isOwn">edit</mat-icon>
               </div>
             </div>
           </div>
@@ -58,4 +62,7 @@
       </div>
     </div>
   </div>
-  
+
+<ng-template #undefinedProducer>
+  <p>A keresett termelő nem található.</p>
+</ng-template>
