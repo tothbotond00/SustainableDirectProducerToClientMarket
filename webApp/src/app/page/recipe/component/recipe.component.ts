@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '@shared/common_services/auth.service';
 import {MatDialog} from '@angular/material/dialog';
 import {IngredientDialogComponent} from '../ingredient-dialog/ingredient-dialog.component';
+import { BasketService } from '../../basket/service/basket.service';
 
 @Component({
   selector: 'app-recipe',
@@ -22,7 +23,8 @@ export class RecipeComponent implements OnInit{
               private route: ActivatedRoute,
               private authService: AuthService,
               private router: Router,
-              private dialog: MatDialog,) { }
+              private dialog: MatDialog,
+              private basketService: BasketService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -63,14 +65,29 @@ export class RecipeComponent implements OnInit{
       const basketItems = this.recipe.productsInRecipes
         .filter(ingredient => ingredient.productId)
         .map(ingredient => ({
+          userId: Number(this.authService.getUserId()),
           productId: ingredient.productId,
-          productName: ingredient.productName,
-          price: ingredient.product?.price,
           quantity: 1
         }));
 
-      console.log('Adding recipe ingredients to basket:', basketItems);
-      alert('All ingredients have been added to your basket!');
+        console.log(basketItems);
+
+      let finished = 0;
+      basketItems.forEach(item => {
+        this.basketService.post('', item).subscribe(data => {
+          finished++;
+          if (finished == basketItems.length) {
+            console.log('Adding recipe ingredients to basket:', basketItems);
+            alert('All ingredients have been added to your basket!');
+          }
+        });
+      });
+        
+
+      // this.basketService.post('', basketItems[0]).subscribe(data => {
+      //   console.log('Adding recipe ingredients to basket:', basketItems);
+      //   alert('All ingredients have been added to your basket!');
+      // });
     }
   }
 

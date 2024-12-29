@@ -68,7 +68,7 @@ export class BasketComponent implements OnInit{
 
   removeFromBasket(productId: number): void {
     this.basketService.delete(this.authService.getUserId().toString(), productId).subscribe(data => {
-      this.basketService.getOne(this.authService.getUserId().toString()).subscribe(data => {
+      this.basketService.getProducts(this.authService.getUserId()).subscribe(data => {
         this.dataFromService = data;
       });
     });

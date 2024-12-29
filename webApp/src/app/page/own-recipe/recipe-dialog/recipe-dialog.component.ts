@@ -33,13 +33,15 @@ export class RecipeDialogComponent implements OnInit{
               private categoryService: CategoryRecipeService,
               @Inject(MAT_DIALOG_DATA) public data: { recipe?: Recipe }) {
 
+    console.log(data.recipe?.categoryId);
+    
     this.recipe = data.recipe;
     if (this.recipe) this.buttonText = 'Recept frissítése';
     this.form = this.formBuilder.group({
       title: [this.recipe?.title ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.recipe?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
       image: [''],
-      categoryId: [this.recipe?.categoryId ?? '', [Validators.required]],
+      categoryId: [this.recipe?.recipeCategoryId ?? '', [Validators.required]],
       steps : [this.recipe?.steps ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
     })
   }
