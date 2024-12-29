@@ -16,7 +16,7 @@ import {ImageDialogComponent} from '../image-dialog/image-dialog.component';
 export class UserComponent implements OnInit{
 
   producer?: ProducerData;
-  isOwn: boolean = false;
+  isOwn: boolean = true;
 
   constructor(private userService: UserService, private authService: AuthService, private dialog: MatDialog,
     private route: ActivatedRoute
@@ -29,7 +29,7 @@ export class UserComponent implements OnInit{
           if(!data.user.isCustomer) {
             console.log(data);
             this.producer = data;
-            this.isOwn = !this.authService.isCustomer() && this.authService.getUserId() === data.user.id;
+            this.isOwn = !this.authService.isCustomer() && Number(this.authService.getUserId()) === Number(data.user.id);            
           }
           else {
             location.href = '/list';
@@ -43,9 +43,9 @@ export class UserComponent implements OnInit{
 
   refreshData() {
     this.userService.getProducerData(this.authService.getUserId()).subscribe(data => {
-      console.log(data);
-      this.isOwn = !this.authService.isCustomer() && this.authService.getUserId() === data.user.id;
-      this.producer = data;
+      console.log();
+      this.isOwn = !this.authService.isCustomer() && Number(this.authService.getUserId()) === Number(data.user.id);
+      this.producer = data;      
     });
   }
 
