@@ -42,7 +42,7 @@ export class ListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.listService.getProducts().subscribe(data => {
+    this.listService.getProducts().subscribe(data => {   
         this.dataFromService = data;
         this.dataToShown = this.dataFromService;
         this.updatePagination();
@@ -54,6 +54,8 @@ export class ListComponent implements OnInit{
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedProducts = this.dataToShown.slice(startIndex, endIndex);
+    console.log(this.paginatedProducts);
+    
   }
 
   // Navigate to a specific page
@@ -128,7 +130,7 @@ export class ListComponent implements OnInit{
         return;
       }
       this.filterData = result;
-      this.listService.get().subscribe(data => {
+      this.listService.getProducts().subscribe(data => {        
         this.dataFromService = data;
         this.applyFilter();
         this.form.get('product')?.setValue(this.form.get('product')?.value);
