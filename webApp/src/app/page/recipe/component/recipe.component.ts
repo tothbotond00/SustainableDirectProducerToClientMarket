@@ -12,8 +12,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class RecipeComponent implements OnInit{
 
   recipeid = 0;
+  recipe?: Recipe = undefined;
 
-  recipe = {
+  recipeTmp = {
     id: 10,
     name: 'Almás Pite',
     description: 'Egy klasszikus desszert almával, fahéjjal és vajas tésztakéreggel.',
@@ -155,22 +156,25 @@ export class RecipeComponent implements OnInit{
 
   constructor(private recipeService: RecipeService, private route: ActivatedRoute) { }
 
+  //TODO get category
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       if (params.has('id')) {
         this.recipeid = +(params.get('id')!);
-      this.recipeService.get().subscribe(data => {
-          this.dataFromService = data;
-          console.log(this.dataFromService);
-      });
-      const foundRecipe = this.recipes.find(recipe => recipe.id === this.recipeid);
-      if (foundRecipe) {
-        this.recipe = foundRecipe;
-      } else {
-        console.error(`Recipe with id ${this.recipeid} not found.`);
+        this.recipeService.getRecipeById(this.recipeid).subscribe(data => {
+            this.recipe = data;
+            console.log(this.recipe);
+        });
+        //TODO remove with the burnt-in data
+        const foundRecipe = this.recipes.find(recipe => recipe.id === this.recipeid);
+        if (foundRecipe) {
+          this.recipeTmp = foundRecipe;
+        } else {
+          console.error(`Recipe with id ${this.recipeid} not found.`);
+        }
       }
-  }
-  })};
+    });
+  };
 
   // Redirect to the product page for a specific ingredient
   redirectToProduct(productId: number): void {
@@ -179,14 +183,14 @@ export class RecipeComponent implements OnInit{
 
   // Calculate the total price of the recipe based on linked product prices
   calculateRecipePrice(): number {
-    return this.recipe.ingredients
+    return this.recipeTmp.ingredients
       .filter(ingredient => ingredient.price)
       .reduce((total, ingredient: any) => total + ingredient.price, 0);
   }
 
   // Add all linked products to the basket
   addRecipeToBasket(): void {
-    const basketItems = this.recipe.ingredients
+    const basketItems = this.recipeTmp.ingredients
       .filter(ingredient => ingredient.productId)
       .map(ingredient => ({
         productId: ingredient.productId,

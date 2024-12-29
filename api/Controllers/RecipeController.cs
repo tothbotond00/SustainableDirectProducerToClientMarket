@@ -24,29 +24,45 @@ namespace api.Controllers
             return Ok(recipes);
         }
 
-        [HttpGet("{userId}")]
-        public IActionResult Get(int userId)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            var recipe = _recipeRepository.GetRecipeByUser(userId);
+            var recipe = _recipeRepository.GetRecipeById(id);
+            if (recipe == null) return NotFound();
             return Ok(recipe);
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] RecipeDto recipe)
+        [HttpGet("user/{userId}")]
+        public IActionResult GetByUserId(int userId)
         {
-            Recipe newRecipe = new Recipe
-            {
-                Title = recipe.Title,
-                Description = recipe.Description,
-                RecipeCategoryId = recipe.RecipeCategoryId,
-                Steps = recipe.Steps,
-                ImageUrl = recipe.ImageUrl,
-                Image = recipe.Image,
-                IsPublished = recipe.IsPublished,
-                UserId = recipe.UserId
-            };
+            var recipes = _recipeRepository.GetRecipesByUser(userId);
+            return Ok(recipes);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] RecipeDto request)
+        {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.CreateRecipe(newRecipe)) return BadRequest();
+            if (request.Image == null) return BadRequest("Image is required for new recipe");
+
+            byte[] imageData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await request.Image.CopyToAsync(memoryStream);
+                imageData = memoryStream.ToArray();
+            }
+
+            Recipe recipe = new Recipe
+            {
+                Title = request.Title,
+                Description = request.Description,
+                RecipeCategoryId = request.RecipeCategoryId,
+                Steps = request.Steps,
+                Image = imageData,
+                IsPublished = request.IsPublished,
+                UserId = request.UserId
+            };
+            if (!_recipeRepository.CreateRecipe(recipe)) return BadRequest();
             return Ok("Recipe created successfully");
         }
 
@@ -59,22 +75,35 @@ namespace api.Controllers
             return Ok("Product added to recipe successfully");
         }
 
-        [HttpPut]
-        public IActionResult Put([FromBody] RecipeDto recipe)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromForm] RecipeDto request)
         {
-            var recipeData = new Recipe
-            {
-                Title = recipe.Title,
-                Description = recipe.Description,
-                RecipeCategoryId = recipe.RecipeCategoryId,
-                Steps = recipe.Steps,
-                ImageUrl = recipe.ImageUrl,
-                Image = recipe.Image,
-                IsPublished = recipe.IsPublished,
-                UserId = recipe.UserId
-            };
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (!_recipeRepository.UpdateRecipe(recipeData)) return BadRequest();
+
+            var existingRecipe = _recipeRepository.GetRecipeById(id);
+            if (existingRecipe == null) return NotFound();
+
+            byte[] imageData;
+            if (request.Image != null)
+            {
+                using var memoryStream = new MemoryStream();
+                request.Image.CopyTo(memoryStream);
+                imageData = memoryStream.ToArray();
+            }
+            else
+            {
+                if (existingRecipe.Image == null) return BadRequest("Recipe does not have an image, the update should contain one.");
+                imageData = existingRecipe.Image;
+            }
+
+            existingRecipe.Title = request.Title;
+            existingRecipe.Description = request.Description;
+            existingRecipe.RecipeCategoryId = request.RecipeCategoryId;
+            existingRecipe.Steps = request.Steps;
+            existingRecipe.Image = imageData;
+            existingRecipe.IsPublished = request.IsPublished;
+
+            if (!_recipeRepository.UpdateRecipe(existingRecipe)) return BadRequest();
             return Ok("Recipe updated successfully");
         }
 

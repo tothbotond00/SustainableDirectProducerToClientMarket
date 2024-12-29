@@ -23,12 +23,22 @@ namespace api.Repository
                 .ToList();
         }
 
-        public Recipe? GetRecipeByUser(int userId)
+        public Recipe? GetRecipeById(int id)
         {
             return _context.Recipes
                 .Include(r => r.ProductsInRecipes!)
                 .ThenInclude(p => p.Product)
-                .FirstOrDefault(x => x.UserId == userId);
+                .Include(r => r.Reviews)
+                .FirstOrDefault(r => r.Id == id);
+        }
+
+        public ICollection<Recipe> GetRecipesByUser(int userId)
+        {
+            return _context.Recipes
+                .Where(r => r.UserId == userId)
+                .Include(r => r.ProductsInRecipes!)
+                .ThenInclude(p => p.Product)
+                .ToList();
         }
 
         public bool CreateRecipe(Recipe recipe)
