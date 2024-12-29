@@ -3,7 +3,7 @@
     <div class="col-md-8 col-lg-6 card">
       <!-- Product Image -->
       <div class="text-center">
-        <img src="/assets/honey.jpg" alt="Product Image" class="product-image mb-3">
+        <img [src]="recipe.recipeUrl" alt="Product Image" class="product-image mb-3">
       </div>
 
       <!-- Recipe Title -->
@@ -17,7 +17,7 @@
           <li *ngFor="let ingredient of recipe.ingredients">
             <ng-container *ngIf="ingredient.productId; else simpleIngredient">
               <a (click)="redirectToProduct(ingredient.productId)" class="linked-ingredient">
-                {{ ingredient.name }} ({{ ingredient.supplier }}) - ${{ ingredient.price }}
+                {{ ingredient.name }} ({{ ingredient.supplier }}) - {{ ingredient.price }} Ft
               </a>
             </ng-container>
             <ng-template #simpleIngredient>
@@ -29,12 +29,12 @@
 
       <!-- Price Section -->
       <div class="price-section mt-4">
-        <h3>Total Price: ${{ calculateRecipePrice() }}</h3>
+        <h3>Teljes ár: {{ calculateRecipePrice() }} Ft</h3>
       </div>
 
       <!-- Add to Basket Button -->
       <div class="text-center mt-4">
-        <button class="btn btn-primary" (click)="addRecipeToBasket()">Add All Ingredients to Basket</button>
+        <button class="btn btn-primary" (click)="addRecipeToBasket()">Összes hozzávaló a kosárhoz adása</button>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-10 col-lg-10 card">
       <!-- Recipes Title -->
-      <h2 id="mainTitle">Recipes</h2>
+      <h2 id="mainTitle">Receptek</h2>
 
       <!-- Recipes Grid -->
       <div class="row recipe-grid">
@@ -24,14 +24,14 @@
           class="btn btn-outline-secondary" 
           [disabled]="currentPage === 1" 
           (click)="changePage(currentPage - 1)">
-          Previous
+          Előző
         </button>
         <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
         <button 
           class="btn btn-outline-secondary" 
           [disabled]="currentPage === totalPages" 
           (click)="changePage(currentPage + 1)">
-          Next
+          Következő
         </button>
       </div>
     </div>

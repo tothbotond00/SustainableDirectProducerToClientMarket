@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeListService } from '../service/recipe-list.service';
 import { ExampleData } from '../../../shared/models/exampledata';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -12,17 +13,17 @@ export class RecipeListComponent implements OnInit{
 
   // Mock recipe data
   recipes = [
-    { id: 1, name: 'Spaghetti Carbonara', description: 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.' },
-    { id: 2, name: 'Chicken Curry', description: 'A flavorful and spicy Indian dish made with chicken and aromatic spices.' },
-    { id: 3, name: 'Greek Salad', description: 'A refreshing salad with tomatoes, cucumbers, olives, feta cheese, and olive oil.' },
-    { id: 4, name: 'Beef Stroganoff', description: 'A creamy Russian dish made with sautéed beef and mushrooms in a sour cream sauce.' },
-    { id: 5, name: 'Vegetable Stir-fry', description: 'A quick and healthy dish made with fresh vegetables stir-fried in a savory sauce.' },
-    { id: 6, name: 'Chocolate Cake', description: 'A rich and moist dessert made with cocoa and topped with chocolate frosting.' },
-    { id: 7, name: 'Caesar Salad', description: 'A salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.' },
-    { id: 8, name: 'Grilled Salmon', description: 'A simple and delicious dish of salmon fillets grilled to perfection.' },
-    { id: 9, name: 'Tacos', description: 'A Mexican dish made with folded tortillas filled with meat, cheese, and vegetables.' },
-    { id: 10, name: 'Apple Pie', description: 'A classic dessert made with apples, cinnamon, and a flaky pastry crust.' }
-  ];
+    { "id": 1, "name": "Spaghetti Carbonara", "description": "Egy klasszikus olasz tésztaétel, tojással, sajttal, pancettával és borssal." },
+    { "id": 2, "name": "Csirke Curry", "description": "Egy ízletes és fűszeres indiai étel csirkével és aromás fűszerekkel." },
+    { "id": 3, "name": "Görög Saláta", "description": "Egy frissítő saláta paradicsommal, uborkával, olívabogyóval, feta sajttal és olívaolajjal." },
+    { "id": 4, "name": "Marha Stroganoff", "description": "Egy krémes orosz étel, pirított marhahússal és gombával, tejfölös szószban." },
+    { "id": 5, "name": "Zöldség Wok", "description": "Egy gyors és egészséges étel, friss zöldségekkel, pirítva egy ízletes szószban." },
+    { "id": 6, "name": "Csokoládétorta", "description": "Egy gazdag és szaftos desszert kakaóval, csokoládémázzal a tetején." },
+    { "id": 7, "name": "Cézár Saláta", "description": "Egy saláta római salátával, krutonnal, parmezán sajttal és Cézár öntettel." },
+    { "id": 8, "name": "Grillezett Lazac", "description": "Egy egyszerű és finom étel tökéletesen grillezett lazacfilével." },
+    { "id": 9, "name": "Tacos", "description": "Egy mexikói étel, hússal, sajttal és zöldségekkel töltött tortilla." },
+    { "id": 10, "name": "Almás Pite", "description": "Egy klasszikus desszert almával, fahéjjal és vajas tésztakéreggel." }
+];
 
   // Pagination properties
   paginatedRecipes: any[] = [];
@@ -32,7 +33,7 @@ export class RecipeListComponent implements OnInit{
 
   dataFromService: ExampleData[] = [];
 
-  constructor(private recipelist: RecipeListService) { }
+  constructor(private recipelist: RecipeListService, private router: Router) { }
 
   ngOnInit(): void {
     this.updatePagination();
@@ -60,6 +61,6 @@ export class RecipeListComponent implements OnInit{
 
   // Redirect to the recipe details page with the corresponding ID
   redirectToRecipe(recipeId: number): void {
-    //this.router.navigate(['/recipe', recipeId]);
+    this.router.navigate(['/recipe', recipeId]);
   }
 }

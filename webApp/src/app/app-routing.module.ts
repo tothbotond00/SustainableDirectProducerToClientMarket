@@ -40,7 +40,7 @@ const routes: Routes = [
         loadChildren: () => import('./page/own-products/own-product.module').then(m => m.OwnProductModule)
       },
       {
-        path: 'recipe',
+        path: 'recipe/:id',
         loadChildren: () => import('./page/recipe/recipe.module').then(m => m.RecipeModule)
       },
       {
