@@ -57,9 +57,10 @@ export class BasketComponent implements OnInit{
   }
 
   onQuantityChange(event: any, productId: number): void {
+
     this.basketService.put('', {productId: productId, quantity: event.target.value, userId: this.authService.getUserId()})
     .subscribe(data => {
-      this.basketService.getOne(this.authService.getUserId().toString()).subscribe(data => {
+      this.basketService.getProducts(this.authService.getUserId()).subscribe(data => {
         this.dataFromService = data;
       });
     });
