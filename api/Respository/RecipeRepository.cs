@@ -121,7 +121,9 @@ namespace api.Repository
 
         public bool DeleteRecipe(int id)
         {
-            var recipe = _context.Recipes.FirstOrDefault(x => x.Id == id);
+            var recipe = _context.Recipes
+                .Include(r => r.ProductsInRecipes)
+                .FirstOrDefault(x => x.Id == id);
             if (recipe == null)
             {
                 return false;
