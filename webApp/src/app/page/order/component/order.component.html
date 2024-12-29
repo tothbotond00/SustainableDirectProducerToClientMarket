@@ -10,8 +10,8 @@
           <!-- Order Header -->
           <div class="order-header">
             <p><strong>Rendelés ID:</strong> {{ order.id }}</p>
-            <p><strong>Dátum:</strong> {{ order.receivedAt | date: 'yyyy.MM.dd. hh:mm' }}</p>
-            <p><strong>Elküldve:</strong> {{ (order.sentAt | date: 'yyyy.MM.dd. hh:mm') || 'NaN'}} </p>
+            <p><strong>Dátum:</strong> {{ order.receivedAt | date: 'yyyy.MM.dd. HH:mm' }}</p>
+            <p><strong>Elküldve:</strong> {{ (order.sentAt | date: 'yyyy.MM.dd. HH:mm') || 'NaN'}} </p>
             <p><strong>Fogyasztó név:</strong> {{ order.customer.username }}</p>
             <p><strong>Fogyasztó email:</strong> {{ order.customer.email }}</p>
           </div>

@@ -72,7 +72,13 @@ export class ProductComponent implements OnInit{
   onQuantityChange($event: any): void {
     console.log('Quantity changed:', $event.target.value);
 
-    this.quantity = $event.target.value;
+    if(this.product) {
+      if(Number($event.target.value) > Number(this.product?.stock)) {
+        this.quantity = Number(this.product.stock);
+      } else {
+        this.quantity = $event.target.value;
+      }
+    }
   }
 
   onAddReview(): void {
