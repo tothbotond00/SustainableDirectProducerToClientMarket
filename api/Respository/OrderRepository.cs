@@ -42,7 +42,8 @@ namespace api.Repository
         public bool SendOrder(int orderId)
         {
             var order = _context.Orders
-                .Include(o => o.Products)
+                .Include(o => o.Products!)
+                .ThenInclude(p => p.Product)
                 .FirstOrDefault(x => x.Id == orderId);
 
             if (order == null)
@@ -52,6 +53,15 @@ namespace api.Repository
 
             order.IsSent = true;
             order.SentAt = System.DateTime.Now;
+
+            //lower stock
+            if(order.Products != null)
+            {
+                foreach (var product in order.Products)
+                {
+                    product.Product!.Stock -= product.Quantity;
+                }
+            }
 
             _context.Orders.Update(order);
 

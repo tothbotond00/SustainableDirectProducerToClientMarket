@@ -57,7 +57,7 @@ export class OrderComponent implements OnInit{
     //   console.log(`Order ID ${orderId} marked as sent.`);
     //   alert(`Order ID ${orderId} has been marked as sent.`);
     // }
-
+    
     this.orderService.post('', orderId).subscribe(data => {
       this.orderService.get(this.authService.getUserId().toString()).subscribe(data => {
           this.dataFromService = data;
