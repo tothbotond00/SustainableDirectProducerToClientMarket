@@ -19,7 +19,7 @@ export class RecipeDialogComponent implements OnInit{
 
   recipe?: Recipe = undefined;
   form!: FormGroup;
-  buttonText: string = 'Add recipe';
+  buttonText: string = 'Recept hozzáadása';
   disabledButton: boolean = false;
   errorMessage: string = '';
   success: boolean = false;
@@ -34,7 +34,7 @@ export class RecipeDialogComponent implements OnInit{
               @Inject(MAT_DIALOG_DATA) public data: { recipe?: Recipe }) {
 
     this.recipe = data.recipe;
-    if (this.recipe) this.buttonText = 'Update recipe';
+    if (this.recipe) this.buttonText = 'Recept frissítése';
     this.form = this.formBuilder.group({
       title: [this.recipe?.title ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.recipe?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
@@ -47,7 +47,7 @@ export class RecipeDialogComponent implements OnInit{
   onAddRecipeClick() {
     if (!this.recipe && !this.selectedFile) {
       this.form.controls['image'].setErrors({ 'incorrect': true });
-      this.errorMessage = 'Új termék esetén meg kell adni egy képet!';
+      this.errorMessage = 'Új recept esetén meg kell adni egy képet!';
       return;
     }
     this.buttonText = 'Betöltés...';
@@ -57,7 +57,7 @@ export class RecipeDialogComponent implements OnInit{
     formData.append('title', this.form.controls['title'].value);
     formData.append('description', this.form.controls['description'].value);
     formData.append('userId', this.authService.getUserId().toString());
-    formData.append('categoryId', this.form.controls['categoryId'].value);
+    formData.append('recipeCategoryId', this.form.controls['categoryId'].value);
     formData.append('steps', this.form.controls['steps'].value);
     if (this.selectedFile) formData.append('image', this.selectedFile as Blob);
 
@@ -74,7 +74,7 @@ export class RecipeDialogComponent implements OnInit{
             console.log(error);
             this.errorMessage = error.error;
             this.disabledButton = false;
-            this.buttonText = 'Add recipe';
+            this.buttonText = 'Recept hozzáadása';
 
             setTimeout(() => {
               this.errorMessage = '';
@@ -94,7 +94,7 @@ export class RecipeDialogComponent implements OnInit{
             console.log(error);
             this.errorMessage = error.error;
             this.disabledButton = false;
-            this.buttonText = 'Update recipe';
+            this.buttonText = 'Recept frissítése';
 
             setTimeout(() => {
               this.errorMessage = '';
