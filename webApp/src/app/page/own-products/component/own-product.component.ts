@@ -143,7 +143,7 @@ export class OwnProductComponent implements OnInit{
         return;
       }
       this.filterData = result;
-      this.productService.get().subscribe(data => {
+      this.productService.getProductsOfUser(this.authService.getUserId()).subscribe(data => {
         this.dataFromService = data;
         this.applyFilter();
         this.form.get('product')?.setValue(this.form.get('product')?.value);
