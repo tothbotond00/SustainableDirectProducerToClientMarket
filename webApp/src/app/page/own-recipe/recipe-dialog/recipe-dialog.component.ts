@@ -39,7 +39,7 @@ export class RecipeDialogComponent implements OnInit{
       title: [this.recipe?.title ?? '', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       description: [this.recipe?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
       image: [''],
-      categoryId: [this.recipe?.categoryId ?? '', [Validators.required]],
+      categoryId: [this.recipe?.recipeCategoryId ?? '', [Validators.required]],
       steps : [this.recipe?.steps ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
     })
   }
