@@ -41,6 +41,7 @@ namespace api.Repository
             return _context.Products
                 .Include(p => p.Reviews)
                 .Include(p => p.User)
+                .Where(p => p.Stock > 0)
                 .ToList();
         }
 
