@@ -45,7 +45,10 @@
               <img [src]="product.imageUrl" alt="Product Image" class="product-image">
               <h4 class="product-name">{{ product.name }}</h4>
               <p class="product-price">{{ product.price }}Ft / {{product.unit}}</p>
-              <p class="product-stock">Készlet: <b>{{product.stock}} {{product.unit}}</b></p>
+              <p *ngIf="product.stock != 0; else NoStock" class="product-stock">Készlet: <b>{{product.stock}} {{product.unit}}</b></p>
+              <ng-template #NoStock>
+                <p class="product-stock">Készlet: <b style="color: red;">Nincs készleten</b></p>
+              </ng-template>
             </div>
           </div>
         </div>
