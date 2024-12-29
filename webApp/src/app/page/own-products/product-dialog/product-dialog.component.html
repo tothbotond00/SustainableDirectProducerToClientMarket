@@ -79,6 +79,19 @@
 
         <div class="col-12 text-center mb-3">
           <mat-form-field appearance="outline">
+            <mat-label>Egység</mat-label>
+            <input matInput formControlName="unit" type="text">
+            <mat-hint>(liter, kg, üveg, db)</mat-hint>
+            <mat-error>
+              <span>
+                Adj meg egy érvényes egység nevet (liter, kg, üveg, db)
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
             <mat-label>Készlet</mat-label>
             <input matInput formControlName="stock" type="number" step="1">
             <mat-error>

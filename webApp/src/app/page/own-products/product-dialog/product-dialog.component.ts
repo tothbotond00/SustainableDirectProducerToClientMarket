@@ -40,6 +40,7 @@ export class ProductDialogComponent implements OnInit{
       description: [this.product?.description ?? '', [Validators.required, Validators.minLength(10), Validators.maxLength(100)]],
       image: [''],
       categoryId: [this.product?.categoryId ?? '', [Validators.required]],
+      unit: [this.product?.unit ?? '', [Validators.required, Validators.pattern("üveg|kg|liter|db")]],
       price: [this.product?.price ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       stock: [this.product?.stock ?? '', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
     })
@@ -59,6 +60,7 @@ export class ProductDialogComponent implements OnInit{
     formData.append('description', this.form.controls['description'].value);
     formData.append('price', this.form.controls['price'].value);
     formData.append('stock', this.form.controls['stock'].value);
+    formData.append('unit', this.form.controls['unit'].value);
     formData.append('userId', this.authService.getUserId().toString());
     formData.append('categoryId', this.form.controls['categoryId'].value);
     if (this.selectedFile) formData.append('image', this.selectedFile as Blob);

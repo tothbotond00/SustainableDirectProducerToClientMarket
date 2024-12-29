@@ -8,5 +8,6 @@ public class ProductDto
     public IFormFile? Image { get; set; } = null!;
     public int Stock { get; set; } = 0;
     public int CategoryId { get; set; } = 0;
+    public string Unit { get; set; } = string.Empty;
     public int UserId { get; set; } = 0;
 }

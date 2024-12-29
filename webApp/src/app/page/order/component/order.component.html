@@ -31,8 +31,8 @@
                 <tr *ngFor="let item of order.products">
                   <td>{{ item.product.name }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>${{ item.product.price }}</td>
-                  <td>${{ item.totalPrice }}</td>
+                  <td>{{ item.product.price }}Ft</td>
+                  <td>{{ item.totalPrice }}Ft</td>
                 </tr>
               </tbody>
             </table>
@@ -40,9 +40,9 @@
 
           <!-- Order Summary -->
           <div class="order-summary">
-            <p><strong>Teljes ár:</strong> ${{ order.totalPrice }}</p>
+            <p><strong>Teljes ár:</strong>{{ order.totalPrice }}Ft</p>
             <p><strong>Jutalék:</strong> 500Ft</p>
-            <p><strong>Összesen:</strong> ${{ order.totalPrice - 500 }}</p>
+            <p><strong>Összesen:</strong>{{ order.totalPrice - 500 }}Ft</p>
           </div>
 
           <!-- Send Order Button -->

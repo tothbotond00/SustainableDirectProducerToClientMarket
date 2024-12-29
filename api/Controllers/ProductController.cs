@@ -61,6 +61,7 @@ namespace api.Controllers
                 UserId = request.UserId,
                 CategoryId = request.CategoryId,
                 Stock = request.Stock,
+                Unit = request.Unit,
                 Image = imageData
             };
             if (!_productRepository.CreateProduct(product)) return BadRequest();
@@ -94,6 +95,7 @@ namespace api.Controllers
             existingProduct.UserId = request.UserId;
             existingProduct.CategoryId = request.CategoryId;
             existingProduct.Stock = request.Stock;
+            existingProduct.Unit = request.Unit;
             existingProduct.Image = imageData;
 
             if (!_productRepository.UpdateProduct(existingProduct)) return BadRequest();
