@@ -97,7 +97,6 @@ export class OwnRecipeComponent implements OnInit{
           data: { recipe: this.dataFromService.find(p => p.id === this.selectedRecipeID) }
         });
 
-      //TODO fix: doesn't include the new recipe in the list
       dialogRef.afterClosed().subscribe(result => {
         this.refreshRecipes();
       });

@@ -13,19 +13,34 @@
 
         <!-- Ingredients List -->
         <div class="ingredients-section mt-4">
-          <h3>Összetevők</h3>
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>Összetevők</h3>
+            <button *ngIf="isOwn" class="btn btn-primary" (click)="addIngredient()">
+              <mat-icon>add_box</mat-icon>
+            </button>
+          </div>
           <ul class="ingredients-list">
-            <li *ngFor="let ingredient of recipeTmp.ingredients">
-              <ng-container *ngIf="ingredient.productId; else simpleIngredient">
-                <a (click)="redirectToProduct(ingredient.productId)" class="linked-ingredient">
-                  {{ ingredient.name }} ({{ ingredient.supplier }}) - {{ ingredient.price }} Ft
-                </a>
-              </ng-container>
-              <ng-template #simpleIngredient>
-                {{ ingredient.name }}
-              </ng-template>
+            <li *ngFor="let ingredient of recipe.productsInRecipes">
+              <div class="d-flex justify-content-between align-items-center">
+                <ng-container *ngIf="ingredient.productId; else simpleIngredient">
+                  <a (click)="redirectToProduct(ingredient.productId)" class="linked-ingredient">
+                    {{ ingredient.product?.name }} - {{ ingredient.product?.price }} Ft
+                  </a>
+                </ng-container>
+                <ng-template #simpleIngredient>
+                  {{ ingredient.productName }}
+                </ng-template>
+                <button *ngIf="isOwn" class="btn btn-danger" (click)="onRemoveIngredient(ingredient.productId, ingredient.productName)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </li>
           </ul>
+        </div>
+
+        <div>
+          <h3>Lépések</h3>
+          <p>{{ recipe.steps }}</p>
         </div>
 
         <!-- Price Section -->

@@ -62,6 +62,14 @@ export abstract class ServiceBase<T> {
         });
     }
 
+    public deleteWithBody(endpoint: string, data: T | any): Observable<string> {
+        return this.http.delete(`${this.baseUrl}/${endpoint}`, {
+            body: data,
+            responseType: 'text',
+            observe: 'body'
+        });
+    }
+
     // Converts the base64 image to a URL.
     protected createImageFromBase64(base64Image: string): string {
       if (!base64Image) return '/assets/no-image.jpg';

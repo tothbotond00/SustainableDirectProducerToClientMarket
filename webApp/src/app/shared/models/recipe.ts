@@ -1,4 +1,5 @@
 import { User } from "./user";
+import {ProductInRecipe} from '@shared/models/productInRecipe';
 
 export class Recipe {
   id: number = 0;
@@ -12,4 +13,5 @@ export class Recipe {
   userId: number = 0;
   user: User = new User();
   image: string = '';
+  productsInRecipes: ProductInRecipe[] = [];
 }

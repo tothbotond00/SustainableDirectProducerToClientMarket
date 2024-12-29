@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipeListService } from '../service/recipe-list.service';
 import { ExampleData } from '../../../shared/models/exampledata';
 import { Router } from '@angular/router';
+import {Recipe} from '@shared/models/recipe';
 
 @Component({
   selector: 'app-recipe-list',
@@ -11,36 +12,26 @@ import { Router } from '@angular/router';
 })
 export class RecipeListComponent implements OnInit{
 
-  // Mock recipe data
-  recipes = [
-    { "id": 1, "name": "Spaghetti Carbonara", "description": "Egy klasszikus olasz tésztaétel, tojással, sajttal, pancettával és borssal." },
-    { "id": 2, "name": "Csirke Curry", "description": "Egy ízletes és fűszeres indiai étel csirkével és aromás fűszerekkel." },
-    { "id": 3, "name": "Görög Saláta", "description": "Egy frissítő saláta paradicsommal, uborkával, olívabogyóval, feta sajttal és olívaolajjal." },
-    { "id": 4, "name": "Marha Stroganoff", "description": "Egy krémes orosz étel, pirított marhahússal és gombával, tejfölös szószban." },
-    { "id": 5, "name": "Zöldség Wok", "description": "Egy gyors és egészséges étel, friss zöldségekkel, pirítva egy ízletes szószban." },
-    { "id": 6, "name": "Csokoládétorta", "description": "Egy gazdag és szaftos desszert kakaóval, csokoládémázzal a tetején." },
-    { "id": 7, "name": "Cézár Saláta", "description": "Egy saláta római salátával, krutonnal, parmezán sajttal és Cézár öntettel." },
-    { "id": 8, "name": "Grillezett Lazac", "description": "Egy egyszerű és finom étel tökéletesen grillezett lazacfilével." },
-    { "id": 9, "name": "Tacos", "description": "Egy mexikói étel, hússal, sajttal és zöldségekkel töltött tortilla." },
-    { "id": 10, "name": "Almás Pite", "description": "Egy klasszikus desszert almával, fahéjjal és vajas tésztakéreggel." }
-];
+  recipes: Recipe[] = [];
 
   // Pagination properties
-  paginatedRecipes: any[] = [];
+  paginatedRecipes: Recipe[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 9;
   totalPages: number = 0;
 
-  dataFromService: ExampleData[] = [];
-
   constructor(private recipelist: RecipeListService, private router: Router) { }
 
   ngOnInit(): void {
+    this.refreshRecipes();
     this.updatePagination();
-      this.recipelist.get().subscribe(data => {
-          this.dataFromService = data;
-          console.log(this.dataFromService);
-      });
+  }
+
+  refreshRecipes(): void {
+    this.recipelist.getRecipes().subscribe(data => {
+      this.recipes = data;
+      this.updatePagination();
+    });
   }
 
   // Update the recipes displayed on the current page
@@ -62,5 +53,9 @@ export class RecipeListComponent implements OnInit{
   // Redirect to the recipe details page with the corresponding ID
   redirectToRecipe(recipeId: number): void {
     this.router.navigate(['/recipe', recipeId]);
+  }
+
+  redirectToOwnRecipes(): void {
+    this.router.navigate(['/own-recipe']);
   }
 }

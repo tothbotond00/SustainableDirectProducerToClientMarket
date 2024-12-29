@@ -19,7 +19,7 @@ export class ProductDialogComponent implements OnInit{
 
   product?: Product = undefined;
   form!: FormGroup;
-  buttonText: string = 'Add product';
+  buttonText: string = 'Termék hozzáadása';
   disabledButton: boolean = false;
   errorMessage: string = '';
   success: boolean = false;

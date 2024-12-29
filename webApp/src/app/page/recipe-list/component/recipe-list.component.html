@@ -2,17 +2,23 @@
   <div class="row justify-content-center align-items-center h-100">
     <div class="col-md-10 col-lg-10 card">
       <!-- Recipes Title -->
-      <h2 id="mainTitle">Receptek</h2>
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 id="mainTitle" class="flex-grow-1 text-center">Receptek</h2>
+        <button class="btn btn-primary" (click)="redirectToOwnRecipes()">
+          Saját receptek
+        </button>
+      </div>
 
       <!-- Recipes Grid -->
       <div class="row recipe-grid">
-        <div 
+        <div
           style="margin: auto;"
-          class="col-12 col-md-3 recipe-box" 
-          *ngFor="let recipe of paginatedRecipes" 
+          class="col-12 col-md-3 recipe-box"
+          *ngFor="let recipe of paginatedRecipes"
           (click)="redirectToRecipe(recipe.id)">
           <div class="recipe-card">
-            <h4 class="recipe-name">{{ recipe.name }}</h4>
+            <img [src]="recipe.imageUrl" alt="Recipe Image" class="recipe-image">
+            <h4 class="recipe-name">{{ recipe.title }}</h4>
             <p class="recipe-description">{{ recipe.description }}</p>
           </div>
         </div>
@@ -20,16 +26,16 @@
 
       <!-- Pagination Controls -->
       <div class="pagination-controls mt-4">
-        <button 
-          class="btn btn-outline-secondary" 
-          [disabled]="currentPage === 1" 
+        <button
+          class="btn btn-outline-secondary"
+          [disabled]="currentPage === 1"
           (click)="changePage(currentPage - 1)">
           Előző
         </button>
         <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
-        <button 
-          class="btn btn-outline-secondary" 
-          [disabled]="currentPage === totalPages" 
+        <button
+          class="btn btn-outline-secondary"
+          [disabled]="currentPage === totalPages"
           (click)="changePage(currentPage + 1)">
           Következő
         </button>

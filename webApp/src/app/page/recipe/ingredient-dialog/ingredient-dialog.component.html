@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-2">
+      <button (click)="close()" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div class="col-8">
+      <div>
+        <p class="fs-3 text-center" id="title">Adj hozzá egy új összetevőt!</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div mat-dialog-content class="container d-flex justify-content-center">
+    <form [formGroup]="form">
+      <div class="row text-center">
+        <div class="col-12 text-center mb-3">
+          <mat-radio-group formControlName="type">
+            <mat-radio-button value="product">Létező termék</mat-radio-button>
+            <mat-radio-button value="other">Szöveges</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div *ngIf="form.get('type')?.value === 'other'" class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Összetevő neve</mat-label>
+            <input matInput formControlName="name" type="text">
+            <mat-hint>5 és 30 karakter között</mat-hint>
+            <mat-error>
+              <span>
+                Az összetevő nevének 5 és 30 karakter közti hosszúnak kell lennie!
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="form.get('type')?.value === 'product'"  class="col-12 text-center mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Összetevő kiválasztása</mat-label>
+            <mat-select formControlName="productId">
+              <mat-option *ngFor="let product of products" [value]="product.id">
+                {{product.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+              <span>
+                Válassz egy terméket!
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="text-center mb-4">
+      <button class="btn btn-dark w-100" (click)="onAddIngredientClick()" [disabled]="!form.valid || disabledButton">
+        <div class="row">
+          <div *ngIf="disabledButton" class="col-1">
+            <span id="loginButton" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </div>
+          <div *ngIf="!disabledButton" class="col-1 d-flex align-items-center p-0 justify-content-center">
+            <mat-icon>add_box</mat-icon>
+          </div>
+          <div class="col-10 text-center">
+            {{buttonText}}
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3" role="alert">
+      {{errorMessage}}
+    </div>
+
+    <div *ngIf="success" class="alert alert-success" role="alert">
+      Sikeresen hozzáadott összetevő!
+    </div>
+  </div>
+</div>

@@ -4,11 +4,13 @@ import { MaterialModule } from '@shared/modules/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeComponent } from './component/recipe.component';
 import { RecipeRoutingModule } from './recipe-routing.module';
+import { IngredientDialogComponent } from './ingredient-dialog/ingredient-dialog.component';
 
 
 @NgModule({
   declarations: [
-    RecipeComponent
+    RecipeComponent,
+    IngredientDialogComponent
   ],
   imports: [
     CommonModule,
