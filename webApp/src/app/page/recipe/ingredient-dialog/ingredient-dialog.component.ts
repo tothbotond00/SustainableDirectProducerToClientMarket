@@ -26,7 +26,7 @@ export class IngredientDialogComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       type: [''],
-      name: ['', [Validators.minLength(5), Validators.maxLength(30)]],
+      name: [''],
       productId: ['']
     });
   }

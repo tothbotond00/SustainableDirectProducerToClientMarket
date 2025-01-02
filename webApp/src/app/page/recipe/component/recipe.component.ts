@@ -6,6 +6,7 @@ import {AuthService} from '@shared/common_services/auth.service';
 import {MatDialog} from '@angular/material/dialog';
 import {IngredientDialogComponent} from '../ingredient-dialog/ingredient-dialog.component';
 import { BasketService } from '../../basket/service/basket.service';
+import { concatMap, forkJoin, from } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -70,18 +71,35 @@ export class RecipeComponent implements OnInit{
           quantity: 1
         }));
 
-        console.log(basketItems);
+    console.log(basketItems);
 
-      let finished = 0;
-      basketItems.forEach(item => {
-        this.basketService.post('', item).subscribe(data => {
-          finished++;
-          if (finished == basketItems.length) {
-            console.log('Adding recipe ingredients to basket:', basketItems);
-            alert('All ingredients have been added to your basket!');
-          }
-        });
-      });
+      from(basketItems)
+    .pipe(
+      concatMap(item => this.basketService.post('', item)) // Egymás után hívja meg a POST kéréseket
+    )
+    .subscribe({
+      next: (response) => {
+        console.log('Item added:', response);
+      },
+      complete: () => {
+        console.log('All items have been added to the basket:', basketItems);
+        alert('All ingredients have been added to your basket!');
+      },
+      error: (err) => {
+        console.error('An error occurred while adding items to the basket:', err);
+      }
+    });
+
+      // let finished = 0;
+      // basketItems.forEach(item => {
+      //   this.basketService.post('', item).subscribe(data => {
+      //     finished++;
+      //     if (finished == basketItems.length) {
+      //       console.log('Adding recipe ingredients to basket:', basketItems);
+      //       alert('All ingredients have been added to your basket!');
+      //     }
+      //   });
+      // });
         
 
       // this.basketService.post('', basketItems[0]).subscribe(data => {
